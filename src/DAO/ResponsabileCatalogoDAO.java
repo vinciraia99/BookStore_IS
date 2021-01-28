@@ -1,7 +1,8 @@
 package DAO;
 
-import Entities.Cliente;
-import Utils.*;
+import Entities.ResponsabileCatalogo;
+import Utils.DriverManagerConnectionPool;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,22 +14,20 @@ import java.util.List;
  *
  * @author Vincenzo Raia
  * @version 0.1
- * @since 27/01/2021
+ * @since 28/01/2021
  *
  */
 
-public class ClienteDAO extends DAO<Cliente> {
+public class ResponsabileCatalogoDAO extends DAO<ResponsabileCatalogo> {
 
-    private final String doDeleteQuery = "DELETE FROM Account WHERE username = ?";
-    private final String doRetriveByIdQuery = "SELECT * FROM Account WHERE username = ? and tipo =\"C\"";
-    private final String doRetriveAllQuery = "SELECT * FROM Account and tipo =\"C\"";
+    private final String doDeleteQuery = "DELETE FROM Account WHERE username = ? and tipo =\"R\"";
+    private final String doRetriveByIdQuery = "SELECT * FROM Account WHERE username = ? and tipo =\"R\"";
+    private final String doRetriveAllQuery = "SELECT * FROM Account and tipo =\"R\"";
     private final String doInsertQuery = "INSERT INTO Account(username,password,nome,cognome,email,tipo) VALUES(?,?,?,?,?,?);";
-    private final String doUpdateQuery = "UPDATE Account SET nome = ?, cognome = ?, email = ?, password = ? WHERE username = ? and tipo =\"C\"";
-    private final String doUpdateEmail = "UPDATE Account SET email = ? WHERE username = ? and tipo =\"C\"";
-    private final String doUpdatePassword = "UPDATE Account SET password = ? WHERE username = ? and tipo =\"C\"";
+    private final String doUpdateQuery = "UPDATE Account SET nome = ?, cognome = ?, email = ?, password = ? WHERE username = ? and tipo =\"R\"";
 
     @Override
-    public Cliente doRetriveById(Object... id) {
+    public ResponsabileCatalogo doRetriveById(Object... id) {
         String username = (String) id[0];
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
@@ -38,14 +37,12 @@ public class ClienteDAO extends DAO<Cliente> {
             try {
                 ResultSet rs = prst.executeQuery();
                 con.commit();
-                Cliente cliente = null;
-                IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
+                ResponsabileCatalogo responsabileCatalogo = null;
                 if (rs.next()) {
-                    cliente = new Cliente(rs.getString("email"), rs.getString("username"), rs.getString("password"), rs.getString("nome"), rs.getString("cognome"));
-                    cliente.setIndirizzo(indirizzoDAO.doRetriveByCliente(cliente));
+                    responsabileCatalogo = new ResponsabileCatalogo(rs.getString("email"), rs.getString("username"), rs.getString("password"), rs.getString("nome"), rs.getString("cognome"));
                 }
                 rs.close();
-                return cliente;
+                return responsabileCatalogo;
 
             } catch (SQLException e) {
                 con.rollback();
@@ -63,8 +60,8 @@ public class ClienteDAO extends DAO<Cliente> {
     }
 
     @Override
-    public List<Cliente> doRetriveAll() {
-        List<Cliente> clienti = new ArrayList<>();
+    public List<ResponsabileCatalogo> doRetriveAll() {
+        List<ResponsabileCatalogo> responsabileCatalogolist = new ArrayList<>();
 
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
@@ -72,11 +69,9 @@ public class ClienteDAO extends DAO<Cliente> {
 
             try {
                 ResultSet rs = prst.executeQuery();
-                IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
                 while (rs.next()) {
-                    Cliente cliente = new Cliente(rs.getString("email"), rs.getString("username"), rs.getString("password"), rs.getString("nome"), rs.getString("cognome"));
-                    cliente.setIndirizzo(indirizzoDAO.doRetriveByCliente(cliente));
-                    clienti.add(cliente);
+                    ResponsabileCatalogo responsabileCatalogo = new ResponsabileCatalogo(rs.getString("email"), rs.getString("username"), rs.getString("password"), rs.getString("nome"), rs.getString("cognome"));
+                    responsabileCatalogolist.add(responsabileCatalogo);
                 }
 
                 rs.close();
@@ -93,37 +88,31 @@ public class ClienteDAO extends DAO<Cliente> {
             ex.printStackTrace();
         }
 
-        return clienti;
+        return responsabileCatalogolist;
     }
 
     /**
-     * Metodo che inserisce un libro nel Database e crea la relazione
-     * tra cliente e indirizzo.
+     * Metodo che inserisce un responsabile catalogo nel Database
      *
-     * @param cliente da inserire.
+     * @param responsabileCatalogo da inserire.
      * @return 0 se tutto ok altrimenti -1
      */
     @Override
-    public int doInsert(Cliente cliente) {
+    public int doInsert(ResponsabileCatalogo responsabileCatalogo) {
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             try {
                 PreparedStatement prst = con.prepareStatement(doInsertQuery);
-                prst.setString(1, cliente.getUsername());
-                prst.setString(2, cliente.getPassword());
-                prst.setString(3, cliente.getNome());
-                prst.setString(4, cliente.getCognome());
-                prst.setString(5, cliente.getEmail());
-                prst.setString(6, cliente.getTipo());
+                prst.setString(1, responsabileCatalogo.getUsername());
+                prst.setString(2, responsabileCatalogo.getPassword());
+                prst.setString(3, responsabileCatalogo.getNome());
+                prst.setString(4, responsabileCatalogo.getCognome());
+                prst.setString(5, responsabileCatalogo.getEmail());
+                prst.setString(6, responsabileCatalogo.getTipo());
                 prst.execute();
                 con.commit();
                 prst.close();
-                IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
-                if (indirizzoDAO.doInsertByCliente(cliente) == 0) {
-                    return 0;
-                } else {
-                    return -1;
-                }
+                return 0;
 
             } catch (SQLException e) {
                 con.rollback();
@@ -138,24 +127,23 @@ public class ClienteDAO extends DAO<Cliente> {
     }
 
     /**
-     * Metodo che aggiorna un libro nel Database e crea la relazione
-     * tra cliente e indirizzo.
+     * Metodo che modificare un responsabile catalogo dal Databse
      *
-     * @param cliente da modificare.
+     * @param responsabileCatalogo da modificare.
      * @return 0 se tutto ok altrimenti -1
      */
     @Override
-    public int doUpdate(Cliente cliente) {
+    public int doUpdate(ResponsabileCatalogo responsabileCatalogo) {
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             try {
 
                 PreparedStatement prst = con.prepareStatement(doUpdateQuery);
-                prst.setString(1, cliente.getNome());
-                prst.setString(2, cliente.getCognome());
-                prst.setString(3, cliente.getEmail());
-                prst.setString(4, cliente.getPassword());
-                prst.setString(5, cliente.getUsername());
+                prst.setString(1, responsabileCatalogo.getNome());
+                prst.setString(2, responsabileCatalogo.getCognome());
+                prst.setString(3, responsabileCatalogo.getEmail());
+                prst.setString(4, responsabileCatalogo.getPassword());
+                prst.setString(5, responsabileCatalogo.getUsername());
 
                 prst.execute();
                 con.commit();
@@ -175,18 +163,19 @@ public class ClienteDAO extends DAO<Cliente> {
     }
 
     /**
-     * Metodo che elimina un cliente nel Database
+     * Metodo che eliminare un responsabile catalogo dal Database
      *
-     * @param cliente da modificare.
+     * @param responsabileCatalogo da eliminare.
      * @return 0 se tutto ok altrimenti -1
      */
-    public int doDelete(Cliente cliente){
+    @Override
+    public int doDelete(ResponsabileCatalogo responsabileCatalogo) {
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             try {
 
                 PreparedStatement prst = con.prepareStatement(doDeleteQuery);
-                prst.setString(1, cliente.getUsername());
+                prst.setString(1, responsabileCatalogo.getUsername());
 
                 prst.execute();
                 con.commit();

@@ -7,8 +7,7 @@ package Entities;
  * @since 27/01/2021
  *
  */
-
-import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -19,12 +18,11 @@ public class Libro {
 	private String trama;
 	private float prezzo;
 	private String copertina; //path della copertina del libro
-	private Date data_pubblicazione;
+	private GregorianCalendar data_pubblicazione;
 	private boolean disabilitato;
-	private List<Categoria> categorie;
-	private List<Categoria> autori;
+	private List<Autore> autori;
 
-	public Libro(String isbn, String titolo, Double quantita, String trama, Float prezzo, String copertina, Date data_pubblicazione, boolean disabilitato, List<Categoria> categorie, List<Categoria> autori) {
+	public Libro(String isbn, String titolo, Double quantita, String trama, Float prezzo, String copertina, GregorianCalendar data_pubblicazione, boolean disabilitato, List<Autore> autori) {
 		this.isbn = isbn;
 		this.titolo = titolo;
 		this.quantita = quantita;
@@ -33,8 +31,19 @@ public class Libro {
 		this.copertina = copertina;
 		this.data_pubblicazione = data_pubblicazione;
 		this.disabilitato = disabilitato;
-		this.categorie = categorie;
 		this.autori=autori;
+	}
+
+	public Libro(String isbn, String titolo, Double quantita, String trama, Float prezzo, String copertina, GregorianCalendar data_pubblicazione, boolean disabilitato) {
+		this.isbn = isbn;
+		this.titolo = titolo;
+		this.quantita = quantita;
+		this.trama = trama;
+		this.prezzo = prezzo;
+		this.copertina = copertina;
+		this.data_pubblicazione = data_pubblicazione;
+		this.disabilitato = disabilitato;
+
 	}
 
 	public String getIsbn() {
@@ -85,11 +94,11 @@ public class Libro {
 		this.copertina = copertina;
 	}
 
-	public Date getData_pubblicazione() {
+	public GregorianCalendar getData_pubblicazione() {
 		return data_pubblicazione;
 	}
 
-	public void setData_pubblicazione(Date data_pubblicazione) {
+	public void setData_pubblicazione(GregorianCalendar data_pubblicazione) {
 		this.data_pubblicazione = data_pubblicazione;
 	}
 
@@ -101,11 +110,11 @@ public class Libro {
 		this.disabilitato = disabilitato;
 	}
 
-	public List<Categoria> getCategorie() {
-		return categorie;
+	public List<Autore> getAutori() {
+		return autori;
 	}
 
-	public void setCategorie(List<Categoria> categorie) {
-		this.categorie = categorie;
+	public void setAutori(List<Autore> autori) {
+		this.autori = autori;
 	}
 }

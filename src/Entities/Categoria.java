@@ -1,5 +1,7 @@
 package Entities;
 
+import java.util.List;
+
 /**
  *
  * @author Vincenzo Raia
@@ -12,6 +14,8 @@ public class Categoria {
 	private int id;
 	private String nome;
 	private String descrizione;
+	private List<Libro> libri;
+
 
 	public Categoria(int id, String nome, String descrizione) {
 		this.id = id;
@@ -46,5 +50,13 @@ public class Categoria {
 
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
+	}
+
+	public List<Libro> getLibri() {
+		return libri;
+	}
+
+	public void setLibri(List<Libro> libri) {
+		this.libri = libri;
 	}
 }

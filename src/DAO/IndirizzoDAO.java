@@ -1,6 +1,6 @@
 package DAO;
 
-import Entities.Account;
+
 import Entities.Cliente;
 import Entities.Indirizzo;
 import Utils.DriverManagerConnectionPool;
@@ -9,7 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+
 
 /**
  *
@@ -72,9 +72,10 @@ public class IndirizzoDAO {
             prst.setString(6,cliente.getUsername());
             try{
                 prst.execute();
-                con.commit();ResultSet rs = prst.getGeneratedKeys();
+                con.commit();
+                ResultSet rs = prst.getGeneratedKeys();
                 if (rs.next()) {
-                    indirizzo.setId(rs.getInt(1));
+                    indirizzo.setId(rs.getInt("id"));
                 }
                 return 0;
             } catch(SQLException e){
@@ -91,6 +92,7 @@ public class IndirizzoDAO {
             return -1;
         }
     }
+
 
     protected Indirizzo doRetriveByCliente(Cliente entity){
         String username = entity.getUsername();

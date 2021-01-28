@@ -1,7 +1,7 @@
 package Entities;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -13,49 +13,42 @@ import java.util.Date;
 
 public class Ordine {
 
-    private String stato;
-    private int quantita;
+    private boolean spedito;
+    private double quantita;
     private float totale;
-    private Date dataDiAcquisto;
+    private GregorianCalendar dataDiAcquisto;
     private int id;
     private ArrayList<LibroOrdinato> libriOrdinati;
+    private String username;
 
-    public Ordine(String stato, int quantita, float totale, Date dataDiAcquisto, ArrayList<LibroOrdinato> libriOrdinati) {
-        this.stato = stato;
+    public Ordine(int quantita, float totale, GregorianCalendar dataDiAcquisto, int id, ArrayList<LibroOrdinato> libriOrdinati, String username) {
+        this.spedito = false;
         this.quantita = quantita;
         this.totale = totale;
         this.dataDiAcquisto = dataDiAcquisto;
-    }
-
-    public Ordine(int id, String stato, int quantita, float totale, Date dataDiAcquisto,ArrayList<LibroOrdinato> libriOrdinati) {
-        this.stato = stato;
-        this.quantita = quantita;
-        this.totale = totale;
-        this.dataDiAcquisto = dataDiAcquisto;
-        this.id=id;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
         this.id = id;
+        this.libriOrdinati = libriOrdinati;
+        this.username = username;
     }
 
-    public String getStato() {
-        return stato;
+    public Ordine(double quantita, float totale, GregorianCalendar dataDiAcquisto, int id, String username) {
+        this.spedito = false;
+        this.quantita = quantita;
+        this.totale = totale;
+        this.dataDiAcquisto = dataDiAcquisto;
+        this.id = id;
+        this.username = username;
     }
 
-    public void setStato(String stato) {
-        this.stato = stato;
+    public boolean getStato() {
+        return spedito;
     }
 
-    public int getQuantita() {
+    public double getQuantita() {
         return quantita;
     }
 
-    public void setQuantita(int quantita) {
+    public void setQuantita(double quantita) {
         this.quantita = quantita;
     }
 
@@ -67,12 +60,36 @@ public class Ordine {
         this.totale = totale;
     }
 
-    public Date getDataDiAcquisto() {
+    public GregorianCalendar getDataDiAcquisto() {
         return dataDiAcquisto;
     }
 
-    public void setDataDiAcquisto(Date dataDiAcquisto) {
+    public void setDataDiAcquisto(GregorianCalendar dataDiAcquisto) {
         this.dataDiAcquisto = dataDiAcquisto;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public ArrayList<LibroOrdinato> getLibriOrdinati() {
+        return libriOrdinati;
+    }
+
+    public void setLibriOrdinati(ArrayList<LibroOrdinato> libriOrdinati) {
+        this.libriOrdinati = libriOrdinati;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
 
