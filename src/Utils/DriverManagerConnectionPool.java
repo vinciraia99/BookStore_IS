@@ -35,9 +35,9 @@ public class DriverManagerConnectionPool {
 
 	private static Connection createDBConnection() throws SQLException {
 		Connection newConnection = null;
-		String db = "bookabookDB"; // DA FARE
+		String db = "bookstoredb";
 		String username = "root";
-		String password = "";
+		String password = "password";
 
 		newConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db, username, password);
 		newConnection.setAutoCommit(false);
