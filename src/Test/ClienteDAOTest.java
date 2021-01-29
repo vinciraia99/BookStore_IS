@@ -10,6 +10,13 @@ import DAO.ClienteDAO;
 import Entities.Cliente;
 import Entities.Indirizzo;
 
+
+/**
+ * @author Raffaele Scarpa
+ * @version 0.1
+ * 29/01/2021
+ */
+
 class ClienteDAOTest {
 
 	/**
