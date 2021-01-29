@@ -10,7 +10,7 @@ CREATE TABLE `account` (
   `nome` varchar(128) NOT NULL,
   `cognome` varchar(128) NOT NULL,
   `email` varchar(128) NOT NULL,
-  `tipo` tinyint(1) NOT NULL,
+  `tipo` varchar(128) NOT NULL,
   PRIMARY KEY (`username`),
   UNIQUE KEY (`email`)
 );
