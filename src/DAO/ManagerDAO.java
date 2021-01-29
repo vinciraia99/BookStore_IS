@@ -28,7 +28,7 @@ public class ManagerDAO extends DAO<Manager> {
     private final String doUpdateQuery = "UPDATE Account SET nome = ?, cognome = ?, email = ?, password = ? WHERE username = ? and tipo =\"M\"";
 
     @Override
-    public Manager doRetriveById(Object... id) {
+    public Manager doRetrieveById(Object... id) {
         String username = (String) id[0];
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
@@ -61,7 +61,7 @@ public class ManagerDAO extends DAO<Manager> {
     }
 
     @Override
-    public List<Manager> doRetriveAll() {
+    public List<Manager> doRetrieveAll() {
         List<Manager> managerList = new ArrayList<>();
 
         try {

@@ -27,7 +27,7 @@ public class ResponsabileCatalogoDAO extends DAO<ResponsabileCatalogo> {
     private final String doUpdateQuery = "UPDATE Account SET nome = ?, cognome = ?, email = ?, password = ? WHERE username = ? and tipo =\"R\"";
 
     @Override
-    public ResponsabileCatalogo doRetriveById(Object... id) {
+    public ResponsabileCatalogo doRetrieveById(Object... id) {
         String username = (String) id[0];
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
@@ -60,7 +60,7 @@ public class ResponsabileCatalogoDAO extends DAO<ResponsabileCatalogo> {
     }
 
     @Override
-    public List<ResponsabileCatalogo> doRetriveAll() {
+    public List<ResponsabileCatalogo> doRetrieveAll() {
         List<ResponsabileCatalogo> responsabileCatalogolist = new ArrayList<>();
 
         try {

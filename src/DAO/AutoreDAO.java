@@ -21,17 +21,19 @@ import java.util.List;
 
 public class AutoreDAO {
 
-    private final String doRetriveByLibroQuery = "SELECT a.* FROM Autore a, libroordinato lo, libro l WHERE a.id = libroordinato.id and l.isbn = lo.isbn and l.isbn = ?";
+    private final String doRetrieveByLibroQuery = "SELECT a.* FROM Autore a, libroordinato lo, libro l WHERE a.id = libroordinato.id and l.isbn = lo.isbn and l.isbn = ?";
     private final String doInsertQueryInAutore = "INSERT INTO Autore(nome) VALUES(?);";
     private final String doInsertQueryInLibroAutore= "INSERT INTO LibroAutore(id,isbn) VALUES(?,?);";
     private final String doUpdateQueryInAutore = "UPDATE Autore SET nome = ? where id= ? ";
 
-    protected List<Autore> doRetriveByLibro (Libro libro){
+
+    
+    protected List<Autore> doRetrieveByLibro (Libro libro){
         List<Autore> autori = new ArrayList<>();
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
 
-            PreparedStatement prst = con.prepareStatement(doRetriveByLibroQuery);
+            PreparedStatement prst = con.prepareStatement(doRetrieveByLibroQuery);
             prst.setString(1, libro.getIsbn());
 
             try {

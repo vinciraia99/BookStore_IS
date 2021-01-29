@@ -21,14 +21,14 @@ public class ClienteDAO extends DAO<Cliente> {
 
     private final String doDeleteQuery = "DELETE FROM Account WHERE username = ?";
     private final String doRetriveByIdQuery = "SELECT * FROM Account WHERE username = ? and tipo =\"C\"";
-    private final String doRetriveAllQuery = "SELECT * FROM Account and tipo =\"C\"";
+    private final String doRetriveAllQuery = "SELECT * FROM Account WHERE tipo =\"C\"";
     private final String doInsertQuery = "INSERT INTO Account(username,password,nome,cognome,email,tipo) VALUES(?,?,?,?,?,?);";
     private final String doUpdateQuery = "UPDATE Account SET nome = ?, cognome = ?, email = ?, password = ? WHERE username = ? and tipo =\"C\"";
     private final String doUpdateEmail = "UPDATE Account SET email = ? WHERE username = ? and tipo =\"C\"";
     private final String doUpdatePassword = "UPDATE Account SET password = ? WHERE username = ? and tipo =\"C\"";
 
     @Override
-    public Cliente doRetriveById(Object... id) {
+    public Cliente doRetrieveById(Object... id) {
         String username = (String) id[0];
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
@@ -63,7 +63,7 @@ public class ClienteDAO extends DAO<Cliente> {
     }
 
     @Override
-    public List<Cliente> doRetriveAll() {
+    public List<Cliente> doRetrieveAll() {
         List<Cliente> clienti = new ArrayList<>();
 
         try {

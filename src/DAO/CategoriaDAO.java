@@ -22,19 +22,19 @@ public class CategoriaDAO extends DAO<Categoria> {
 
     private final String doRetriveAllQuery = "SELECT * FROM Categoria";
     private final String doRetriveAllLibroQuery = "SELECT l.* FROM categoria c, librocategoria lc, libro l where c.id=lc.id and l.isbn = lc.isbn and c.id = ? "; // query sql che permette la ricerca nell'associazione Libro Categoria
-    private final String doInsertQuery = "INSERT INTO Categoria(nome,descrzione) VALUES(?,?);";
+    private final String doInsertQuery = "INSERT INTO Categoria(nome,descrizione) VALUES(?,?);";
     private final String doInsertInRelationQuery = "INSERT INTO librocategoria(id,isbn) VALUES(?,?);";
     private final String doUpdateQuery = "UPDATE Categoria SET nome = ?, descrizione = ? WHERE id = ?";
     private final String doDeleteQuery = "DELETE FROM Categoria WHERE id = ?";
-    private final String doRetriveByIdQuery = "SELECT * FROM Categoria WHERE id = ?";
-    private final String doRetriveByIdRelation = "SELECT l.* FROM Categoria c, Libro l, librocategoria lc WHERE c.id = lc.id and l.isbn = lc.isbn and c.id = ?";
+    private final String doRetrieveByIdQuery = "SELECT * FROM Categoria WHERE id = ?";
+    private final String doRetrieveByIdRelation = "SELECT l.* FROM Categoria c, Libro l, librocategoria lc WHERE c.id = lc.id and l.isbn = lc.isbn and c.id = ?";
 
     @Override
-    public Categoria doRetriveById(Object... ids) {
+    public Categoria doRetrieveById(Object... ids) {
         int id = (int) ids[0];
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
-            PreparedStatement prst = con.prepareStatement(doRetriveByIdQuery);
+            PreparedStatement prst = con.prepareStatement(doRetrieveByIdQuery);
             prst.setInt(1, id);
 
             try {
@@ -43,7 +43,7 @@ public class CategoriaDAO extends DAO<Categoria> {
                 Categoria categoria = null;
                 if (rs.next()) {
                     categoria = new Categoria(rs.getInt("id"),rs.getString("nome"),rs.getString("descrizione"));
-                    categoria.setLibri(doRetriveByIdRelation(categoria));
+                    categoria.setLibri(doRetrieveByIdRelation(categoria));
                 }
                 rs.close();
                 return categoria;
@@ -63,11 +63,13 @@ public class CategoriaDAO extends DAO<Categoria> {
         }
     }
 
-    protected List<Libro> doRetriveByIdRelation(Categoria categoria){
+    protected List<Libro> doRetrieveByIdRelation(Categoria categoria){
         List<Libro> libri = new ArrayList<>();
+        int id = categoria.getId();
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
-            PreparedStatement prst = con.prepareStatement(doRetriveByIdRelation);
+            PreparedStatement prst = con.prepareStatement(doRetrieveByIdRelation);
+            prst.setInt(1, id);
 
             try {
                 ResultSet rs = prst.executeQuery();
@@ -98,7 +100,7 @@ public class CategoriaDAO extends DAO<Categoria> {
     }
 
     @Override
-    public List<Categoria> doRetriveAll() {
+    public List<Categoria> doRetrieveAll() {
         List<Categoria> categorie = new ArrayList<>();
 
         try {
@@ -109,9 +111,9 @@ public class CategoriaDAO extends DAO<Categoria> {
                 ResultSet rs = prst.executeQuery();
                 LibroDAO libroDAO =  new LibroDAO();
                 while (rs.next()) {
-                    Categoria categoria = new Categoria(rs.getInt("id"),rs.getString("nome"),rs.getString("descrzione"));
-                    categoria.setLibri(libroDAO.doRetriveAll());
-                    categoria.setLibri(doRetriveAllLibri(categoria));
+                    Categoria categoria = new Categoria(rs.getInt("id"),rs.getString("nome"),rs.getString("descrizione"));
+                    categoria.setLibri(libroDAO.doRetrieveAll());
+                    categoria.setLibri(doRetrieveAllLibri(categoria));
                     categorie.add(categoria);
 
                 }
@@ -133,7 +135,7 @@ public class CategoriaDAO extends DAO<Categoria> {
         return categorie;
     }
 
-    private List<Libro> doRetriveAllLibri(Categoria categoria){
+    private List<Libro> doRetrieveAllLibri(Categoria categoria){
         List<Libro> libri = new ArrayList<>();
         Libro libro = null;
         AutoreDAO autoreDAO = new AutoreDAO();
@@ -146,7 +148,7 @@ public class CategoriaDAO extends DAO<Categoria> {
                 LibroDAO libroDAO = new LibroDAO();
                 ResultSet rs = prst.executeQuery();
                 while (rs.next()) {
-                    libro = libroDAO.doRetriveById(rs.getString("isbn"));
+                    libro = libroDAO.doRetrieveById(rs.getString("isbn"));
                     libri.add(libro);
                 }
 
@@ -167,6 +169,11 @@ public class CategoriaDAO extends DAO<Categoria> {
         return libri;
     }
 
+    /**
+     * Metodo che inserisce una categoria nel Database
+     * @param categoria da inserire.
+     * @return 0 se tutto ok altrimenti -1
+     */
     @Override
     public int doInsert(Categoria categoria) {
         try {
@@ -212,6 +219,12 @@ public class CategoriaDAO extends DAO<Categoria> {
         }
     }
 
+    /**
+     * Metodo che crea una relazione tra categoria e libri nel Database
+     * @param id categoria
+     * @param isbn libro
+     * @return 0 se tutto ok altrimenti -1
+     */
     protected int doInsertRelation(int id, String isbn){
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
@@ -237,6 +250,11 @@ public class CategoriaDAO extends DAO<Categoria> {
 
     }
 
+    /**
+     * Metodo che aggiorna una categoria nel Database
+     * @param categoria da modificare.
+     * @return 0 se tutto ok altrimenti -1
+     */
     @Override
     public int doUpdate(Categoria categoria) {
         try {
@@ -245,7 +263,7 @@ public class CategoriaDAO extends DAO<Categoria> {
                 PreparedStatement prst = con.prepareStatement(doUpdateQuery);
                 prst.setString(1, categoria.getNome());
                 prst.setString(2, categoria.getDescrizione());
-                prst.setInt(2, categoria.getId());
+                prst.setInt(3, categoria.getId());
                 try{
                     prst.execute();
                     con.commit();
@@ -270,6 +288,12 @@ public class CategoriaDAO extends DAO<Categoria> {
         }
     }
 
+    /**
+     * Metodo che elimina una categoria dal Database
+     *
+     * @param categoria da modificare.
+     * @return 0 se tutto ok altrimenti -1
+     */
     @Override
     public int doDelete(Categoria categoria) {
         try {

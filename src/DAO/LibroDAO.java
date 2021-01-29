@@ -30,7 +30,7 @@ public class LibroDAO extends DAO<Libro> {
     private final String doDeleteQuery = "DELETE FROM Libro WHERE isbn = ?";
 
     @Override
-    public Libro doRetriveById(Object... id) {
+    public Libro doRetrieveById(Object... id) {
         String isbn = (String) id[0];
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
@@ -46,7 +46,7 @@ public class LibroDAO extends DAO<Libro> {
                     GregorianCalendar dataPubblicazione = new GregorianCalendar();
                     dataPubblicazione.setTimeInMillis(rs.getDate("datapubblicazione").getTime());
                     libro = new Libro(rs.getString("isbn"),rs.getString("titolo"),rs.getDouble("quantita"),rs.getString("trama"),rs.getFloat("prezzo"),rs.getString("copertina"),dataPubblicazione,rs.getBoolean("disabilitato"));
-                    libro.setAutori(autoreDAO.doRetriveByLibro(libro));
+                    libro.setAutori(autoreDAO.doRetrieveByLibro(libro));
                 }
                 rs.close();
                 return libro;
@@ -68,7 +68,7 @@ public class LibroDAO extends DAO<Libro> {
     }
 
     @Override
-    public List<Libro> doRetriveAll() {
+    public List<Libro> doRetrieveAll() {
         List<Libro> libri = new ArrayList<>();
         Libro libro = null;
         AutoreDAO autoreDAO = new AutoreDAO();
@@ -83,7 +83,7 @@ public class LibroDAO extends DAO<Libro> {
                     GregorianCalendar dataPubblicazione = new GregorianCalendar();
                     dataPubblicazione.setTimeInMillis(rs.getDate("datapubblicazione").getTime());
                     libro = new Libro(rs.getString("isbn"),rs.getString("titolo"),rs.getDouble("quantita"),rs.getString("trama"),rs.getFloat("prezzo"),rs.getString("copertina"),dataPubblicazione,rs.getBoolean("disabilitato"));
-                    libro.setAutori(autoreDAO.doRetriveByLibro(libro));
+                    libro.setAutori(autoreDAO.doRetrieveByLibro(libro));
                     libri.add(libro);
                 }
 

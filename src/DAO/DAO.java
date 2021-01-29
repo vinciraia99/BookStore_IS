@@ -18,13 +18,13 @@ public abstract class DAO<T> {
      * @return object
      */
 
-    public abstract T doRetriveById( Object ... id );
+    public abstract T doRetrieveById( Object ... id );
 
     /**
      *
      * @return list
      */
-    public abstract List<T> doRetriveAll();
+    public abstract List<T> doRetrieveAll();
 
     /**
      *
