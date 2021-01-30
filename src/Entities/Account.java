@@ -78,7 +78,7 @@ public abstract class Account {
 
     @Override
     public String toString() {
-        return "ResponsabileCatalogo{" +
+        return "Account{" +
                 "email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +

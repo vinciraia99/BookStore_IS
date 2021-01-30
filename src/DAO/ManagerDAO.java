@@ -115,6 +115,7 @@ public class ManagerDAO extends DAO<Manager> {
 
             } catch (SQLException e) {
                 con.rollback();
+                e.printStackTrace();
                 return -1;
             } finally {
                 DriverManagerConnectionPool.releaseConnection(con);

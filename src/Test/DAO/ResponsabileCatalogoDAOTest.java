@@ -60,7 +60,7 @@ class ResponsabileCatalogoDAOTest {
         ResponsabileCatalogoDAO instance = new ResponsabileCatalogoDAO();
         String expResult = responsabileCatalogo.getUsername();
         ResponsabileCatalogo result = instance.doRetrieveById(responsabileCatalogo.getUsername());
-        assertEquals(expResult, result.toString());
+        assertEquals(expResult, result.getUsername());
 
     }
 
