@@ -7,6 +7,9 @@ import DAO.CategoriaDAO;
 import Entities.Categoria;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,9 +17,15 @@ import java.util.List;
  * @version 0.1
  * 29/01/2021
  */
+
+
+
 class CategoriaDAOTest {
 
 
+	private static Categoria categoria = new Categoria("Horror", "Libri horror");
+	
+	
     /**
      * Test DoRetrieveById
      * Versione: 0.1
@@ -26,8 +35,10 @@ class CategoriaDAOTest {
     @Test
     final void testDoRetrieveById() {
         int id = 1;
-        CategoriaDAO categoria = new CategoriaDAO();
-        Categoria cercata = categoria.doRetrieveById(id);
+        CategoriaDAO categorie = new CategoriaDAO();
+        int expResult = categoria.getId();
+        Categoria result = categorie.doRetrieveById(categoria.getId());
+        assertEquals(expResult,result.getId());
     }
 
     /**
@@ -38,7 +49,11 @@ class CategoriaDAOTest {
     @Test
     final void testDoRetrieveAll() {
         CategoriaDAO categorie = new CategoriaDAO();
-        List<Categoria> risultato = categorie.doRetrieveAll();
+        List<Categoria> expResult = new ArrayList<>();
+        expResult.add(categoria);
+        List<Categoria> result = categorie.doRetrieveAll();
+        assertEquals(expResult.size(), result.size());
+        
     }
 
     /**
@@ -48,9 +63,10 @@ class CategoriaDAOTest {
      */
     @Test
     final void testDoInsertCategoria() {
-        Categoria nuova = new Categoria("Horror", "Libri horror");
         CategoriaDAO categorie = new CategoriaDAO();
-        categorie.doInsert(nuova);
+        int result = categorie.doInsert(categoria);
+        int expResult = 0;
+        assertEquals(expResult, result);
     }
 
     /**
@@ -62,7 +78,13 @@ class CategoriaDAOTest {
     final void testDoUpdateCategoria() {
         Categoria aggiorna = new Categoria(1, "Thriller", "Libri horror");
         CategoriaDAO categorie = new CategoriaDAO();
-        categorie.doUpdate(aggiorna);
+        int result = categorie.doUpdate(aggiorna);
+        int expResult = 0;
+        assertEquals(expResult, result);
+        
+        
+        Categoria updatedCategoria = categorie.doRetrieveById(aggiorna.getId());
+        assertEquals(updatedCategoria.getId(),aggiorna.getId());
     }
 
     /**
@@ -72,9 +94,10 @@ class CategoriaDAOTest {
      */
     @Test
     final void testDoDeleteCategoria() {
-        Categoria vecchia = new Categoria(1, "Horror", "Libri horror");
         CategoriaDAO categorie = new CategoriaDAO();
-        int risultato = categorie.doDelete(vecchia);
+        int result = categorie.doDelete(categoria);
+        int expResult = 0;
+        assertEquals(expResult, result);
     }
 
 

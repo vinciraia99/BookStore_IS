@@ -1,9 +1,15 @@
 package Test.DAO;
 
 import DAO.ClienteDAO;
+import Entities.Categoria;
 import Entities.Cliente;
+import Entities.Indirizzo;
+
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,6 +21,9 @@ import java.util.List;
 
 class ClienteDAOTest {
 
+	private static Indirizzo indirizzo = new Indirizzo("Via Carlo 5", "Salerno", "SA", 84012);
+	private static Cliente cliente = new Cliente("piero@pelu.com", "Piero", "Password", "Piero", "Pelu", indirizzo);
+	
     /**
      * Test DoRetrieveById
      * Versione: 0.1
@@ -22,9 +31,10 @@ class ClienteDAOTest {
      */
     @Test
     final void testDoRetrieveById() {
-        String id = "Piero";
         ClienteDAO clienti = new ClienteDAO();
-        Cliente cliente = clienti.doRetrieveById(id);
+        Cliente result = clienti.doRetrieveById(cliente.getUsername());
+        String expResult = cliente.getUsername();
+        assertEquals(expResult,result.getUsername());
     }
 
     /**
@@ -34,8 +44,11 @@ class ClienteDAOTest {
      */
     @Test
     final void testDoRetrieveAll() {
-        ClienteDAO cliente = new ClienteDAO();
-        List<Cliente> clienti = cliente.doRetrieveAll();
+        ClienteDAO clienti = new ClienteDAO();
+        List<Cliente> expResult = new ArrayList<>();
+        expResult.add(cliente);
+        List<Cliente> result = clienti.doRetrieveAll();
+        assertEquals(expResult.size(), result.size());
     }
 
     /**
@@ -45,9 +58,10 @@ class ClienteDAOTest {
      */
     @Test
     final void testDoInsertCliente() {
-        Cliente cliente = new Cliente("piero@pelu.com", "Piero", "Password", "Piero", "Pelu");
         ClienteDAO clienti = new ClienteDAO();
-        clienti.doInsert(cliente);
+        int result = clienti.doInsert(cliente);
+        int expResult = 0;
+        assertEquals(expResult, result);
     }
 
     /**
@@ -57,9 +71,15 @@ class ClienteDAOTest {
      */
     @Test
     final void testDoUpdateCliente() {
-        Cliente cliente = new Cliente("piero@pelu.com", "Piero", "Password", "Giovanni", "Pelu");
+        Cliente clienteNew = new Cliente("piero@pelu.com", "Piero", "Password", "Giovanni", "Pelu");
         ClienteDAO clienti = new ClienteDAO();
-        clienti.doUpdate(cliente);
+        int result = clienti.doUpdate(clienteNew);
+        int expResult = 0;
+        assertEquals(expResult, result);
+        
+        
+        Cliente updatedCategoria = clienti.doRetrieveById(clienteNew.getUsername());
+        assertEquals(updatedCategoria.getUsername(),clienteNew.getUsername());
     }
 
     /**
@@ -69,9 +89,10 @@ class ClienteDAOTest {
      */
     @Test
     final void testDoDeleteCliente() {
-        Cliente cliente = new Cliente("piero@pelu.com", "Piero", "Password", "Piero", "Pelu");
         ClienteDAO clienti = new ClienteDAO();
-        clienti.doDelete(cliente);
+        int result = clienti.doDelete(cliente);
+        int expResult = 0;
+        assertEquals(expResult, result);
     }
 
 }
