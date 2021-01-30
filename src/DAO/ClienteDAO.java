@@ -1,7 +1,8 @@
 package DAO;
 
 import Entities.Cliente;
-import Utils.*;
+import Utils.DriverManagerConnectionPool;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,11 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author Vincenzo Raia
  * @version 0.1
  * @since 27/01/2021
- *
  */
 
 public class ClienteDAO extends DAO<Cliente> {
@@ -180,7 +179,7 @@ public class ClienteDAO extends DAO<Cliente> {
      * @param cliente da modificare.
      * @return 0 se tutto ok altrimenti -1
      */
-    public int doDelete(Cliente cliente){
+    public int doDelete(Cliente cliente) {
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             try {

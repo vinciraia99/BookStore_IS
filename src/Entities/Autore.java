@@ -1,21 +1,24 @@
 package Entities;
 
 /**
- *
  * @author Vincenzo Raia
  * @version 0.1
  * @since 27/01/2021
- *
  */
 
 public class Autore {
 
     private int id;
-    private String nome;
+    private String nomecompleto;
 
-    public Autore(int id, String nome) {
+    public Autore(int id, String nomecompleto) {
         this.id = id;
-        this.nome = nome;
+        this.nomecompleto = nomecompleto;
+    }
+
+    public Autore(String nomecompleto) {
+        this.id = 0;
+        this.nomecompleto = nomecompleto;
     }
 
     public int getId() {
@@ -26,11 +29,11 @@ public class Autore {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getnomecompleto() {
+        return nomecompleto;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setnomecompleto(String nomecompleto) {
+        this.nomecompleto = nomecompleto;
     }
 }

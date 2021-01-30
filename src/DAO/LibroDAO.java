@@ -3,21 +3,15 @@ package DAO;
 import Entities.Libro;
 import Utils.DriverManagerConnectionPool;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
- *
  * @author Vincenzo Raia
  * @version 0.1
  * @since 28/01/2021
- *
  */
 
 
@@ -45,7 +39,7 @@ public class LibroDAO extends DAO<Libro> {
                 if (rs.next()) {
                     GregorianCalendar dataPubblicazione = new GregorianCalendar();
                     dataPubblicazione.setTimeInMillis(rs.getDate("datapubblicazione").getTime());
-                    libro = new Libro(rs.getString("isbn"),rs.getString("titolo"),rs.getDouble("quantita"),rs.getString("trama"),rs.getFloat("prezzo"),rs.getString("copertina"),dataPubblicazione,rs.getBoolean("disabilitato"));
+                    libro = new Libro(rs.getString("isbn"), rs.getString("titolo"), rs.getDouble("quantita"), rs.getString("trama"), rs.getFloat("prezzo"), rs.getString("copertina"), dataPubblicazione, rs.getBoolean("disabilitato"));
                     libro.setAutori(autoreDAO.doRetrieveByLibro(libro));
                 }
                 rs.close();
@@ -82,7 +76,7 @@ public class LibroDAO extends DAO<Libro> {
                 while (rs.next()) {
                     GregorianCalendar dataPubblicazione = new GregorianCalendar();
                     dataPubblicazione.setTimeInMillis(rs.getDate("datapubblicazione").getTime());
-                    libro = new Libro(rs.getString("isbn"),rs.getString("titolo"),rs.getDouble("quantita"),rs.getString("trama"),rs.getFloat("prezzo"),rs.getString("copertina"),dataPubblicazione,rs.getBoolean("disabilitato"));
+                    libro = new Libro(rs.getString("isbn"), rs.getString("titolo"), rs.getDouble("quantita"), rs.getString("trama"), rs.getFloat("prezzo"), rs.getString("copertina"), dataPubblicazione, rs.getBoolean("disabilitato"));
                     libro.setAutori(autoreDAO.doRetrieveByLibro(libro));
                     libri.add(libro);
                 }
@@ -136,6 +130,7 @@ public class LibroDAO extends DAO<Libro> {
                 }
 
             } catch (SQLException e) {
+                e.printStackTrace();
                 con.rollback();
                 return -1;
             } finally {

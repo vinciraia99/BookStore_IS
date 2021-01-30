@@ -4,17 +4,18 @@ import Entities.Categoria;
 import Entities.Libro;
 import Utils.DriverManagerConnectionPool;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
- *
  * @author Vincenzo Raia
  * @version 0.1
  * @since 28/01/2021
- *
  */
 
 
@@ -42,7 +43,7 @@ public class CategoriaDAO extends DAO<Categoria> {
                 con.commit();
                 Categoria categoria = null;
                 if (rs.next()) {
-                    categoria = new Categoria(rs.getInt("id"),rs.getString("nome"),rs.getString("descrizione"));
+                    categoria = new Categoria(rs.getInt("id"), rs.getString("nome"), rs.getString("descrizione"));
                     categoria.setLibri(doRetrieveByIdRelation(categoria));
                 }
                 rs.close();
@@ -63,7 +64,7 @@ public class CategoriaDAO extends DAO<Categoria> {
         }
     }
 
-    protected List<Libro> doRetrieveByIdRelation(Categoria categoria){
+    private List<Libro> doRetrieveByIdRelation(Categoria categoria) {
         List<Libro> libri = new ArrayList<>();
         int id = categoria.getId();
         try {
@@ -73,11 +74,11 @@ public class CategoriaDAO extends DAO<Categoria> {
 
             try {
                 ResultSet rs = prst.executeQuery();
-                LibroDAO libroDAO =  new LibroDAO();
+                LibroDAO libroDAO = new LibroDAO();
                 while (rs.next()) {
                     GregorianCalendar dataPubblicazione = new GregorianCalendar();
                     dataPubblicazione.setTimeInMillis(rs.getDate("datapubblicazione").getTime());
-                    Libro libro = new Libro(rs.getString("isbn"),rs.getString("titolo"),rs.getDouble("quantita"),rs.getString("trama"),rs.getFloat("prezzo"),rs.getString("copertina"),dataPubblicazione,rs.getBoolean("disabilitato"));
+                    Libro libro = new Libro(rs.getString("isbn"), rs.getString("titolo"), rs.getDouble("quantita"), rs.getString("trama"), rs.getFloat("prezzo"), rs.getString("copertina"), dataPubblicazione, rs.getBoolean("disabilitato"));
                     libri.add(libro);
                 }
 
@@ -109,9 +110,9 @@ public class CategoriaDAO extends DAO<Categoria> {
 
             try {
                 ResultSet rs = prst.executeQuery();
-                LibroDAO libroDAO =  new LibroDAO();
+                LibroDAO libroDAO = new LibroDAO();
                 while (rs.next()) {
-                    Categoria categoria = new Categoria(rs.getInt("id"),rs.getString("nome"),rs.getString("descrizione"));
+                    Categoria categoria = new Categoria(rs.getInt("id"), rs.getString("nome"), rs.getString("descrizione"));
                     categoria.setLibri(libroDAO.doRetrieveAll());
                     categoria.setLibri(doRetrieveAllLibri(categoria));
                     categorie.add(categoria);
@@ -135,14 +136,14 @@ public class CategoriaDAO extends DAO<Categoria> {
         return categorie;
     }
 
-    private List<Libro> doRetrieveAllLibri(Categoria categoria){
+    private List<Libro> doRetrieveAllLibri(Categoria categoria) {
         List<Libro> libri = new ArrayList<>();
         Libro libro = null;
         AutoreDAO autoreDAO = new AutoreDAO();
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetriveAllLibroQuery);
-            prst.setInt(1,categoria.getId());
+            prst.setInt(1, categoria.getId());
 
             try {
                 LibroDAO libroDAO = new LibroDAO();
@@ -171,6 +172,7 @@ public class CategoriaDAO extends DAO<Categoria> {
 
     /**
      * Metodo che inserisce una categoria nel Database
+     *
      * @param categoria da inserire.
      * @return 0 se tutto ok altrimenti -1
      */
@@ -178,18 +180,18 @@ public class CategoriaDAO extends DAO<Categoria> {
     public int doInsert(Categoria categoria) {
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
-            String generatedColumns[] = { "ID" };
+            String generatedColumns[] = {"ID"};
             try {
-                PreparedStatement prst = con.prepareStatement(doInsertQuery,generatedColumns);
+                PreparedStatement prst = con.prepareStatement(doInsertQuery, generatedColumns);
                 prst.setString(1, categoria.getNome());
                 prst.setString(2, categoria.getDescrizione());
-                try{
+                try {
                     prst.execute();
                     con.commit();
                     ResultSet rs = prst.getGeneratedKeys();
                     if (rs.next()) {
-                        for (Libro l : categoria.getLibri()){
-                            if(doInsertRelation(categoria.getId(),l.getIsbn()) == -1){
+                        for (Libro l : categoria.getLibri()) {
+                            if (doInsertRelation(categoria.getId(), l.getIsbn()) == -1) {
                                 return -1;
                             }
                         }
@@ -197,7 +199,7 @@ public class CategoriaDAO extends DAO<Categoria> {
 
                     }
                     return 0;
-                } catch(SQLException e){
+                } catch (SQLException e) {
                     con.rollback();
                     e.printStackTrace();
                     return -1;
@@ -221,21 +223,22 @@ public class CategoriaDAO extends DAO<Categoria> {
 
     /**
      * Metodo che crea una relazione tra categoria e libri nel Database
-     * @param id categoria
+     *
+     * @param id   categoria
      * @param isbn libro
      * @return 0 se tutto ok altrimenti -1
      */
-    protected int doInsertRelation(int id, String isbn){
+    private int doInsertRelation(int id, String isbn) {
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             try {
                 PreparedStatement prst = con.prepareStatement(doInsertInRelationQuery);
                 prst.setInt(1, id);
-                prst.setString(2,isbn);
+                prst.setString(2, isbn);
                 prst.execute();
                 con.commit();
                 prst.close();
-                return  0;
+                return 0;
 
             } catch (SQLException e) {
                 con.rollback();
@@ -252,6 +255,7 @@ public class CategoriaDAO extends DAO<Categoria> {
 
     /**
      * Metodo che aggiorna una categoria nel Database
+     *
      * @param categoria da modificare.
      * @return 0 se tutto ok altrimenti -1
      */
@@ -264,11 +268,11 @@ public class CategoriaDAO extends DAO<Categoria> {
                 prst.setString(1, categoria.getNome());
                 prst.setString(2, categoria.getDescrizione());
                 prst.setInt(3, categoria.getId());
-                try{
+                try {
                     prst.execute();
                     con.commit();
                     return 0;
-                } catch(SQLException e){
+                } catch (SQLException e) {
                     con.rollback();
                     e.printStackTrace();
                     return -1;

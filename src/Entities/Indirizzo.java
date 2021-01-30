@@ -1,11 +1,9 @@
 package Entities;
 
 /**
- *
  * @author Vincenzo Raia
  * @version 0.1
  * @since 27/01/2021
- *
  */
 
 public class Indirizzo {
@@ -18,22 +16,32 @@ public class Indirizzo {
     private String notecorriere;
 
 
-    public Indirizzo(int id,String via, String comune, String provincia, int cap,String notecorriere) {
+    public Indirizzo(int id, String via, String comune, String provincia, int cap, String notecorriere) {
         this.via = via;
         this.comune = comune;
         this.provincia = provincia;
         this.cap = cap;
         this.notecorriere = notecorriere;
-        this.id=id;
+        this.id = id;
     }
 
 
-    public Indirizzo(String via, String comune, String provincia, int cap,String notecorriere) {
+    public Indirizzo(String via, String comune, String provincia, int cap, String notecorriere) {
         this.via = via;
         this.comune = comune;
         this.provincia = provincia;
         this.cap = cap;
         this.notecorriere = notecorriere;
+        this.id = -1;
+    }
+
+    public Indirizzo(String via, String comune, String provincia, int cap) {
+        this.via = via;
+        this.comune = comune;
+        this.provincia = provincia;
+        this.cap = cap;
+        this.notecorriere = "";
+        this.id = -1;
     }
 
     public String getVia() {

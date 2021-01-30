@@ -15,6 +15,13 @@ public class LibroOrdinato {
         this.isbn = isbn;
     }
 
+    public LibroOrdinato(double quantita, float prezzo, String isbn) {
+        this.id = id;
+        this.quantita = quantita;
+        this.prezzo = prezzo;
+        this.isbn = isbn;
+    }
+
     public int getId() {
         return id;
     }

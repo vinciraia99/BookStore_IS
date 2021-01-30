@@ -1,11 +1,9 @@
 package Entities;
 
 /**
- *
  * @author Vincenzo Raia
  * @version 0.1
  * @since 27/01/2021
- *
  */
 
 
@@ -25,7 +23,7 @@ public abstract class Account {
     public Account() {
     }
 
-    public Account(String email, String username, String password, String nome, String cognome,String tipo) {
+    public Account(String email, String username, String password, String nome, String cognome, String tipo) {
         this.email = email;
         this.username = username;
         this.password = password;
@@ -76,5 +74,17 @@ public abstract class Account {
 
     public String getTipo() {
         return tipo;
+    }
+
+    @Override
+    public String toString() {
+        return "ResponsabileCatalogo{" +
+                "email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", tipo='" + tipo + '\'' +
+                ", nome='" + nome + '\'' +
+                ", cognome='" + cognome + '\'' +
+                '}';
     }
 }

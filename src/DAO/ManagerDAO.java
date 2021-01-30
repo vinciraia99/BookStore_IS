@@ -12,11 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author Vincenzo Raia
  * @version 0.1
  * @since 27/01/2021
- *
  */
 
 public class ManagerDAO extends DAO<Manager> {

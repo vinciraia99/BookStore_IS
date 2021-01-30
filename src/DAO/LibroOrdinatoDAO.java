@@ -23,20 +23,21 @@ public class LibroOrdinatoDAO {
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetriveByOrderIdQuery);
-            prst.setInt(1,ordine.getId());
+            prst.setInt(1, ordine.getId());
 
             try {
                 ResultSet rs = prst.executeQuery();
                 while (rs.next()) {
-                   LibroOrdinato libroOrdinato=  new LibroOrdinato(rs.getInt("id"),rs.getDouble("quantita"),rs.getFloat("prezzo"),rs.getString("isbn"));
+                    LibroOrdinato libroOrdinato = new LibroOrdinato(rs.getInt("id"), rs.getDouble("quantita"), rs.getFloat("prezzo"), rs.getString("isbn"));
                     libriOrdinati.add(libroOrdinato);
                 }
 
                 rs.close();
-
+                return libriOrdinati;
             } catch (SQLException e) {
                 e.printStackTrace();
                 con.rollback();
+                return null;
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -44,13 +45,13 @@ public class LibroOrdinatoDAO {
 
         } catch (SQLException ex) {
             ex.printStackTrace();
+            return null;
         }
 
-        return libriOrdinati;
     }
 
 
-    protected int doInsertByOrderId(LibroOrdinato libroOrdinato , int idordine) {
+    protected int doInsertByOrderId(LibroOrdinato libroOrdinato, int idordine) {
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             try {
@@ -66,6 +67,7 @@ public class LibroOrdinatoDAO {
 
             } catch (SQLException e) {
                 con.rollback();
+                e.printStackTrace();
                 return -1;
             } finally {
                 DriverManagerConnectionPool.releaseConnection(con);

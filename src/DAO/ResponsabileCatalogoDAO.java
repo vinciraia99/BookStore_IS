@@ -11,18 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author Vincenzo Raia
  * @version 0.1
  * @since 28/01/2021
- *
  */
 
 public class ResponsabileCatalogoDAO extends DAO<ResponsabileCatalogo> {
 
     private final String doDeleteQuery = "DELETE FROM Account WHERE username = ? and tipo =\"R\"";
     private final String doRetriveByIdQuery = "SELECT * FROM Account WHERE username = ? and tipo =\"R\"";
-    private final String doRetriveAllQuery = "SELECT * FROM Account and tipo =\"R\"";
+    private final String doRetriveAllQuery = "SELECT * FROM Account where tipo =\"R\"";
     private final String doInsertQuery = "INSERT INTO Account(username,password,nome,cognome,email,tipo) VALUES(?,?,?,?,?,?);";
     private final String doUpdateQuery = "UPDATE Account SET nome = ?, cognome = ?, email = ?, password = ? WHERE username = ? and tipo =\"R\"";
 
@@ -116,6 +114,7 @@ public class ResponsabileCatalogoDAO extends DAO<ResponsabileCatalogo> {
 
             } catch (SQLException e) {
                 con.rollback();
+                e.printStackTrace();
                 return -1;
             } finally {
                 DriverManagerConnectionPool.releaseConnection(con);
