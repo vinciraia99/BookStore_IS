@@ -97,8 +97,6 @@ CREATE TABLE `librocategoria`
 (
     `ISBN`        varchar(14),
     `id`          int          NOT NULL,
-    `nome`        varchar(100) NOT NULL,
-    `descrizione` text         NOT NULL,
     PRIMARY KEY (`ISBN`),
     FOREIGN KEY (`id`) REFERENCES categoria (`id`) on update cascade on delete cascade
 );

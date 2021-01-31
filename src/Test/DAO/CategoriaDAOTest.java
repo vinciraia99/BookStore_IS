@@ -5,11 +5,14 @@ package Test.DAO;
 
 import DAO.CategoriaDAO;
 import Entities.Categoria;
+import Entities.Libro;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -23,7 +26,9 @@ import java.util.List;
 class CategoriaDAOTest {
 
 
-	private static Categoria categoria = new Categoria("Horror", "Libri horror");
+	private static Categoria categoria = new Categoria(1, "Horror", "Libri horror");
+	private static GregorianCalendar data_pubblicazione = new GregorianCalendar();
+	private static Libro libro = new Libro("1245672823", "test", 100d, "trama", 102F, "passt6", data_pubblicazione, true);
 	
 	
     /**
@@ -63,8 +68,12 @@ class CategoriaDAOTest {
      */
     @Test
     final void testDoInsertCategoria() {
+    	List<Libro> libri = new ArrayList<>();
+    	libri.add(libro);
+    	categoria.setLibri(libri);
         CategoriaDAO categorie = new CategoriaDAO();
-        int result = categorie.doInsert(categoria);
+        int result;
+        result = categorie.doInsert(categoria);
         int expResult = 0;
         assertEquals(expResult, result);
     }

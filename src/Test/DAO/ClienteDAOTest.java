@@ -1,7 +1,6 @@
 package Test.DAO;
 
 import DAO.ClienteDAO;
-import Entities.Categoria;
 import Entities.Cliente;
 import Entities.Indirizzo;
 
@@ -58,6 +57,7 @@ class ClienteDAOTest {
      */
     @Test
     final void testDoInsertCliente() {
+    	cliente.setIndirizzo(indirizzo);
         ClienteDAO clienti = new ClienteDAO();
         int result = clienti.doInsert(cliente);
         int expResult = 0;

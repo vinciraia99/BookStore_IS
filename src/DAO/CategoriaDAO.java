@@ -24,7 +24,7 @@ public class CategoriaDAO extends DAO<Categoria> {
     private final String doRetriveAllQuery = "SELECT * FROM Categoria";
     private final String doRetriveAllLibroQuery = "SELECT l.* FROM categoria c, librocategoria lc, libro l where c.id=lc.id and l.isbn = lc.isbn and c.id = ? "; // query sql che permette la ricerca nell'associazione Libro Categoria
     private final String doInsertQuery = "INSERT INTO Categoria(nome,descrizione) VALUES(?,?);";
-    private final String doInsertInRelationQuery = "INSERT INTO librocategoria(id,isbn) VALUES(?,?);";
+    private final String doInsertInRelationQuery = "INSERT INTO librocategoria(isbn,id) VALUES(?,?);";
     private final String doUpdateQuery = "UPDATE Categoria SET nome = ?, descrizione = ? WHERE id = ?";
     private final String doDeleteQuery = "DELETE FROM Categoria WHERE id = ?";
     private final String doRetrieveByIdQuery = "SELECT * FROM Categoria WHERE id = ?";
@@ -233,8 +233,8 @@ public class CategoriaDAO extends DAO<Categoria> {
             Connection con = DriverManagerConnectionPool.getConnection();
             try {
                 PreparedStatement prst = con.prepareStatement(doInsertInRelationQuery);
-                prst.setInt(1, id);
-                prst.setString(2, isbn);
+                prst.setString(1, isbn);
+                prst.setInt(2, id);
                 prst.execute();
                 con.commit();
                 prst.close();
