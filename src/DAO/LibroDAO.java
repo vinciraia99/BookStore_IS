@@ -22,6 +22,7 @@ public class LibroDAO extends DAO<Libro> {
     private final String doInsertQuery = "INSERT INTO Libro(isbn,prezzo,quantita,trama,titolo,copertina,disabilitato,datapubblicazione) VALUES(?,?,?,?,?,?,?,?);";
     private final String doUpdateQuery = "UPDATE Libro SET prezzo = ?, quantita = ?, trama = ? , titolo =?, copertina=? , disabilitato = ? , datapubblicazione = ? WHERE isbn = ?";
     private final String doDeleteQuery = "DELETE FROM Libro WHERE isbn = ?";
+    private final String doRetrieveByNomeOrDescrizioneQuery = "SELECT * FROM libro WHERE MATCH(titolo, trama) AGAINST(?)";
 
     @Override
     public Libro doRetrieveById(Object... id) {
@@ -72,7 +73,6 @@ public class LibroDAO extends DAO<Libro> {
 
             try {
                 ResultSet rs = prst.executeQuery();
-                IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
                 while (rs.next()) {
                     GregorianCalendar dataPubblicazione = new GregorianCalendar();
                     dataPubblicazione.setTimeInMillis(rs.getDate("datapubblicazione").getTime());
@@ -213,6 +213,28 @@ public class LibroDAO extends DAO<Libro> {
 
         } catch (SQLException e) {
             return -1;
+        }
+    }
+
+    public List<Libro> doRetrieveByNomeOrDescrizione(String keyword) {
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement ps = con.prepareStatement(doRetrieveByNomeOrDescrizioneQuery);
+            ps.setString(1,keyword);
+            List<Libro> libri = new ArrayList<>();
+            ResultSet rs = ps.executeQuery();
+            AutoreDAO autoreDAO = new AutoreDAO();
+            while (rs.next()) {
+                GregorianCalendar dataPubblicazione = new GregorianCalendar();
+                dataPubblicazione.setTimeInMillis(rs.getDate("datapubblicazione").getTime());
+                Libro libro = new Libro(rs.getString("isbn"), rs.getString("titolo"), rs.getDouble("quantita"), rs.getString("trama"), rs.getFloat("prezzo"), rs.getString("copertina"), dataPubblicazione, rs.getBoolean("disabilitato"));
+                libro.setAutori(autoreDAO.doRetrieveByLibro(libro));
+                libri.add(libro);
+            }
+            return libri;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

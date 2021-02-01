@@ -33,7 +33,7 @@ class ResponsabileCatalogoDAOTest {
     private static ResponsabileCatalogo responsabileCatalogo;
 
     public ResponsabileCatalogoDAOTest(){
-        responsabileCatalogo = new ResponsabileCatalogo("piero@pelu.com", "username", "Password", "Piero", "Pelu");
+        responsabileCatalogo = new ResponsabileCatalogo("piero@pelu.com", "user6name", "Password", "Piero", "Pelu");
     }
 
     @BeforeClass

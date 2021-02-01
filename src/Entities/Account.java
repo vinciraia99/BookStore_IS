@@ -15,6 +15,7 @@ public abstract class Account {
     protected String tipo;
     protected String nome;
     protected String cognome;
+    protected Boolean abilitato = true;
 
     public static final String TIPO_CLIENTE = "C";
     public static final String TIPO_RESPONSABILE_CATALOGO = "R";
@@ -86,5 +87,13 @@ public abstract class Account {
                 ", nome='" + nome + '\'' +
                 ", cognome='" + cognome + '\'' +
                 '}';
+    }
+
+    public Boolean getAbilitato() {
+        return abilitato;
+    }
+
+    public void setAbilitato(Boolean abilitato) {
+        this.abilitato = abilitato;
     }
 }

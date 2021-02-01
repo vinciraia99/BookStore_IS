@@ -13,10 +13,12 @@ public class Cliente extends Account {
     public Cliente(String email, String username, String password, String nome, String cognome, Indirizzo indirizzo) {
         super(email, username, password, nome, cognome, TIPO_CLIENTE);
         this.indirizzo = indirizzo;
+        this.abilitato = false;
     }
 
     public Cliente(String email, String username, String password, String nome, String cognome) {
         super(email, username, password, nome, cognome, TIPO_CLIENTE);
+        this.abilitato = false;
     }
 
     public Indirizzo getIndirizzo() {

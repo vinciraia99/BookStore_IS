@@ -30,7 +30,7 @@ class LibroDAOTest {
 
     public LibroDAOTest() {
         GregorianCalendar data_pubblicazione = new GregorianCalendar();
-        libro = new Libro("1245672823", "test", 100d, "trama", 102F, "passt6", data_pubblicazione, true);
+        libro = new Libro("1245672823", "test", 100d, "trama con parola chiave", 102F, "passt6", data_pubblicazione, true);
         Autore autore = new Autore("Marco mengoni");
         autore.setId(1);
         List<Autore> autori = new ArrayList<>();
@@ -98,4 +98,29 @@ class LibroDAOTest {
 
     }
 
+    /**
+     * Test of doRetrieveById method, of class LibroDAO.
+     */
+    @Test
+    void doRetrieveById() {
+        System.out.println("doRetrieveById");
+        libro.setTrama("trama nuova");
+        LibroDAO instance = new LibroDAO();
+        String expResult = libro.getIsbn();
+        Libro result = instance.doRetrieveById("1245672823");
+        assertEquals(expResult, result.getIsbn());
+    }
+
+
+    /**
+     * Test of testDoRetrieveByNomeOrDescrizione method, of class LibroDAO.
+     */
+    @Test
+    void testDoRetrieveByNomeOrDescrizione() {
+        System.out.println("doRetrieveByNomeOrDescrizione");
+        LibroDAO instance = new LibroDAO();
+        int expResult = 1;
+        List<Libro> result = instance.doRetrieveByNomeOrDescrizione("parola");
+        assertEquals(expResult, result.size());
+    }
 }

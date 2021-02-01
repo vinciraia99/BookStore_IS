@@ -45,6 +45,18 @@ public class Libro {
 
     }
 
+    public Libro(String isbn, String titolo, Double quantita, String trama, Float prezzo, String copertina, GregorianCalendar data_pubblicazione) {
+        this.isbn = isbn;
+        this.titolo = titolo;
+        this.quantita = quantita;
+        this.trama = trama;
+        this.prezzo = prezzo;
+        this.copertina = copertina;
+        this.data_pubblicazione = data_pubblicazione;
+        this.disabilitato = false;
+
+    }
+
     public String getIsbn() {
         return isbn;
     }

@@ -19,18 +19,20 @@ import java.util.List;
 public class ResponsabileCatalogoDAO extends DAO<ResponsabileCatalogo> {
 
     private final String doDeleteQuery = "DELETE FROM Account WHERE username = ? and tipo =\"R\"";
-    private final String doRetriveByIdQuery = "SELECT * FROM Account WHERE username = ? and tipo =\"R\"";
+    private final String doRetriveByIdQuery = "SELECT * FROM Account WHERE username = ? and password = ? and tipo =\"R\"";
     private final String doRetriveAllQuery = "SELECT * FROM Account where tipo =\"R\"";
-    private final String doInsertQuery = "INSERT INTO Account(username,password,nome,cognome,email,tipo) VALUES(?,?,?,?,?,?);";
+    private final String doInsertQuery = "INSERT INTO Account(username,password,nome,cognome,email,tipo,abilitato) VALUES(?,?,?,?,?,?,1);";
     private final String doUpdateQuery = "UPDATE Account SET nome = ?, cognome = ?, email = ?, password = ? WHERE username = ? and tipo =\"R\"";
 
     @Override
     public ResponsabileCatalogo doRetrieveById(Object... id) {
         String username = (String) id[0];
+        String password = (String) id[0];
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetriveByIdQuery);
             prst.setString(1, username);
+            prst.setString(2, password);
 
             try {
                 ResultSet rs = prst.executeQuery();

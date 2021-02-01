@@ -19,20 +19,23 @@ import java.util.List;
 public class ClienteDAO extends DAO<Cliente> {
 
     private final String doDeleteQuery = "DELETE FROM Account WHERE username = ?";
-    private final String doRetriveByIdQuery = "SELECT * FROM Account WHERE username = ? and tipo =\"C\"";
+    private final String doRetriveByIdQuery = "SELECT * FROM Account WHERE username = ?  and password = ? and tipo =\"C\"";
     private final String doRetriveAllQuery = "SELECT * FROM Account WHERE tipo =\"C\"";
-    private final String doInsertQuery = "INSERT INTO Account(username,password,nome,cognome,email,tipo) VALUES(?,?,?,?,?,?);";
+    private final String doInsertQuery = "INSERT INTO Account(username,password,nome,cognome,email,tipo,abilitato) VALUES(?,?,?,?,?,?,0);";
     private final String doUpdateQuery = "UPDATE Account SET nome = ?, cognome = ?, email = ?, password = ? WHERE username = ? and tipo =\"C\"";
     private final String doUpdateEmail = "UPDATE Account SET email = ? WHERE username = ? and tipo =\"C\"";
     private final String doUpdatePassword = "UPDATE Account SET password = ? WHERE username = ? and tipo =\"C\"";
+    private final String doUpdateCeckMailQuery = "UPDATE Account SET abilitato = 1 WHERE username = ? and email = ? and tipo =\"C\"";
 
     @Override
     public Cliente doRetrieveById(Object... id) {
         String username = (String) id[0];
+        String password = (String) id[1];
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetriveByIdQuery);
             prst.setString(1, username);
+            prst.setString(2, password);
 
             try {
                 ResultSet rs = prst.executeQuery();
@@ -42,6 +45,7 @@ public class ClienteDAO extends DAO<Cliente> {
                 if (rs.next()) {
                     cliente = new Cliente(rs.getString("email"), rs.getString("username"), rs.getString("password"), rs.getString("nome"), rs.getString("cognome"));
                     cliente.setIndirizzo(indirizzoDAO.doRetriveByCliente(cliente));
+                    cliente.setAbilitato(rs.getBoolean("abilitato"));
                 }
                 rs.close();
                 return cliente;
@@ -75,6 +79,7 @@ public class ClienteDAO extends DAO<Cliente> {
                 while (rs.next()) {
                     Cliente cliente = new Cliente(rs.getString("email"), rs.getString("username"), rs.getString("password"), rs.getString("nome"), rs.getString("cognome"));
                     cliente.setIndirizzo(indirizzoDAO.doRetriveByCliente(cliente));
+                    cliente.setAbilitato(rs.getBoolean("abilitato"));
                     clienti.add(cliente);
                 }
 
@@ -192,6 +197,36 @@ public class ClienteDAO extends DAO<Cliente> {
                 prst.close();
                 return 0;
 
+            } catch (SQLException e) {
+                con.rollback();
+                return -1;
+            } finally {
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+
+        } catch (SQLException e) {
+            return -1;
+        }
+    }
+
+    /**
+     * Metodo che abilita un cliente nel Database
+     *
+     * @param username,email da verifica.
+     * @return 0 se tutto ok altrimenti -1
+     */
+
+    public int doUpdateAccessCeckMail(String username, String email){
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            try {
+                PreparedStatement prst = con.prepareStatement(doUpdateCeckMailQuery);
+                prst.setString(1, username);
+                prst.setString(2, email);
+                prst.execute();
+                con.commit();
+                prst.close();
+                return 0;
             } catch (SQLException e) {
                 con.rollback();
                 return -1;

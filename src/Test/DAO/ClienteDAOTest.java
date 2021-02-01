@@ -31,7 +31,7 @@ class ClienteDAOTest {
     @Test
     final void testDoRetrieveById() {
         ClienteDAO clienti = new ClienteDAO();
-        Cliente result = clienti.doRetrieveById(cliente.getUsername());
+        Cliente result = clienti.doRetrieveById(cliente.getUsername(),cliente.getPassword());
         String expResult = cliente.getUsername();
         assertEquals(expResult,result.getUsername());
     }

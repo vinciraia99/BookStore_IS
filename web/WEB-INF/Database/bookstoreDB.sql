@@ -13,8 +13,8 @@ CREATE TABLE `account`
     `cognome`  varchar(128) NOT NULL,
     `email`    varchar(128) NOT NULL,
     `tipo`     varchar(128) NOT NULL,
-    PRIMARY KEY (`username`),
-    UNIQUE KEY (`email`)
+    `abilitato` boolean default true,
+    PRIMARY KEY (`username`)
 );
 -- Table structure for table `Indirizzo`
 CREATE TABLE `indirizzo`
@@ -90,13 +90,16 @@ CREATE TABLE `libroautore`
     `id`   int,
     primary key (`id`, `isbn`),
     FOREIGN KEY (`ISBN`) REFERENCES libro (`ISBN`) on update cascade on delete cascade,
-    FOREIGN KEY (`id`) REFERENCES autore (`id`)
+    FOREIGN KEY (`id`) REFERENCES autore (`id`) on update cascade on delete cascade
 );
 -- Table structure for relation `Libro` and `Categoria`
 CREATE TABLE `librocategoria`
 (
     `ISBN`        varchar(14),
     `id`          int          NOT NULL,
-    PRIMARY KEY (`ISBN`),
-    FOREIGN KEY (`id`) REFERENCES categoria (`id`) on update cascade on delete cascade
+    PRIMARY KEY (`ISBN`,`id`),
+    FOREIGN KEY (`id`) REFERENCES categoria (`id`) on update cascade on delete cascade,
+    FOREIGN KEY (`ISBN`) REFERENCES libro (`ISBN`) on update cascade on delete cascade
 );
+
+
