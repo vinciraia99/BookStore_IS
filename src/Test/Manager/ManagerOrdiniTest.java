@@ -1,16 +1,15 @@
-package Test.DAO;
+package Test.Manager;
 
 import DAO.CategoriaDAO;
 import DAO.ClienteDAO;
 import DAO.LibroDAO;
 import DAO.OrdineDAO;
 import Entities.*;
+import Manager.ManagerOrdini;
 import Utils.DriverManagerConnectionPool;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,24 +23,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Vincenzo Raia
  * @version 0.1
- * @since 28/01/2021
+ * @since 01/03/2021
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class OrdineDAOTest {
 
+public class ManagerOrdiniTest {
+    private static ManagerOrdini managerOrdini;
     private static Connection con;
     private static Ordine ordine;
     private static Cliente cliente;
     private static Libro libro;
     private static Autore autore;
     private static Categoria categoria;
-
-    public OrdineDAOTest() {
-    }
+    private static Carrello carrello;
 
     @BeforeClass
     public static void setUpClass() throws SQLException {
-        con = DriverManagerConnectionPool.getConnection();
+        managerOrdini = new ManagerOrdini();
         GregorianCalendar data_pubblicazione = new GregorianCalendar(2010,2,22);
         libro = new Libro("124567282130", "test", 100d, "trama", 102F, "passt6", data_pubblicazione, true);
         autore = new Autore("Marco mengoni");
@@ -78,11 +75,22 @@ public class OrdineDAOTest {
         List<LibroOrdinato> libriordinati = new ArrayList<>();
         libriordinati.add(libroOrdinato);
         ordine.setLibriOrdinati(libriordinati);
+        carrello = new Carrello();
+        OrdineDAO ordineDAO = new OrdineDAO();
+        ordineDAO.doInsert(ordine);
+
+        ArrayList<Ordine> ordini = (ArrayList<Ordine>) ordineDAO.doRetriveAll();
+        for(Ordine o : ordini){
+            if(ordine.getTotale() == o.getTotale()){
+               ordine = o;
+            }
+        }
+
     }
 
     @AfterClass
     public static void tearDownClass() throws SQLException {
-
+        con = DriverManagerConnectionPool.getConnection();
         PreparedStatement prst2 = con.prepareStatement("Delete from libroordinato where isbn = '" + libro.getIsbn() + "'");
         PreparedStatement prst = con.prepareStatement("Delete from libro where isbn = '" + libro.getIsbn() + "'");
         PreparedStatement prst3 = con.prepareStatement("Delete from ordine where username = '" + cliente.getUsername() + "'");
@@ -92,6 +100,7 @@ public class OrdineDAOTest {
         PreparedStatement prst7 = con.prepareStatement("Delete from account where username = '" + cliente.getUsername() + "'");
         PreparedStatement prst8 = con.prepareStatement("Delete from categoria where nome = '" + categoria.getNome() + "'");
         PreparedStatement prst9 = con.prepareStatement("Delete from librocategoria where id = '" + categoria.getId() + "'");
+        PreparedStatement prst10 = con.prepareStatement("Delete from ordine where id = '" + ordine.getId() + "'");
 
         prst3.execute();
         prst6.execute();
@@ -103,51 +112,92 @@ public class OrdineDAOTest {
 
         prst.execute();
         prst2.execute();
+        prst10.execute();
 
         con.commit();
         DriverManagerConnectionPool.releaseConnection(con);
         System.out.println("Database cancellato");
-    }
 
-
-    /**
-     * Test of doInsert method, of class OrdineDAO.
-     */
-    @Test
-    public void doInsert() {
-        System.out.println("doInsert");
-        OrdineDAO instance = new OrdineDAO();
-        int expResult = 0;
-        int result = instance.doInsert(ordine);
-        assertEquals(expResult, result);
     }
 
     /**
-     * Test of doInsert method, of class doRetriveByIdCliente.
+     * Test of effettuaOrdine method, of class ManagerOrdini.
      */
     @Test
-    public void doRetriveByIdCliente() {
-        System.out.println("doRetriveByIdClinte");
-        OrdineDAO instance = new OrdineDAO();
-        boolean expResult = true;
-        List<Ordine> list  = instance.doRetriveByIdCliente(cliente.getUsername());
-        boolean result =false;
-        if(list != null && list.size()!=0){
+    public void effettuaOrdine() {
+        System.out.println("effettuaOrdine");
+        carrello.aggiungiLibro(libro);
+        boolean result = managerOrdini.effettuaOrdine(cliente,carrello,"123","1234567891234567","2","2022");
+        boolean expresult = true;
+        assertEquals(expresult, result);
+    }
+
+    /**
+     * Test of visualizzaOrdini method, of class ManagerOrdini.
+     */
+    @Test
+    public void visualizzaOrdini() {
+        System.out.println("visualizzaOrdini");
+        List<Ordine> ordini = managerOrdini.visualizzaOrdini(cliente);
+        boolean result= false;
+        if(ordini.size()!=0){
             result = true;
         }
-        assertEquals(expResult, result);
+        boolean expresult=true;
+        assertEquals(expresult,result);
     }
 
     /**
-     * Test of doInsert method, of class doUpdateOrderState.
+     * Test of visualizzaDettaglioOrdine method, of class ManagerOrdini.
      */
     @Test
-    public void doUpdateOrderState() {
-        System.out.println("doUpdateOrderState");
-        OrdineDAO instance = new OrdineDAO();
-        int expResult = 0;
-        ordine.setId(1);
-        int result = instance.doUpdateOrderState(ordine);
-        assertEquals(expResult, result);
+    public void visualizzaDettaglioOrdine() {
+        System.out.println("visualizzaDettaglioOrdine");
+        Ordine ordinegetted = managerOrdini.visualizzaDettaglioOrdine(cliente,ordine.getId());
+        int result= ordinegetted.getId();
+        int expresult= ordine.getId();
+        assertEquals(expresult,result);
+    }
+
+
+    /**
+     * Test of visualizzaOrdiniUtenti method, of class ManagerOrdini.
+     */
+    @Test
+    public void visualizzaOrdiniUtenti() {
+        System.out.println("visualizzaOrdiniUtenti");
+        List<Ordine> ordini = managerOrdini.visualizzaOrdiniUtenti();
+        boolean result= false;
+        if(ordini.size()!=0){
+            result = true;
+        }
+        boolean expresult= true;
+        assertEquals(expresult,result);
+    }
+
+
+    /**
+     * Test of visualizzaDettaglioOrdineUtente method, of class ManagerOrdini.
+     */
+    @Test
+    public void visualizzaDettaglioOrdineUtente() {
+        System.out.println("visualizzaDettaglioOrdineUtente");
+        Ordine ordinegetted = managerOrdini.visualizzaDettaglioOrdineUtente(ordine.getId());
+        int result= ordinegetted.getId();
+        int expresult= ordine.getId();
+        assertEquals(expresult,result);
+    }
+
+
+    /**
+     * Test of modificaStatoOrdine method, of class ManagerOrdini.
+     */
+    @Test
+    public void modificaStatoOrdine() {
+        System.out.println("modificaStatoOrdine");
+        boolean result = managerOrdini.modificaStatoOrdine(ordine.getId(),true);
+        boolean expresult = true;
+        assertEquals(expresult,result);
+
     }
 }

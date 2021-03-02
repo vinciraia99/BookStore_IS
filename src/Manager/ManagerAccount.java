@@ -16,20 +16,27 @@ import Entities.ResponsabileCatalogo;
 
 public class ManagerAccount {
 
+    ClienteDAO clienteDAO;
+    ManagerDAO managerDAO;
+    ResponsabileCatalogoDAO responsabileCatalogoDAO;
+
+    public ManagerAccount(){
+        clienteDAO = new ClienteDAO();
+        managerDAO = new ManagerDAO();
+        responsabileCatalogoDAO = new ResponsabileCatalogoDAO();
+    }
+
 
     /**
-     * Metodo che esegue la modifica password di un utente del sistema
+     * Questo metodo permette di modificare la password corrente dell’utente
      * @param username (String) username dell'utente che vuole modificare la password,
      * @param newPassword (String) newPassword dell'utente che vuole modificare la password.
      * @param oldPassword (String) oldPassword dell'utente che vuole modificare la password.
      * @return boolean true se la modifica è andata a buon fine, false altrimenti.
      */
     public boolean modificaPassword(String username, String newPassword, String oldPassword){
-        ClienteDAO clienteDAO = new ClienteDAO();
-        ManagerDAO managerDAO = new ManagerDAO();
-        ResponsabileCatalogoDAO responsabileCatalogoDAO = new ResponsabileCatalogoDAO();
 
-        Cliente cliente=  clienteDAO.doRetrieveById(username,oldPassword);
+        Cliente cliente=  clienteDAO.doRetrieveById(username);
 
         if(cliente== null){
             Manager manager = managerDAO.doRetrieveById(username,oldPassword);
@@ -39,32 +46,20 @@ public class ManagerAccount {
                     return false;
                 }  else{
                     responsabileCatalogo.setPassword(newPassword);
-                    if(responsabileCatalogoDAO.doUpdate(responsabileCatalogo) == -1){
-                        return false;
-                    }else{
-                        return true;
-                    }
+                    return responsabileCatalogoDAO.doUpdate(responsabileCatalogo) != -1;
                 }
             }else {
                 manager.setPassword(newPassword);
-                if(managerDAO.doUpdate(manager) == -1){
-                    return false;
-                }else{
-                    return true;
-                }
+                return managerDAO.doUpdate(manager) != -1;
             }
         }else{
             cliente.setPassword(newPassword);
-            if(clienteDAO.doUpdate(cliente) == -1){
-                return false;
-            }else{
-                return true;
-            }
+            return clienteDAO.doUpdate(cliente) != -1;
         }
     }
 
     /**
-     * Metodo che esegue la modifica dei dati personali di un utente del sistema
+     *Questo metodo permette di modificare i dati personali di un utente del sistema
      * @param username (String) username dell'utente che vuole modificare i dati personali.
      * @param email (String) email dell'utente che vuole modificare i dati personali.
      * @param password (String) password dell'utente che vuole modificare i dati personali.
@@ -73,52 +68,37 @@ public class ManagerAccount {
      * @return boolean true se la modifica è andata a buon fine, false altrimenti.
      */
     public boolean modificaDatiPersonali(String email, String username,String password, String nome, String cognome){
-        ClienteDAO clienteDAO = new ClienteDAO();
-        ManagerDAO managerDAO = new ManagerDAO();
-        ResponsabileCatalogoDAO responsabileCatalogoDAO = new ResponsabileCatalogoDAO();
 
         Cliente cliente=  clienteDAO.doRetrieveById(username,password);
 
         if(cliente== null){
             Manager manager = managerDAO.doRetrieveById(username,password);
             if(manager== null){
-                ResponsabileCatalogo responsabileCatalogo = responsabileCatalogoDAO.doRetrieveById(username,password);
+                ResponsabileCatalogo responsabileCatalogo = responsabileCatalogoDAO.doRetrieveById(username);
                 if(responsabileCatalogo == null){
                     return false;
                 }  else{
                     responsabileCatalogo.setEmail(email);
                     responsabileCatalogo.setNome(nome);
                     responsabileCatalogo.setCognome(cognome);
-                    if(responsabileCatalogoDAO.doUpdate(responsabileCatalogo) == -1){
-                        return false;
-                    }else{
-                        return true;
-                    }
+                    return responsabileCatalogoDAO.doUpdate(responsabileCatalogo) != -1;
                 }
             }else {
                 manager.setEmail(email);
                 manager.setNome(nome);
                 manager.setCognome(cognome);
-                if(managerDAO.doUpdate(manager) == -1){
-                    return false;
-                }else{
-                    return true;
-                }
+                return managerDAO.doUpdate(manager) != -1;
             }
         }else{
             cliente.setEmail(email);
             cliente.setNome(nome);
             cliente.setCognome(cognome);
-            if(clienteDAO.doUpdate(cliente) == -1){
-                return false;
-            }else{
-                return true;
-            }
+            return clienteDAO.doUpdate(cliente) != -1;
         }
     }
 
     /**
-     * Metodo che esegue la modifica l'indirizzo di un cliente del sistema
+     * Questo metodo permette di modificare i dati di un indirizzo di un cliente
      * @param via (String) via dell'utente che vuole modificare l'indirizzo.
      * @param comune (String) comune dell'utente che vuole modificare l'indirizzo.
      * @param provincia (String) provincia dell'utente che vuole modificare l'indirizzo.
@@ -129,9 +109,8 @@ public class ManagerAccount {
      * @return boolean true se la modifica è andata a buon fine, false altrimenti.
      */
     public boolean modificaIndirizzo(String via, String comune,String provincia,String noteCorriere,int cap,String username,String password){
-        ClienteDAO clienteDAO = new ClienteDAO();
 
-        Cliente cliente = clienteDAO.doRetrieveById(username,password);
+        Cliente cliente = clienteDAO.doRetrieveById(username);
         if(cliente == null){
             return false;
         }else{
@@ -142,11 +121,7 @@ public class ManagerAccount {
             indirizzo.setNotecorriere(noteCorriere);
             indirizzo.setCap(cap);
             cliente.setIndirizzo(indirizzo);
-            if(clienteDAO.doUpdate(cliente) == -1){
-                return false;
-            }else {
-                return true;
-            }
+            return clienteDAO.doUpdate(cliente) != -1;
 
         }
     }

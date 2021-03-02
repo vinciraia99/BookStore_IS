@@ -1,6 +1,5 @@
 package Entities;
 
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class Ordine {
     private List<LibroOrdinato> libriOrdinati;
     private String username;
 
-    public Ordine(int quantita, float totale, GregorianCalendar dataDiAcquisto, int id, List<LibroOrdinato> libriOrdinati, String username) {
+    public Ordine(double quantita, float totale, GregorianCalendar dataDiAcquisto, int id, List<LibroOrdinato> libriOrdinati, String username) {
         this.spedito = false;
         this.quantita = quantita;
         this.totale = totale;

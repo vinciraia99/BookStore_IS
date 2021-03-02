@@ -1,11 +1,14 @@
 package Test.DAO;
 
 import DAO.ManagerDAO;
+import Entities.Account;
 import Entities.Manager;
 import Utils.DriverManagerConnectionPool;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.jupiter.api.Test;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,8 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @version 0.1
  * @since 29/01/2021
  */
-
-class ManagerDAOTest {
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class ManagerDAOTest {
 
     private static Connection con;
     private static Manager manager;
@@ -36,7 +39,7 @@ class ManagerDAOTest {
 
     @AfterClass
     public static void tearDownClass() throws SQLException {
-        PreparedStatement prst = con.prepareStatement("delete from account where tipo=\"" + manager.TIPO_MANAGER + "\"");
+        PreparedStatement prst = con.prepareStatement("delete from account where username = '" + manager.getUsername() + "' and tipo=\"" + Account.TIPO_MANAGER + "\"");
         prst.execute();
         con.commit();
         prst.close();
@@ -48,7 +51,7 @@ class ManagerDAOTest {
      * Test of doRetrieveById method, of class ManagerDAO.
      */
     @Test
-    void doRetrieveById() {
+    public void doRetrieveById() {
         System.out.println("doRetrieveById");
         ManagerDAO instance = new ManagerDAO();
         String expResult = manager.getUsername();
@@ -61,7 +64,7 @@ class ManagerDAOTest {
      * Test of doRetrieveAll method, of class ManagerDAO.
      */
     @Test
-    void doRetrieveAll() {
+    public void doRetrieveAll() {
         System.out.println("doRetrieveAll");
         List<Manager> result;
         ManagerDAO instance = new ManagerDAO();
@@ -75,7 +78,7 @@ class ManagerDAOTest {
      * Test of doInsert method, of class ManagerDAO.
      */
     @Test
-    void doInsert() {
+    public void doInsert() {
         System.out.println("doInsert");
         ManagerDAO instance = new ManagerDAO();
         int expResult = 0;
@@ -87,7 +90,7 @@ class ManagerDAOTest {
      * Test of doUpdate method, of class ManagerDAO.
      */
     @Test
-    void doUpdate() {
+    public void doUpdate() {
         System.out.println("doUpdate");
         ManagerDAO instance = new ManagerDAO();
         int expResult = 0;

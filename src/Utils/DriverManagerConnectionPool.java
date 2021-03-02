@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Utils;
 
 import java.sql.Connection;
@@ -46,7 +41,7 @@ public class DriverManagerConnectionPool {
     public static synchronized Connection getConnection() throws SQLException {
         Connection connection;
         if (!freeDbConnections.isEmpty()) {
-            connection = (Connection) freeDbConnections.get(0);
+            connection = freeDbConnections.get(0);
             DriverManagerConnectionPool.freeDbConnections.remove(0);
             try {
                 if (connection.isClosed()) {

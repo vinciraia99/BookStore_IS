@@ -1,5 +1,11 @@
 package Entities;
 
+/**
+ * @author Vincenzo Raia
+ * @version 0.1
+ * @since 01/03/2021
+ */
+
 public class LibroOrdinato {
 
     private int id;

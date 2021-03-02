@@ -91,4 +91,16 @@ public class Indirizzo {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Indirizzo{" +
+                "id=" + id +
+                ", via='" + via + '\'' +
+                ", comune='" + comune + '\'' +
+                ", provincia='" + provincia + '\'' +
+                ", cap=" + cap +
+                ", notecorriere='" + notecorriere + '\'' +
+                '}';
+    }
 }

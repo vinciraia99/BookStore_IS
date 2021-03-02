@@ -8,6 +8,7 @@ package Entities;
 
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Libro {
@@ -20,6 +21,7 @@ public class Libro {
     private GregorianCalendar data_pubblicazione;
     private boolean disabilitato;
     private List<Autore> autori;
+    private List<Categoria> categorie;
 
     public Libro(String isbn, String titolo, Double quantita, String trama, Float prezzo, String copertina, GregorianCalendar data_pubblicazione, boolean disabilitato, List<Autore> autori) {
         this.isbn = isbn;
@@ -128,4 +130,30 @@ public class Libro {
     public void setAutori(List<Autore> autori) {
         this.autori = autori;
     }
+
+    public List<Categoria> getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(List<Categoria> categorie) {
+        this.categorie = categorie;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Libro)) return false;
+        Libro libro = (Libro) o;
+        return Double.compare(libro.getQuantita(), getQuantita()) == 0 &&
+                Float.compare(libro.getPrezzo(), getPrezzo()) == 0 &&
+                isDisabilitato() == libro.isDisabilitato() &&
+                Objects.equals(getIsbn(), libro.getIsbn()) &&
+                Objects.equals(getTitolo(), libro.getTitolo()) &&
+                Objects.equals(getTrama(), libro.getTrama()) &&
+                Objects.equals(getCopertina(), libro.getCopertina()) &&
+                Objects.equals(getData_pubblicazione(), libro.getData_pubblicazione()) &&
+                Objects.equals(getAutori(), libro.getAutori()) &&
+                Objects.equals(getCategorie(), libro.getCategorie());
+    }
+
 }

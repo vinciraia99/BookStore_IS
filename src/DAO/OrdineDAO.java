@@ -20,6 +20,8 @@ public class OrdineDAO {
 
     private final String doInsertQuery = "INSERT INTO Ordine(quantita,totale,username,datadiacquisto) VALUES(?,?,?,?);";
     private final String doRetriveByClientId = "SELECT * FROM Ordine where username = ?";
+    private final String doRetriveAll = "SELECT * FROM Ordine";
+    private final String doRetriveId = "SELECT * FROM Ordine where id = ?";
     private final String doUpdateOrderState = "UPDATE Ordine SET spedito = true WHERE id = ?";
 
 
@@ -37,7 +39,7 @@ public class OrdineDAO {
                     GregorianCalendar datadiacquisto = new GregorianCalendar();
                     datadiacquisto.setTimeInMillis(rs.getDate("datadiacquisto").getTime());
                     Ordine ordine = new Ordine(rs.getDouble("quantita"), rs.getFloat("totale"), datadiacquisto, rs.getInt("id"), username);
-                    ordine.setLibriOrdinati((ArrayList<LibroOrdinato>) libroOrdinatoDAO.doRetriveByOrderId(ordine));
+                    ordine.setLibriOrdinati(libroOrdinatoDAO.doRetriveByOrderId(ordine));
                     ordini.add(ordine);
                 }
 
@@ -64,7 +66,7 @@ public class OrdineDAO {
         LibroOrdinatoDAO libroOrdinatoDAO = new LibroOrdinatoDAO();
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
-            String generatedColumns[] = {"ID"};
+            String[] generatedColumns = {"ID"};
             try {
                 PreparedStatement prst = con.prepareStatement(doInsertQuery, generatedColumns);
                 prst.setDouble(1, ordine.getQuantita());
@@ -129,6 +131,7 @@ public class OrdineDAO {
 
 
             } catch (SQLException e) {
+                e.printStackTrace();
                 con.rollback();
                 return -1;
             } finally {
@@ -136,9 +139,76 @@ public class OrdineDAO {
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
             return -1;
         }
     }
 
+    public List<Ordine> doRetriveAll() {
+        List<Ordine> ordini = new ArrayList<>();
+        LibroOrdinatoDAO libroOrdinatoDAO = new LibroOrdinatoDAO();
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doRetriveAll);
+
+            try {
+                ResultSet rs = prst.executeQuery();
+                while (rs.next()) {
+                    GregorianCalendar datadiacquisto = new GregorianCalendar();
+                    datadiacquisto.setTimeInMillis(rs.getDate("datadiacquisto").getTime());
+                    Ordine ordine = new Ordine(rs.getDouble("quantita"), rs.getFloat("totale"), datadiacquisto, rs.getInt("id"),rs.getString("username"));
+                    ordine.setLibriOrdinati(libroOrdinatoDAO.doRetriveByOrderId(ordine));
+                    ordini.add(ordine);
+                }
+
+                rs.close();
+                return ordini;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                con.rollback();
+                return null;
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public Ordine doRetrieveById(int id) {
+        LibroOrdinatoDAO libroOrdinatoDAO = new LibroOrdinatoDAO();
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doRetriveId);
+            prst.setInt(1, id);
+            try {
+                ResultSet rs = prst.executeQuery();
+                if (rs.next()) {
+                    GregorianCalendar datadiacquisto = new GregorianCalendar();
+                    datadiacquisto.setTimeInMillis(rs.getDate("datadiacquisto").getTime());
+                    Ordine ordine = new Ordine(rs.getDouble("quantita"), rs.getFloat("totale"), datadiacquisto, rs.getInt("id"),rs.getString("username"));
+                    ordine.setLibriOrdinati(libroOrdinatoDAO.doRetriveByOrderId(ordine));
+                    return ordine;
+                }
+                rs.close();
+                return null;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                con.rollback();
+                return null;
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
 
 }

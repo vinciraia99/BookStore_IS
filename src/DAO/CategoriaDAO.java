@@ -180,24 +180,13 @@ public class CategoriaDAO extends DAO<Categoria> {
     public int doInsert(Categoria categoria) {
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
-            String generatedColumns[] = {"ID"};
             try {
-                PreparedStatement prst = con.prepareStatement(doInsertQuery, generatedColumns);
+                PreparedStatement prst = con.prepareStatement(doInsertQuery);
                 prst.setString(1, categoria.getNome());
                 prst.setString(2, categoria.getDescrizione());
                 try {
                     prst.execute();
                     con.commit();
-                    ResultSet rs = prst.getGeneratedKeys();
-                    if (rs.next()) {
-                        for (Libro l : categoria.getLibri()) {
-                            if (doInsertRelation(categoria.getId(), l.getIsbn()) == -1) {
-                                return -1;
-                            }
-                        }
-
-
-                    }
                     return 0;
                 } catch (SQLException e) {
                     con.rollback();
@@ -221,37 +210,6 @@ public class CategoriaDAO extends DAO<Categoria> {
         }
     }
 
-    /**
-     * Metodo che crea una relazione tra categoria e libri nel Database
-     *
-     * @param id   categoria
-     * @param isbn libro
-     * @return 0 se tutto ok altrimenti -1
-     */
-    private int doInsertRelation(int id, String isbn) {
-        try {
-            Connection con = DriverManagerConnectionPool.getConnection();
-            try {
-                PreparedStatement prst = con.prepareStatement(doInsertInRelationQuery);
-                prst.setString(1, isbn);
-                prst.setInt(2, id);
-                prst.execute();
-                con.commit();
-                prst.close();
-                return 0;
-
-            } catch (SQLException e) {
-                con.rollback();
-                return -1;
-            } finally {
-                DriverManagerConnectionPool.releaseConnection(con);
-            }
-
-        } catch (SQLException e) {
-            return -1;
-        }
-
-    }
 
     /**
      * Metodo che aggiorna una categoria nel Database
@@ -323,4 +281,6 @@ public class CategoriaDAO extends DAO<Categoria> {
             return -1;
         }
     }
-}
+    }
+
+

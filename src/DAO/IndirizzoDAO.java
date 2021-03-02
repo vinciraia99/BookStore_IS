@@ -17,7 +17,7 @@ import java.sql.SQLException;
  * @since 27/01/2021
  */
 
-public class IndirizzoDAO {
+class IndirizzoDAO {
 
     private final String doDeleteQuery = "DELETE FROM Indirizzo WHERE id = ?";
     private final String doRetriveByIdQuery = "SELECT * FROM Indirizzo WHERE id = ?";
@@ -60,7 +60,7 @@ public class IndirizzoDAO {
         Indirizzo indirizzo = cliente.getIndirizzo();
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
-            String generatedColumns[] = {"ID"};
+            String[] generatedColumns = {"ID"};
             PreparedStatement prst = con.prepareStatement(doInsertQuery, generatedColumns);
             prst.setString(1, indirizzo.getVia());
             prst.setString(2, indirizzo.getComune());
@@ -96,7 +96,7 @@ public class IndirizzoDAO {
         String username = entity.getUsername();
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
-            PreparedStatement prst = con.prepareStatement(doRetriveByIdQuery);
+            PreparedStatement prst = con.prepareStatement(doRetriveByCliente);
             prst.setString(1, username);
 
             try {

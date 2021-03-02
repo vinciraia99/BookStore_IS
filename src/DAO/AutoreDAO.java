@@ -62,7 +62,7 @@ public class AutoreDAO {
         List<Autore> autori = libro.getAutori();
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
-            String generatedColumns[] = {"ID"};
+            String[] generatedColumns = {"ID"};
             try {
                 for (Autore a : autori) {
                     Autore autoreneldb = doRetrieveByNameAndSurname(a);

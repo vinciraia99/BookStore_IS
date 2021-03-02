@@ -1,33 +1,30 @@
 package Test.DAO;
 
-import DAO.LibroDAO;
 import DAO.ResponsabileCatalogoDAO;
-import Entities.Cliente;
-import Entities.Ordine;
+import Entities.Account;
 import Entities.ResponsabileCatalogo;
 import Utils.DriverManagerConnectionPool;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  * @author Vincenzo Raia
  * @version 0.1
  * @since 29/01/2021
  */
-
-class ResponsabileCatalogoDAOTest {
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class ResponsabileCatalogoDAOTest {
 
     private static Connection con;
     private static ResponsabileCatalogo responsabileCatalogo;
@@ -43,7 +40,7 @@ class ResponsabileCatalogoDAOTest {
 
     @AfterClass
     public static void tearDownClass() throws SQLException {
-        PreparedStatement prst = con.prepareStatement("delete from account where tipo=\"" + responsabileCatalogo.TIPO_RESPONSABILE_CATALOGO + "\"");
+        PreparedStatement prst = con.prepareStatement("delete from account where tipo=\"" + Account.TIPO_RESPONSABILE_CATALOGO + "\"");
         prst.execute();
         con.commit();
         prst.close();
@@ -55,7 +52,7 @@ class ResponsabileCatalogoDAOTest {
      * Test of doRetrieveById method, of class ResponsabileCatalogoDAO.
      */
     @Test
-    void doRetrieveById() {
+    public void doRetrieveById() {
         System.out.println("doRetrieveById");
         ResponsabileCatalogoDAO instance = new ResponsabileCatalogoDAO();
         String expResult = responsabileCatalogo.getUsername();
@@ -68,7 +65,7 @@ class ResponsabileCatalogoDAOTest {
      * Test of doRetrieveAll method, of class ResponsabileCatalogoDAO.
      */
     @Test
-    void doRetrieveAll() {
+    public void doRetrieveAll() {
         System.out.println("doRetrieveAll");
         List<ResponsabileCatalogo> result;
         ResponsabileCatalogoDAO instance = new ResponsabileCatalogoDAO();
@@ -82,7 +79,7 @@ class ResponsabileCatalogoDAOTest {
      * Test of doInsert method, of class ResponsabileCatalogoDAO.
      */
     @Test
-    void doInsert() {
+    public void doInsert() {
         System.out.println("doInsert");
         ResponsabileCatalogoDAO instance = new ResponsabileCatalogoDAO();
         int expResult = 0;
@@ -94,7 +91,7 @@ class ResponsabileCatalogoDAOTest {
      * Test of doUpdate method, of class ResponsabileCatalogoDAO.
      */
     @Test
-    void doUpdate() {
+    public void doUpdate() {
         System.out.println("doUpdate");
         ResponsabileCatalogoDAO instance = new ResponsabileCatalogoDAO();
         int expResult = 0;

@@ -1,15 +1,16 @@
-package Test.DAO;
+package Test.Manager;
 
 import DAO.CategoriaDAO;
-import DAO.LibroDAO;
 import Entities.Autore;
 import Entities.Categoria;
 import Entities.Libro;
+import Manager.ManagerLibri;
 import Utils.DriverManagerConnectionPool;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import Entities.*;
 import org.junit.runners.MethodSorters;
 
 import java.sql.Connection;
@@ -19,22 +20,26 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Vincenzo Raia
  * @version 0.1
- * @since 28/01/2021
+ * @since 01/03/2021
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class LibroDAOTest {
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class ManagerLibriTest {
+
+    private static ManagerLibri managerLibri;
     private static Connection con;
     private static Libro libro;
     private static Categoria categoria;
     private static Autore autore;
 
-    public LibroDAOTest() {
+    @BeforeClass
+    public static void setUpClass() throws SQLException {
+        managerLibri = new ManagerLibri();
         GregorianCalendar data_pubblicazione = new GregorianCalendar();
         libro = new Libro("1245672823", "test", 100d, "trama con parola chiave", 102F, "passt6", data_pubblicazione, true);
         autore = new Autore("Marco mengoni");
@@ -57,13 +62,9 @@ public class LibroDAOTest {
         libro.setCategorie(categoriee);
     }
 
-    @BeforeClass
-    public static void setUpClass() throws SQLException {
-        con = DriverManagerConnectionPool.getConnection();
-    }
-
     @AfterClass
     public static void tearDownClass() throws SQLException {
+        con = DriverManagerConnectionPool.getConnection();
         PreparedStatement prst3 = con.prepareStatement("delete from autore where nomecompleto = '" + autore.getnomecompleto() + "'");
         PreparedStatement prst6 = con.prepareStatement("delete from libroautore where isbn = '" + libro.getIsbn() + "'");
         PreparedStatement prst4 = con.prepareStatement("delete from librocategoria where id = '" + categoria.getId() + "'");
@@ -85,71 +86,90 @@ public class LibroDAOTest {
     }
 
     /**
-     * Test of doRetriveAll method, of class LibroDAO.
+     * Test of cercaLibro method, of class ManagerLibri.
      */
     @Test
-    public void doRetrieveAll() {
-        System.out.println("doRetriveAll");
-        LibroDAO instance = new LibroDAO();
-        List<Libro> expResult = new ArrayList<>();
-        expResult.add(libro);
-        List<Libro> result = instance.doRetrieveAll();
-        assertEquals(expResult.size(), result.size());
+    public void cercaLibro() {
+        System.out.println("cercaLibro");
+        List<Libro> ricerca = managerLibri.cercaLibro("parola");
+        boolean result = false;
+        if(ricerca.size() !=0){
+            result = true;
+        }
+        boolean expresult = true;
+        assertEquals(expresult,result);
     }
 
     /**
-     * Test of doInsert method, of class LibroDAO.
+     * Test of aaggiuntaLibro method, of class ManagerLibri.
      */
     @Test
-    public void doInsert() {
-        System.out.println("doInsert");
-        LibroDAO instance = new LibroDAO();
-        int expResult = 0;
-        int result = instance.doInsert(libro);
-        assertEquals(expResult, result);
+    public void aaggiuntaLibro() {
+        System.out.println("aggiuntaLibro");
+        boolean result =  managerLibri.aggiuntaLibro(libro);
+        boolean expresult = true;
+        assertEquals(expresult,result);
     }
 
     /**
-     * Test of testDoRetrieveByNomeOrDescrizione method, of class LibroDAO.
+     * Test of eliminaLibro method, of class ManagerLibri.
      */
     @Test
-    public void doRetrieveByNomeOrDescrizione() {
-        System.out.println("doRetrieveByNomeOrDescrizione");
-        LibroDAO instance = new LibroDAO();
-        int expResult = 1;
-        List<Libro> result = instance.doRetrieveByNomeOrDescrizione("parola");
-        assertEquals(expResult, result.size());
+    public void eliminaLibro() {
+        System.out.println("eliminaLibro");
+        boolean result = managerLibri.eliminaLibro(libro.getIsbn());
+        boolean expresult = true;
+        assertEquals(expresult,result);
     }
 
     /**
-     * Test of doUpdate method, of class LibroDAO.
+     * Test of modificaLibro method, of class ManagerLibri.
      */
     @Test
-    public void doUpdate() {
-        System.out.println("doUpdate");
-        libro.setTrama("trama nuova");
-        LibroDAO instance = new LibroDAO();
-        int expResult = 0;
-        int result = instance.doUpdate(libro);
-        assertEquals(expResult, result);
-
-        Libro retrivedLibro = instance.doRetrieveById(libro.getIsbn());
-        assertEquals(libro.getTrama(), retrivedLibro.getTrama());
-
+    public void modificaLibro() {
+        System.out.println("modificaLibro");
+        libro.setTitolo("libromodificato");
+        boolean result = managerLibri.aggiuntaLibro(libro);
+        boolean expresult = true;
+        assertEquals(expresult,result);
     }
 
     /**
-     * Test of doRetrieveById method, of class LibroDAO.
+     * Test of modificaNumeroCopieLibro method, of class ManagerLibri.
      */
     @Test
-    public void doRetrieveById() {
-        System.out.println("doRetrieveById");
-        LibroDAO instance = new LibroDAO();
-        String expResult = libro.getIsbn();
-        Libro result = instance.doRetrieveById("1245672823");
-        assertEquals(expResult, result.getIsbn());
+    public void modificaNumeroCopieLibro() {
+        System.out.println("modificaNumeroCopieLibro");
+        boolean result = managerLibri.modificaNumeroCopieLibro(libro.getIsbn(),1500D);
+        boolean expresult = true;
+        assertEquals(expresult,result);
     }
 
+    /**
+     * Test of acquisisciLibro method, of class ManagerLibri.
+     */
+    @Test
+    public void acquisisciLibro() {
+        System.out.println("acquisisciLibro");
+        Libro l = managerLibri.acquisisciLibro(libro.getIsbn());
+        String expresult = libro.getIsbn();
+        String result = l.getIsbn();
+        assertEquals(expresult,result);
+    }
 
+    /**
+     * Test of acquisisciTuttiILibri method, of class ManagerLibri.
+     */
+    @Test
+    public void acquisisciTuttiILibri() {
+        System.out.println("acquisisciTuttiILibri");
+        List<Libro> libri =  managerLibri.acquisisciTuttiILibri();
+        boolean result = false;
+        if(libri.size()!=0){
+            result = true;
+        }
+        boolean expresult = true;
+        assertEquals(expresult,result);
 
+    }
 }

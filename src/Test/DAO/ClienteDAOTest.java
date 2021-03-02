@@ -3,13 +3,12 @@ package Test.DAO;
 import DAO.ClienteDAO;
 import Entities.Cliente;
 import Entities.Indirizzo;
-
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**

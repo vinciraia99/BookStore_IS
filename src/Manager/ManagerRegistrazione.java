@@ -1,7 +1,6 @@
 package Manager;
 
 import DAO.ClienteDAO;
-import Entities.Account;
 import Entities.Cliente;
 import Entities.Indirizzo;
 
@@ -38,11 +37,7 @@ public class ManagerRegistrazione {
             return false;
         }
 
-        if(clienteDAO.doInsert(cliente)==-1){
-            return false;
-        }else {
-            return true;
-        }
+        return clienteDAO.doInsert(cliente) != -1;
 
     }
 
@@ -54,11 +49,7 @@ public class ManagerRegistrazione {
      */
     public boolean confermaRegistrazione(String username,String email){
 
-        if(clienteDAO.doUpdateAccessCeckMail(username,email) == -1){
-            return false;
-        }else{
-            return true;
-        }
+        return clienteDAO.doUpdateAccessCeckMail(username, email) != -1;
     }
 }
 

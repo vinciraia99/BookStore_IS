@@ -6,14 +6,13 @@ package Test.DAO;
 import DAO.CategoriaDAO;
 import Entities.Categoria;
 import Entities.Libro;
-
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Raffaele Scarpa
