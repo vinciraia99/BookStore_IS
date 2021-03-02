@@ -12,7 +12,7 @@
       <div class="leftcolumn">
         <c:forEach items="${libri}" var="libro">
       <div class="card bookbox">
-          <img onclick="location.href='libro?id=${libro.isbn}'" src="${pageContext.request.contextPath}/img/${libro.copertina}" alt="libro" height="215px" class="image" />
+          <img onclick="location.href='visualizzalibro?id=${libro.isbn}'" src="${pageContext.request.contextPath}/img/${libro.copertina}" alt="libro" height="215px" class="image" />
           <div class="book">
             <h3>
               ${libro.titolo}
@@ -21,7 +21,7 @@
                 ${libro.prezzo}
             </h4>
             <p class="description">${libro.trama}</p>
-            <a href="libro?id=${libro.isbn}">Vai alla scheda tecnica</a>
+            <a href="visualizzalibro?id=${libro.isbn}">Vai alla scheda tecnica</a>
           </div>
       </div>
         </c:forEach>

@@ -16,6 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * @author Vincenzo Raia
+ * @version 0.1
+ * @since 01/03/2021
+ */
+
 @WebServlet(name = "HomeServlet", urlPatterns="", loadOnStartup=1)
 public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

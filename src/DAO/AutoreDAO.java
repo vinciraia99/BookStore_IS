@@ -19,7 +19,7 @@ import java.util.List;
 
 public class AutoreDAO {
 
-    private final String doRetrieveByLibroQuery = "SELECT a.* FROM Autore a, libroordinato lo, libro l WHERE a.id = lo.id and l.isbn = lo.isbn and l.isbn = ?";
+    private final String doRetrieveByLibroQuery = "SELECT a.* FROM Autore a, libroautore lo, libro l WHERE a.id = lo.id and l.isbn = lo.isbn and l.isbn = ?";
     private final String doRetrieveByNomeAutoreQuery = "SELECT a.* FROM Autore a where a.nomecompleto = ?  ";
     private final String doInsertQueryInAutore = "INSERT INTO Autore(nomecompleto) VALUES(?);";
     private final String doInsertQueryInLibroAutore = "INSERT INTO LibroAutore(id,isbn) VALUES(?,?);";

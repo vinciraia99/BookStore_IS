@@ -21,13 +21,11 @@
 
 <div class="topnav">
     <a href="${pageContext.request.contextPath}">Home</a>
-    <a href="contattaci">Contatti</a>
-    <a href="descrizione">Chi siamo</a>
     <div class="dropdown">
         <button class="dropbtn">Categorie</button>
         <div class="dropdown-content">
             <c:forEach items="${categorie}" var="categoria">
-                    <a href="categoria?id=<c:out value="${categoria.id}"/>"><c:out
+                    <a href="visualizzacategoria?id=<c:out value="${categoria.id}"/>"><c:out
                             value="${categoria.nome}" /></a>
             </c:forEach>
         </div>
