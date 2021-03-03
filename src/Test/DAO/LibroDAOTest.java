@@ -89,7 +89,7 @@ public class LibroDAOTest {
      */
     @Test
     public void doRetrieveAll() {
-        System.out.println("doRetriveAll");
+        System.out.println("doRetrieveAll");
         LibroDAO instance = new LibroDAO();
         List<Libro> expResult = new ArrayList<>();
         expResult.add(libro);

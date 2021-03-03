@@ -1,35 +1,62 @@
-/**
- *
- */
 package Test.DAO;
 
 import DAO.CategoriaDAO;
 import Entities.Categoria;
 import Entities.Libro;
+import Utils.DriverManagerConnectionPool;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+
 /**
- * @author Raffaele Scarpa
+ * @author  Raffaele Scarpa
  * @version 0.1
- * 29/01/2021
+ * @since 29/01/2021
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class CategoriaDAOTest {
+
+    private static Connection con;
+    private static Categoria categoria;
+    private static GregorianCalendar data_pubblicazione = new GregorianCalendar();
+    private static Libro libro;
 
 
+    public CategoriaDAOTest(){
+        categoria = new Categoria( 1, "Horror", "Libri horror");
+        libro = new Libro("1245672823", "test", 100d, "trama", 102F, "passt6", data_pubblicazione, true);
+        List<Libro> libri = new ArrayList<>();
+        libri.add(libro);
+        categoria.setLibri(libri);
+    }
 
-class CategoriaDAOTest {
+    @BeforeClass
+    public static void setUpClass() throws SQLException {
+        con = DriverManagerConnectionPool.getConnection();
+    }
 
+    @AfterClass
+    public static void tearDownClass() throws SQLException {
+        PreparedStatement prst = con.prepareStatement("delete from categoria where nome=\"" + categoria.getNome() + "\"");
+        prst.execute();
+        con.commit();
+        prst.close();
+        DriverManagerConnectionPool.releaseConnection(con);
+        System.out.println("Database cancellato");
+    }
 
-	private static Categoria categoria = new Categoria(1, "Horror", "Libri horror");
-	private static GregorianCalendar data_pubblicazione = new GregorianCalendar();
-	private static Libro libro = new Libro("1245672823", "test", 100d, "trama", 102F, "passt6", data_pubblicazione, true);
-	
-	
     /**
      * Test DoRetrieveById
      * Versione: 0.1
@@ -37,12 +64,18 @@ class CategoriaDAOTest {
      */
 
     @Test
-    final void testDoRetrieveById() {
-        int id = 1;
+    public void testDoRetrieveById() {
+        System.out.println("doRetrieveById");
+        Categoria result = null;
         CategoriaDAO categorie = new CategoriaDAO();
+        List<Categoria> lista = categorie.doRetrieveAll();
+        for (Categoria categoria2 : lista ){
+            System.out.println(categoria2.getNome());
+            if(categoria2.getNome().equals(categoria.getNome()))
+                result = categoria2;
+        };
         int expResult = categoria.getId();
-        Categoria result = categorie.doRetrieveById(categoria.getId());
-        assertEquals(expResult,result.getId());
+        assertEquals(expResult, result.getId());
     }
 
     /**
@@ -50,14 +83,15 @@ class CategoriaDAOTest {
      * Versione: 0.1
      * Autore: Raffaele Scarpa
      */
+
     @Test
-    final void testDoRetrieveAll() {
+    public void testDoRetrieveAll() {
+        System.out.println("doRetrieveAll");
         CategoriaDAO categorie = new CategoriaDAO();
-        List<Categoria> expResult = new ArrayList<>();
-        expResult.add(categoria);
+        int expResult = 1;
         List<Categoria> result = categorie.doRetrieveAll();
-        assertEquals(expResult.size(), result.size());
-        
+        assertEquals(expResult, result.size());
+
     }
 
     /**
@@ -65,11 +99,10 @@ class CategoriaDAOTest {
      * Versione: 0.1
      * Autore: Raffaele Scarpa
      */
+
     @Test
-    final void testDoInsertCategoria() {
-    	List<Libro> libri = new ArrayList<>();
-    	libri.add(libro);
-    	categoria.setLibri(libri);
+    public void testDoInsertCategoria() {
+        System.out.println("doInsertCategoria");
         CategoriaDAO categorie = new CategoriaDAO();
         int result;
         result = categorie.doInsert(categoria);
@@ -82,17 +115,16 @@ class CategoriaDAOTest {
      * Versione: 0.1
      * Autore: Raffaele Scarpa
      */
+
+
     @Test
-    final void testDoUpdateCategoria() {
-        Categoria aggiorna = new Categoria(1, "Thriller", "Libri horror");
-        CategoriaDAO categorie = new CategoriaDAO();
-        int result = categorie.doUpdate(aggiorna);
+    public void testDoUpdateCategoria() {
+        System.out.println("doUpdateCategoria");
+        CategoriaDAO instance = new CategoriaDAO();
         int expResult = 0;
+        categoria.setDescrizione("modificato");
+        int result = instance.doUpdate(categoria);
         assertEquals(expResult, result);
-        
-        
-        Categoria updatedCategoria = categorie.doRetrieveById(aggiorna.getId());
-        assertEquals(updatedCategoria.getId(),aggiorna.getId());
     }
 
     /**
@@ -100,8 +132,11 @@ class CategoriaDAOTest {
      * Versione: 0.1
      * Autore: Raffaele Scarpa
      */
+
+
     @Test
-    final void testDoDeleteCategoria() {
+    public void testDoDeleteCategoria() {
+        System.out.println("doDeleteCategoria");
         CategoriaDAO categorie = new CategoriaDAO();
         int result = categorie.doDelete(categoria);
         int expResult = 0;
