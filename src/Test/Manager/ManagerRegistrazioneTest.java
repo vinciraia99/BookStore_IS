@@ -6,7 +6,9 @@ import Manager.ManagerRegistrazione;
 import Utils.DriverManagerConnectionPool;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @version 0.1
  * @since 01/03/2021
  */
-
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ManagerRegistrazioneTest {
 
     private static Indirizzo indirizzo ;
@@ -29,8 +31,8 @@ public class ManagerRegistrazioneTest {
 
     @BeforeClass
     public static void setUpClass() throws SQLException {
-       indirizzo = new Indirizzo("Via Carlo 5", "Salerno", "SA", 84012);
-       cliente =  new Cliente("piero@pelu.com", "Piero", "Password", "Piero", "Pelu", indirizzo);
+       indirizzo = new Indirizzo("Via Franco 5", "Torre Annunziata", "Na", 80120);
+       cliente =  new Cliente("paolo@fox.com", "account1", "password1", "Paolo", "Fox", indirizzo);
        managerRegistrazione = new ManagerRegistrazione();
     }
 
@@ -49,7 +51,7 @@ public class ManagerRegistrazioneTest {
      * Test of registraCliente method, of class ManagerRegistrazione.
      */
     @Test
-    public void registraCliente() {
+    public void aregistraCliente() {
         System.out.println("registraCliente");
         boolean result = managerRegistrazione.registraCliente(cliente.getEmail(),cliente.getUsername(),cliente.getPassword(),cliente.getNome(),cliente.getCognome(),cliente.getIndirizzo());
         boolean expresult = true;

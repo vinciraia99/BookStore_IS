@@ -3,10 +3,7 @@ package Manager;
 import DAO.ClienteDAO;
 import DAO.ManagerDAO;
 import DAO.ResponsabileCatalogoDAO;
-import Entities.Cliente;
-import Entities.Indirizzo;
-import Entities.Manager;
-import Entities.ResponsabileCatalogo;
+import Entities.*;
 
 /**
  * @author Vincenzo Raia
@@ -123,6 +120,20 @@ public class ManagerAccount {
             cliente.setIndirizzo(indirizzo);
             return clienteDAO.doUpdate(cliente) != -1;
 
+        }
+    }
+
+    /**
+     * Questo metodo permette di recuperare le info di un cliente
+     * @param account (Account) mostra le informazioni dell'account
+     * @return il cliente se esite, null altrimenti.
+     */
+    public Cliente recuperaCliente(Account account){
+        Cliente cliente = clienteDAO.doRetrieveById(account.getUsername());
+        if(cliente == null){
+            return null;
+        }else{
+            return cliente;
         }
     }
 }

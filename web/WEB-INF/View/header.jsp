@@ -33,34 +33,37 @@
     <div class="righttopnav">
         <c:if test = "${utente != null}">
         <div class="dropdown">
-            <c:if test = "${utente.admin == true}">
-            <button class="dropbtn">Gestione amministratore</button>
+            <c:if test = "${utente.tipo == \"M\"}">
+            <button class="dropbtn">Gestione Manager</button>
             </c:if>
-            <c:if test = "${utente.admin == false}">
+            <c:if test = "${utente.tipo == \"R\"}">
+                <button class="dropbtn">Gestione responsabile catagolo</button>
+            </c:if>
+            <c:if test = "${utente.tipo == \"C\"}">
             <button class="dropbtn">Gestione utente</button>
             </c:if>
             <div class="dropdown-content">
-                <a href="profilo"/>I miei dati</a>
-                <c:if test = "${utente.admin == false}">
+                <a href="visualizzaprofilo"/>I miei dati</a>
+                <c:if test = "${utente.tipo == \"C\"}">
                     <a href="ordini"/>I miei ordini</a>
                     <a href="preferiti"/>I miei libri preferiti</a>
                 </c:if>
 
-                <c:if test = "${utente.admin == true}">
+                <c:if test = "${utente.tipo == \"M\"}">
                     <a href="editlibro"/>Aggiungi libro</a>
                     <a href="editcategoria">Aggiungi categoria</a>
                     <a href="gestisciordini"/>Gestisci ordini utenti</a>
                     <a href="gestisciutenti"/>Gestisci utenti</a>
                 </c:if>
-                <a href="esci"/>Esci</a>
+                <a href="logout"/>Esci</a>
             </div>
         </div>
         </c:if>
         <c:if test = "${utente == null}">
         <a href="login">Accedi o iscriviti</a>
         </c:if>
-        <c:if test = "${utente == null || (utente != null && utente.admin == false)}">
-        <a href="carrello" id="carrellonavbar">Carrello (<c:if test = "${carrello == null}">0</c:if><c:if test = "${carrello != null}">${carrello.totprodotti}</c:if>)</a>
+        <c:if test = "${utente == null || (utente != null &&  utente.tipo == \"C\")}">
+        <a href="visualizzacarrello" id="carrellonavbar">Carrello (<c:if test = "${carrello == null}">0</c:if><c:if test = "${carrello != null}">${carrello.totaleProdotti}</c:if>)</a>
         </c:if>
 
     </div>

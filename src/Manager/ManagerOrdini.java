@@ -7,7 +7,10 @@ package Manager;
  */
 
 import DAO.OrdineDAO;
-import Entities.*;
+import Entities.Carrello;
+import Entities.Cliente;
+import Entities.LibroOrdinato;
+import Entities.Ordine;
 
 import java.util.ArrayList;
 import java.util.Calendar;

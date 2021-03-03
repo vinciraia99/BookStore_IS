@@ -2,7 +2,6 @@ package Entities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Vincenzo Raia
@@ -13,20 +12,24 @@ import java.util.Objects;
 public class Carrello {
 
     private List<LibroCarrello> libri;
+    private int totaleProdotti;
 
     public Carrello() {
         libri = new ArrayList<>();
+        totaleProdotti=0;
     }
 
     public void aggiungiLibro(Libro l){
         LibroCarrello libro = new LibroCarrello(l);
         for(LibroCarrello libroCarrello : libri){
             if(libroCarrello.equals(libro)){
-                Double q = libroCarrello.getQuantita();
+                int q = libroCarrello.getQuantita();
                 libroCarrello.setQuantita(++q);
+                totaleProdotti++;
                 return;
             }
         }
+        totaleProdotti++;
         libri.add(libro);
         return;
     }
@@ -35,22 +38,34 @@ public class Carrello {
         LibroCarrello libro = new LibroCarrello(l);
         for(LibroCarrello libroCarrello : libri){
             if(libroCarrello.equals(libro)){
+                int exquantita = libroCarrello.getQuantita();
                 libri.remove(libro);
+                totaleProdotti= totaleProdotti - exquantita;
                 return;
             }
         }
 
     }
 
-    public boolean modificaQuantitaLibro(Libro l,double quantita){
+    public boolean modificaQuantitaLibro(Libro l,int quantita){
         LibroCarrello libro = new LibroCarrello(l);
         for(LibroCarrello libroCarrello : libri){
             if(libroCarrello.equals(libro)){
+                int exquantita = libroCarrello.getQuantita();
                libroCarrello.setQuantita(quantita);
+                totaleProdotti= (totaleProdotti - exquantita) + quantita;
                return true;
             }
         }
         return false;
+    }
+
+    public int getTotaleProdotti() {
+        return totaleProdotti;
+    }
+
+    public void setTotaleProdotti(int totaleProdotti) {
+        this.totaleProdotti = totaleProdotti;
     }
 
     public List<LibroCarrello> getLibri() {
@@ -63,9 +78,9 @@ public class Carrello {
 
     public class LibroCarrello{
         private Libro libro;
-        private double quantita;
+        private int quantita;
 
-        public LibroCarrello(Libro libro, double quantita) {
+        public LibroCarrello(Libro libro, int quantita) {
             this.libro = libro;
             this.quantita = quantita;
         }
@@ -84,11 +99,11 @@ public class Carrello {
             this.libro = libro;
         }
 
-        public double getQuantita() {
+        public int getQuantita() {
             return quantita;
         }
 
-        public void setQuantita(double quantita) {
+        public void setQuantita(int quantita) {
             this.quantita = quantita;
         }
 

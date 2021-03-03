@@ -2,7 +2,6 @@ package Test.Manager;
 
 import Entities.Carrello;
 import Entities.Libro;
-import Entities.LibroOrdinato;
 import Manager.ManagerCarrello;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -11,11 +10,9 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Vincenzo Raia

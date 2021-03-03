@@ -2,12 +2,12 @@ package Test.Manager;
 
 import DAO.ClienteDAO;
 import DAO.ManagerDAO;
+import Entities.Account;
 import Entities.Cliente;
 import Entities.Indirizzo;
 import Entities.Manager;
-import Manager.*;
+import Manager.ManagerAccount;
 import Utils.DriverManagerConnectionPool;
-import com.mysql.cj.xdevapi.Client;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -18,7 +18,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Vincenzo Raia
@@ -29,15 +29,17 @@ import static org.junit.jupiter.api.Assertions.*;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ManagerAccountTest {
 
-    public static Indirizzo indirizzocliente;
-    public static Cliente cliente;
-    public static Manager manager;
-    public static ClienteDAO clienteDAO;
-    public static ManagerDAO managerDAO;
+    private static Indirizzo indirizzocliente;
+    private static Cliente cliente;
+    private static Manager manager;
+    private static ClienteDAO clienteDAO;
+    private static ManagerDAO managerDAO;
+    private static ManagerAccount managerAccount;
     private static Connection con;
 
     @BeforeClass
     public static void setUpClass() throws SQLException {
+        managerAccount = new ManagerAccount();
         con = DriverManagerConnectionPool.getConnection();
         indirizzocliente = new Indirizzo("libertà", "Roccabascerana", "AV", 83016, "Da consegnare al piano");
         clienteDAO =  new ClienteDAO();
@@ -62,9 +64,9 @@ public class ManagerAccountTest {
     public void modificaPassword() {
         System.out.println("modificaPassword");
         String newPsw = "pass233454356";
-        ManagerAccount instance = new ManagerAccount();
+        managerAccount = new ManagerAccount();
         boolean expResult = true;
-        boolean result = instance.modificaPassword(cliente.getUsername(),newPsw,cliente.getPassword());
+        boolean result = managerAccount.modificaPassword(cliente.getUsername(),newPsw,cliente.getPassword());
         assertEquals(expResult, result);
     }
 
@@ -74,10 +76,8 @@ public class ManagerAccountTest {
     @Test
     public void modificaDatiPersonali() {
         System.out.println("modificaDatiPersonali");
-        Cliente cliente = new Cliente("nuoovamail@mail.com","utente2","1234pas","Francesco","cracco");
-        cliente.setIndirizzo(indirizzocliente);
-        int result =  clienteDAO.doUpdate(cliente);
-        int expResult = 0;
+        boolean result =  managerAccount.modificaDatiPersonali("nuoovamail@mail.com","utente2","1234pas","Francesco","cracco");
+        boolean expResult = true;
         assertEquals(expResult, result);
     }
 
@@ -89,9 +89,22 @@ public class ManagerAccountTest {
         System.out.println("modificaIndirizzo");
         Indirizzo expResult = cliente.getIndirizzo();
         expResult.setVia("romagna");
-        clienteDAO.doUpdate(cliente);
+        managerAccount.modificaIndirizzo(expResult.getVia(),expResult.getComune(),expResult.getProvincia(),expResult.getNotecorriere(),expResult.getCap(),cliente.getUsername(),cliente.getPassword());
         Cliente ne = clienteDAO.doRetrieveById(cliente.getUsername(),cliente.getPassword());
         Indirizzo result = ne.getIndirizzo();
+        assertEquals(expResult.getVia(),result.getVia());
+    }
+
+    /**
+     * Test of recuperaCliente method, of class ManagerAccount.
+     */
+    @Test
+    public void recuperaCliente(){
+        System.out.println("recuperaCliente");
+        Account account = cliente;
+        Cliente clienteget = managerAccount.recuperaCliente(account);
+        Indirizzo expResult = cliente.getIndirizzo();
+        Indirizzo result = clienteget.getIndirizzo();
         assertEquals(expResult.getVia(),result.getVia());
     }
 }

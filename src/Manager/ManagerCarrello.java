@@ -42,7 +42,7 @@ public class ManagerCarrello {
      * @param quantita (double) contiene le informazioni sulla quantità da modificare.
      * @return boolean true se la modifica è andata a buon fine, false altrimenti.
      */
-    public boolean modificaQuantitaCarrello(Carrello carrello, Libro libro, double quantita){
+    public boolean modificaQuantitaCarrello(Carrello carrello, Libro libro, int quantita){
         return carrello.modificaQuantitaLibro(libro, quantita);
     }
 

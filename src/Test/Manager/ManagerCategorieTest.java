@@ -1,9 +1,7 @@
 package Test.Manager;
 
 import DAO.CategoriaDAO;
-import Entities.Carrello;
 import Entities.Categoria;
-import Manager.ManagerCarrello;
 import Manager.ManagerCategorie;
 import Utils.DriverManagerConnectionPool;
 import org.junit.AfterClass;
@@ -12,7 +10,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import javax.xml.crypto.OctetStreamData;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

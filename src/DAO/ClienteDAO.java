@@ -25,7 +25,7 @@ public class ClienteDAO extends DAO<Cliente> {
     private final String doUpdateQuery = "UPDATE Account SET nome = ?, cognome = ?, email = ?, password = ? WHERE username = ? and tipo =\"C\"";
     private final String doUpdateEmail = "UPDATE Account SET email = ? WHERE username = ? and tipo =\"C\"";
     private final String doUpdatePassword = "UPDATE Account SET password = ? WHERE username = ? and tipo =\"C\"";
-    private final String doUpdateCeckMailQuery = "UPDATE Account SET abilitato = 1 WHERE username = ? and email = ? and tipo =\"C\"";
+    private final String doUpdateCeckMailQuery = "UPDATE Account SET abilitato = 1 WHERE username = ? and tipo =\"C\"";
     private final String doChangeClienteQuery = "UPDATE Account SET abilitato = ? WHERE username = ? and tipo =\"C\"";
 
     @Override
@@ -218,22 +218,22 @@ public class ClienteDAO extends DAO<Cliente> {
     /**
      * Metodo che abilita un cliente nel Database
      *
-     * @param username,email da verifica.
+     * @param username valore chiave del cliente.
      * @return 0 se tutto ok altrimenti -1
      */
 
-    public int doUpdateAccessCeckMail(String username, String email){
+    public int doUpdateAccessCeckMail(String username){
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             try {
                 PreparedStatement prst = con.prepareStatement(doUpdateCeckMailQuery);
                 prst.setString(1, username);
-                prst.setString(2, email);
                 prst.execute();
                 con.commit();
                 prst.close();
                 return 0;
             } catch (SQLException e) {
+                e.printStackTrace();
                 con.rollback();
                 return -1;
             } finally {
@@ -241,6 +241,7 @@ public class ClienteDAO extends DAO<Cliente> {
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
             return -1;
         }
     }

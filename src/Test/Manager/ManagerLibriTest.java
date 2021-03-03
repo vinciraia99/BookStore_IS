@@ -10,7 +10,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-import Entities.*;
 import org.junit.runners.MethodSorters;
 
 import java.sql.Connection;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Vincenzo Raia

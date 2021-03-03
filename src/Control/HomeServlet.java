@@ -3,9 +3,7 @@ package Control;
 import Entities.Categoria;
 import Entities.Libro;
 import Manager.ManagerCategorie;
-
 import Manager.ManagerLibri;
-
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

@@ -49,7 +49,11 @@ public class ManagerRegistrazione {
      */
     public boolean confermaRegistrazione(String username,String email){
 
-        return clienteDAO.doUpdateAccessCeckMail(username, email) != -1;
+        Cliente cliente = clienteDAO.doRetrieveById(username);
+        if(cliente!=null && (!cliente.getEmail().equals(email))){
+            return false;
+        }
+        return clienteDAO.doUpdateAccessCeckMail(username) != -1;
     }
 }
 

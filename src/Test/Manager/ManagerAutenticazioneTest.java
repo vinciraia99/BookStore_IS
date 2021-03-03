@@ -4,12 +4,12 @@ import DAO.ClienteDAO;
 import Entities.Account;
 import Entities.Cliente;
 import Entities.Indirizzo;
-import Entities.Manager;
+import Manager.ManagerAutenticazione;
+import Manager.ManagerRegistrazione;
 import Utils.DriverManagerConnectionPool;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import Manager.*;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Connection;

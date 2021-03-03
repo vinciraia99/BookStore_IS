@@ -6,19 +6,18 @@ import Entities.Account;
 import Entities.Cliente;
 import Entities.Indirizzo;
 import Entities.Manager;
+import Manager.ManagerAmministrazione;
 import Utils.DriverManagerConnectionPool;
-import com.mysql.cj.xdevapi.Client;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import Manager.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Vincenzo Raia

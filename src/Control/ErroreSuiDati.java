@@ -8,10 +8,10 @@ import javax.servlet.ServletException;
  * @since 01/03/2021
  */
 
-public class MyServletException extends ServletException {
+public class ErroreSuiDati extends ServletException {
     private static final long serialVersionUID = -8976023136478643816L;
 
-    public MyServletException(String message) {
+    public ErroreSuiDati(String message) {
         super(message);
     }
 
