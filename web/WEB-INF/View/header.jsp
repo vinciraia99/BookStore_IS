@@ -46,14 +46,15 @@
                 <a href="visualizzaprofilo"/>I miei dati</a>
                 <c:if test = "${utente.tipo == \"C\"}">
                     <a href="ordini"/>I miei ordini</a>
-                    <a href="preferiti"/>I miei libri preferiti</a>
                 </c:if>
 
-                <c:if test = "${utente.tipo == \"M\"}">
+                <c:if test = "${utente.tipo == \"M\" && utente.tipo == \"R\"}">
                     <a href="editlibro"/>Aggiungi libro</a>
                     <a href="editcategoria">Aggiungi categoria</a>
+                <c:if test = "${utente.tipo == \"M\"}">
                     <a href="gestisciordini"/>Gestisci ordini utenti</a>
                     <a href="gestisciutenti"/>Gestisci utenti</a>
+                </c:if>
                 </c:if>
                 <a href="logout"/>Esci</a>
             </div>

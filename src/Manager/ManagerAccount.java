@@ -64,12 +64,12 @@ public class ManagerAccount {
      * @param cognome (String) cognome dell'utente che vuole modificare i dati personali.
      * @return boolean true se la modifica è andata a buon fine, false altrimenti.
      */
-    public boolean modificaDatiPersonali(String email, String username,String password, String nome, String cognome){
+    public boolean modificaDatiPersonali(String email, String username, String nome, String cognome){
 
-        Cliente cliente=  clienteDAO.doRetrieveById(username,password);
+        Cliente cliente=  clienteDAO.doRetrieveById(username);
 
         if(cliente== null){
-            Manager manager = managerDAO.doRetrieveById(username,password);
+            Manager manager = managerDAO.doRetrieveById(username);
             if(manager== null){
                 ResponsabileCatalogo responsabileCatalogo = responsabileCatalogoDAO.doRetrieveById(username);
                 if(responsabileCatalogo == null){
@@ -136,4 +136,5 @@ public class ManagerAccount {
             return cliente;
         }
     }
+
 }

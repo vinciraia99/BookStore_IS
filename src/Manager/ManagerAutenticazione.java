@@ -30,20 +30,22 @@ public class ManagerAutenticazione {
         ManagerDAO managerDAO = new ManagerDAO();
         ResponsabileCatalogoDAO responsabileCatalogoDAO = new ResponsabileCatalogoDAO();
 
-        Account  account  = clienteDAO.doRetrieveById(username,password);
+        Account  account  = clienteDAO.doRetrieveById(username);
         if(account == null){
-            account = managerDAO.doRetrieveById(username,password);
+            account = managerDAO.doRetrieveById(username);
             if(account == null){
-                 account = responsabileCatalogoDAO.doRetrieveById(username,password);
-                return account;
-            }else{
-                return account;
+                 account = responsabileCatalogoDAO.doRetrieveById(username);
             }
-        }else if(account.getAbilitato() == true){
-            return account;
-        }else {
+        }else if(account.getAbilitato() != true){
             return null;
         }
+
+        if(account.getPassword().equals(password)){
+            return account;
+        }
+
+        return null;
+
     }
 
     /**

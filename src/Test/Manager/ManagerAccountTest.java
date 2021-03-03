@@ -76,7 +76,7 @@ public class ManagerAccountTest {
     @Test
     public void modificaDatiPersonali() {
         System.out.println("modificaDatiPersonali");
-        boolean result =  managerAccount.modificaDatiPersonali("nuoovamail@mail.com","utente2","1234pas","Francesco","cracco");
+        boolean result =  managerAccount.modificaDatiPersonali("nuoovamail@mail.com","utente2","Francesco","cracco");
         boolean expResult = true;
         assertEquals(expResult, result);
     }

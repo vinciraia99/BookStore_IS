@@ -74,8 +74,8 @@ public class CategoriaDAOTest {
             if(categoria2.getNome().equals(categoria.getNome()))
                 result = categoria2;
         };
-        int expResult = categoria.getId();
-        assertEquals(expResult, result.getId());
+        String expResult = categoria.getNome();
+        assertEquals(expResult, result.getNome());
     }
 
     /**

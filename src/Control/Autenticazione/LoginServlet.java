@@ -48,7 +48,7 @@ public class LoginServlet extends HttpServlet {
 
             utente = managerAutenticazione.login(username,password);
             if(utente == null){
-                throw new ErroreSuiDati("Account non esistente o non abilitato");
+                throw new ErroreSuiDati("Account non esistente o non abilitato"); //da migliorare
             }
 
 
