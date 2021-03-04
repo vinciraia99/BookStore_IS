@@ -24,7 +24,6 @@
         <div class="card">
             <div class="contact-container">
                 <form enctype="multipart/form-data"  action="caricalibro" method="post" id="addlibro">
-                    <c:if test = "${libro.numberisbn == null}">
                         <div class="row">
                             <div class="col-25">
                                 <label id="lisbn" for="isbn">ISBN*</label>
@@ -44,7 +43,6 @@
                             </div>
 
                         </div>
-                    </c:if>
                     <div class="row">
                         <div class="col-25">
                             <label for="titolo">Titolo*</label></div>

@@ -35,11 +35,10 @@
                                         type="text"
                                         id="isbn"
                                         name="isbn"
-                                        placeholder="ISBN"
                                         value="${libro.numberisbn}"
                                         required
+                                        readonly
                                         pattern="^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$"
-                                        title="L'isbn deve essere lungo 13 caratteri e contenere solo numeri"
                                 />
                             </div>
 

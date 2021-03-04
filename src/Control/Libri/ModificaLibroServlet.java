@@ -26,8 +26,8 @@ import java.util.*;
  * @since 04/03/2021
  */
 
-@WebServlet("/aggiungilibro")
-public class AggiungiLibroServlet extends HttpServlet {
+@WebServlet("/modificalibro")
+public class ModificaLibroServlet extends HttpServlet {
 
     private static final String CARTELLA_UPLOAD = "img";
 
@@ -47,7 +47,7 @@ public class AggiungiLibroServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        Account user = (Account) session.getAttribute("utente");
+        Account user = (Account) session.getAttribute("account");
         if (user != null && user.getAbilitato() == true) {
             float prezzo = Integer.parseInt(request.getParameter("prezzo"));
             double quantita = Integer.parseInt(request.getParameter("ndisp"));
@@ -100,10 +100,6 @@ public class AggiungiLibroServlet extends HttpServlet {
                 errore = errore + "Il campo isbn deve contenere solo numeri e deve essere lungo 13 caratteri<br>";
             }
 
-            ManagerLibri manager = new ManagerLibri();
-            if(manager.acquisisciLibro(ISBN) != null){
-                errore = errore + "Esiste già un libro con questo isbn<br>";
-            }
 
             if(pubblicazione == null){
                 errore = errore + "Il campo anno pubblicazioni non può essere vuoto<br>";
@@ -125,10 +121,10 @@ public class AggiungiLibroServlet extends HttpServlet {
                 throw new MyServletException("Sono stati trovati i seguenti errori:<br><br>" + errore);
             }
 
-            Libro libro = null;
+            String fileName = null;
 
             if(filePart.getSize() != 0){
-                String fileName = Paths.get(filePart.getName()).getFileName().toString();
+                fileName = Paths.get(filePart.getName()).getFileName().toString();
                 String destinazione = CARTELLA_UPLOAD + File.separator + fileName;
                 Path pathDestinazione = Paths.get(getServletContext().getRealPath(destinazione));
                 for (int i = 2; Files.exists(pathDestinazione); i++) {
@@ -139,21 +135,11 @@ public class AggiungiLibroServlet extends HttpServlet {
                 InputStream fileInputStream = filePart.getInputStream();
                 Files.createDirectories(pathDestinazione.getParent());
                 Files.copy(fileInputStream, pathDestinazione);
-                libro.setCopertina(fileName);
             }
 
-
-            libro.setIsbn(ISBN);
-            libro.setAutori(Autori);
-            libro.setTitolo(Titolo);
-            libro.setCategorie(listCatform);
-            libro.setQuantita(quantita);
-            libro.setTrama(Descrizione);
-            libro.setData_pubblicazione(pubblicazione);
-            libro.setPrezzo(prezzo);
-
-            manager.aggiuntaLibro(libro);
-            response.sendRedirect("visualizzalibro?isbn="+ libro.getIsbn());
+            ManagerLibri manager = new ManagerLibri();
+            manager.modificaLibro(ISBN,Titolo,Descrizione,pubblicazione,prezzo,quantita,fileName,false,Autori);
+            response.sendRedirect("visualizzalibro?isbn="+ ISBN);
 
         } else {
             throw new MyServletException("Sezione dedicata ai soli amministratori, perfavore prima fai il login");
