@@ -27,6 +27,16 @@
                 <li><b>Email:</b>${utente.email}</li>
             </ul>
         </div>
+        <c:if test = "${utente.getTipo() == \"C\"}">
+            <div class="card">
+                <h2>Il mio indirizzo</h2>
+                <li><b>Via: </b>${utente.getIndirizzo().getVia()}</li>
+                <li><b>Comune: </b>${utente.getIndirizzo().getComune()}</li>
+                <li><b>Provincia: </b>${utente.getIndirizzo().getProvincia()}</li>
+                <li><b>Cap: </b>${utente.getIndirizzo().getCap()}</li>
+                <li><b>Note: </b>${utente.getIndirizzo().getNotecorriere()}</li>
+            </div>
+        </c:if>
     <div class="card">
         <h2>Cambia password</h2>
         <div class="contact-container" style="display: grid">
@@ -161,7 +171,7 @@
             <div class="card">
                 <h2>Modifica Indirizzo</h2>
                 <div class="contact-container" style="display: grid">
-                    <form action = modificaindirizzoserlvet>
+                    <form action = "modificaindirizzo">
                         <div class="row">
                             <div class="col-25">
                                 <label for="Via">Via</label>
@@ -169,12 +179,11 @@
                             <div class="col-75">
                                 <input
                                         type="text"
-                                        id="Via"
-                                        name="Via"
-                                        placeholder="Via Roma 21"
+                                        id="via"
+                                        name="via"
+                                        placeholder="Es . Via Roma 21"
                                         value="${utente.getIndirizzo().getVia()}"
                                         autocomplete="on"
-                                        pattern="[A-Za-z0-9'\.\-\s\,]"
                                         required
                                 />
                             </div>
@@ -189,7 +198,7 @@
                                         id="comune"
                                         name="comune"
                                         value="${utente.getIndirizzo().getComune()}"
-                                        placeholder="Ostia"
+                                        placeholder="Es . Ostia"
                                         autocomplete="on"
                                         pattern="[A-Za-z]{2,}$"
                                         required
@@ -206,7 +215,7 @@
                                         id="provincia"
                                         name="provincia"
                                         value="${utente.getIndirizzo().getProvincia()}"
-                                        placeholder="Roma"
+                                        placeholder="Es . Roma"
                                         autocomplete="on"
                                         pattern="[A-Za-z]{2,}$"
                                         required
@@ -223,9 +232,9 @@
                                         id="cap"
                                         name="cap"
                                         value="${utente.getIndirizzo().getCap()}"
-                                        placeholder="84012"
+                                        placeholder="Es . 84012"
                                         autocomplete="on"
-                                        pattern="[0-9]{5}$"
+                                        pattern="[0-9]{2,6}$"
                                         required
                                 />
                             </div>
@@ -240,9 +249,8 @@
                                         id="note"
                                         name="note"
                                         value="${utente.getIndirizzo().getNotecorriere()}"
-                                        placeholder="Chiamare il numero 000-0000000"
+                                        placeholder="Es . Chiamare il numero 000-0000000"
                                         autocomplete="on"
-                                        pattern="[A-Za-z][0-9]$"
                                 />
                             </div>
                         </div>

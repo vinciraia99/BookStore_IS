@@ -18,7 +18,9 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * @author Raffaele Scarpa
@@ -42,13 +44,20 @@ public class AggiungiLibroServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        throw new MyServletException("Metodo non permesso");
+        HttpSession session = request.getSession();
+        Account user = (Account) session.getAttribute("utente");
+        if (user != null && (!user.getTipo().equals("C"))) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/View/aggiungi-libro.jsp");
+            dispatcher.forward(request,response);
+        }else{
+            throw new MyServletException("Sezione dedicata ai soli amministratori, perfavore prima fai il login");
+        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Account user = (Account) session.getAttribute("utente");
-        if (user != null && user.getAbilitato() == true) {
+        if (user != null && (!user.getTipo().equals("C"))) {
             float prezzo = Integer.parseInt(request.getParameter("prezzo"));
             double quantita = Integer.parseInt(request.getParameter("ndisp"));
             String errore = "";
@@ -72,14 +81,8 @@ public class AggiungiLibroServlet extends HttpServlet {
             ArrayList<Categoria> listCatform = new ArrayList<Categoria>();
             int id = -1;
             for (int i = 0; i < listCat.size(); i++) {
-                try {
-                    String f = request.getParameter(String.valueOf(listCat.get(i).getId()));
-                    if (f != null) id = Integer.parseInt(f);
-                } catch (NumberFormatException er) {
-                    errore = errore + "Il campo categoria non é valido<br>";
-                    break;
-                }
-                if (listCat.get(i).getId() == id) {
+                String f = request.getParameter(String.valueOf(listCat.get(i).getNome()));
+                if (listCat.get(i).getNome().equals(f)) {
                     listCatform.add(listCat.get(i));
                 }
             }

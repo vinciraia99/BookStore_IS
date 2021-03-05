@@ -281,6 +281,5 @@ public class CategoriaDAO extends DAO<Categoria> {
             return -1;
         }
     }
-    }
-
+}
 

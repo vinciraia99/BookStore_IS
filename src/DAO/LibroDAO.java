@@ -171,10 +171,10 @@ public class LibroDAO extends DAO<Libro> {
                             }
                         }
                         for (Categoria c : categorie){
-                                if(doInsertRelationLibriCategoria(libro,c) == -1){
-                                    con.rollback();
-                                    return -1;
-                                }
+                            if(doInsertRelationLibriCategoria(libro,c) == -1){
+                                con.rollback();
+                                return -1;
+                            }
                         }
                         return 0;
                     }else {

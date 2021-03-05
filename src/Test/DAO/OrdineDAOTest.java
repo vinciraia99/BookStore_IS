@@ -91,7 +91,7 @@ public class OrdineDAOTest {
         PreparedStatement prst6 = con.prepareStatement("Delete from indirizzo where username = '" + cliente.getUsername() + "'");
         PreparedStatement prst7 = con.prepareStatement("Delete from account where username = '" + cliente.getUsername() + "'");
         PreparedStatement prst8 = con.prepareStatement("Delete from categoria where nome = '" + categoria.getNome() + "'");
-        PreparedStatement prst9 = con.prepareStatement("Delete from librocategoria where id = '" + categoria.getId() + "'");
+        PreparedStatement prst9 = con.prepareStatement("Delete from librocategoria where nome = '" + categoria.getNome() + "'");
 
         prst3.execute();
         prst6.execute();

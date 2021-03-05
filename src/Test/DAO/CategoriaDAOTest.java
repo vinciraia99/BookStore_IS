@@ -70,7 +70,6 @@ public class CategoriaDAOTest {
         CategoriaDAO categorie = new CategoriaDAO();
         List<Categoria> lista = categorie.doRetrieveAll();
         for (Categoria categoria2 : lista ){
-            System.out.println(categoria2.getNome());
             if(categoria2.getNome().equals(categoria.getNome()))
                 result = categoria2;
         };

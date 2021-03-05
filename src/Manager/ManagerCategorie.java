@@ -18,6 +18,11 @@ public class ManagerCategorie {
      * @return true se si è riusciti ad aggiungere la categoria, false altrimenti
      */
     public boolean aggiungiCategoria(String nome,String descrizione){
+        for(Categoria c :  categoriaDAO.doRetrieveAll()){
+            if(c.getNome().equals(nome)){
+                return false;
+            }
+        }
         Categoria categoria = new Categoria(nome,descrizione);
         return categoriaDAO.doInsert(categoria) != -1;
     }

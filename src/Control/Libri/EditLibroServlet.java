@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.security.cert.CertificateRevokedException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -51,7 +50,7 @@ public class EditLibroServlet extends HttpServlet {
             while (iter1.hasNext()) {//iterazione sulle categorie da rimuovere
                 current = iter1.next();
                 for(int i=0;i<libro.getCategorie().size();i++){
-                    if(current.getId() == libro.getCategorie().get(i).getId()){
+                    if(current.getNome().equals(libro.getCategorie().get(i).getNome())){
                         iter1.remove();
                         break;
                     }

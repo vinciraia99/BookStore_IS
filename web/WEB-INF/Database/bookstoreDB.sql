@@ -79,7 +79,7 @@ CREATE TABLE `autore`
 CREATE TABLE `categoria`
 (
     `id`          int          NOT NULL AUTO_INCREMENT,
-    `nome`        varchar(100) NOT NULL,
+    `nome`        varchar(100) NOT NULL unique,
     `descrizione` text         NOT NULL,
     PRIMARY KEY (`id`)
 );
@@ -101,5 +101,4 @@ CREATE TABLE `librocategoria`
     FOREIGN KEY (`id`) REFERENCES categoria (`id`) on update cascade on delete cascade,
     FOREIGN KEY (`ISBN`) REFERENCES libro (`ISBN`) on update cascade on delete cascade
 );
-
 

@@ -25,48 +25,48 @@
         <button class="dropbtn">Categorie</button>
         <div class="dropdown-content">
             <c:forEach items="${categorie}" var="categoria">
-                    <a href="visualizzacategoria?id=<c:out value="${categoria.id}"/>"><c:out
-                            value="${categoria.nome}" /></a>
+                <a href="visualizzacategoria?id=<c:out value="${categoria.id}"/>"><c:out
+                        value="${categoria.nome}" /></a>
             </c:forEach>
         </div>
     </div>
     <div class="righttopnav">
         <c:if test = "${utente != null}">
-        <div class="dropdown">
-            <c:if test = "${utente.tipo == \"M\"}">
-            <button class="dropbtn">Gestione Manager</button>
-            </c:if>
-            <c:if test = "${utente.tipo == \"R\"}">
-                <button class="dropbtn">Gestione responsabile catagolo</button>
-            </c:if>
-            <c:if test = "${utente.tipo == \"C\"}">
-            <button class="dropbtn">Gestione utente</button>
-            </c:if>
-            <div class="dropdown-content">
-                <a href="visualizzaprofilo"/>I miei dati</a>
-                <c:if test = "${utente.tipo == \"C\"}">
-                    <a href="ordini"/>I miei ordini</a>
-                </c:if>
-
-                <c:if test = "${utente.tipo == \"M\" && utente.tipo == \"R\"}">
-                    <a href="editlibro"/>Aggiungi libro</a>
-                    <a href="editcategoria">Aggiungi categoria</a>
+            <div class="dropdown">
                 <c:if test = "${utente.tipo == \"M\"}">
-                    <a href="gestisciordini"/>Gestisci ordini utenti</a>
-                    <a href="gestisciutenti"/>Gestisci utenti</a>
+                    <button class="dropbtn">Gestione Manager</button>
                 </c:if>
+                <c:if test = "${utente.tipo == \"R\"}">
+                    <button class="dropbtn">Gestione responsabile catagolo</button>
                 </c:if>
-                <a href="logout"/>Esci</a>
+                <c:if test = "${utente.tipo == \"C\"}">
+                    <button class="dropbtn">Gestione utente</button>
+                </c:if>
+                <div class="dropdown-content">
+                    <a href="visualizzaprofilo"/>I miei dati</a>
+                    <c:if test = "${utente.tipo == \"C\"}">
+                        <a href="ordini"/>I miei ordini</a>
+                    </c:if>
+
+                    <c:if test = "${utente.tipo == \"M\" || utente.tipo == \"R\"}">
+                        <a href="aggiungilibro"/>Aggiungi libro</a>
+                        <a href="aggiungicategoria">Aggiungi categoria</a>
+                        <c:if test = "${utente.tipo == \"M\"}">
+                            <a href="gestisciordini"/>Gestisci ordini utenti</a>
+                            <a href="gestisciutenti"/>Gestisci utenti</a>
+                        </c:if>
+                    </c:if>
+                    <a href="logout"/>Esci</a>
+                </div>
             </div>
-        </div>
         </c:if>
         <c:if test = "${utente == null}">
-        <a href="login">Accedi o iscriviti</a>
+            <a href="login">Accedi</a>
+            <a href="registrazionecliente">Registrati</a>
         </c:if>
         <c:if test = "${utente == null || (utente != null &&  utente.tipo == \"C\")}">
-        <a href="visualizzacarrello" id="carrellonavbar">Carrello (<c:if test = "${carrello == null}">0</c:if><c:if test = "${carrello != null}">${carrello.totaleProdotti}</c:if>)</a>
+            <a href="visualizzacarrello" id="carrellonavbar">Carrello (<c:if test = "${carrello == null}">0</c:if><c:if test = "${carrello != null}">${carrello.totaleProdotti}</c:if>)</a>
         </c:if>
 
     </div>
 </div>
-

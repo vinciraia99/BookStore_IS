@@ -89,7 +89,7 @@ public class ManagerAccountTest {
         System.out.println("modificaIndirizzo");
         Indirizzo expResult = cliente.getIndirizzo();
         expResult.setVia("romagna");
-        managerAccount.modificaIndirizzo(expResult.getVia(),expResult.getComune(),expResult.getProvincia(),expResult.getNotecorriere(),expResult.getCap(),cliente.getUsername(),cliente.getPassword());
+        managerAccount.modificaIndirizzo(expResult.getVia(),expResult.getComune(),expResult.getProvincia(),expResult.getNotecorriere(),expResult.getCap(),cliente.getUsername());
         Cliente ne = clienteDAO.doRetrieveById(cliente.getUsername(),cliente.getPassword());
         Indirizzo result = ne.getIndirizzo();
         assertEquals(expResult.getVia(),result.getVia());

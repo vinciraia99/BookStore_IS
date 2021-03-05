@@ -4,11 +4,9 @@ import Control.MyServletException;
 import Entities.Account;
 import Entities.Autore;
 import Entities.Categoria;
-import Entities.Libro;
 import Manager.ManagerCategorie;
 import Manager.ManagerLibri;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -18,7 +16,9 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * @author Raffaele Scarpa
@@ -70,16 +70,9 @@ public class ModificaLibroServlet extends HttpServlet {
 
             List<Categoria> listCat = new ManagerCategorie().acquisisciTutteLeCategorie();
             ArrayList<Categoria> listCatform = new ArrayList<Categoria>();
-            int id = -1;
             for (int i = 0; i < listCat.size(); i++) {
-                try {
-                    String f = request.getParameter(String.valueOf(listCat.get(i).getId()));
-                    if (f != null) id = Integer.parseInt(f);
-                } catch (NumberFormatException er) {
-                    errore = errore + "Il campo categoria non é valido<br>";
-                    break;
-                }
-                if (listCat.get(i).getId() == id) {
+                String f = request.getParameter(String.valueOf(listCat.get(i).getNome()));
+                if (listCat.get(i).getNome().equals(f)) {
                     listCatform.add(listCat.get(i));
                 }
             }

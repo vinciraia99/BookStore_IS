@@ -1,5 +1,6 @@
 package Control.Account;
 
+import Control.ErroreSuiDati;
 import Control.MyServletException;
 import Entities.Account;
 import Manager.ManagerAccount;
@@ -51,7 +52,7 @@ public class ModificaDatiPersonaliServlet extends HttpServlet {
                 error=error + "L'email é mal formata, l'email deve contere una @ e un . ad esempio: \"example@email.com\"<br>";
             }
             if(error.length() > 44){
-                request.setAttribute("avviso",error);
+                throw new ErroreSuiDati("Sono stati trovati i seguenti errori!" + error);
             }else{
                 user.setNome(nome);
                 user.setCognome(cognome);

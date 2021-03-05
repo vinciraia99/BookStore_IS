@@ -10,7 +10,7 @@
 <%@taglib prefix="c"
           uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="header.jsp">
-    <jsp:param name="pageTitle" value="${titolo}"/>
+    <jsp:param name="pageTitle" value="Aggiungi libro"/>
 </jsp:include>
 
 <div class="card ricerca_mobile">
@@ -19,11 +19,11 @@
 <div class="row">
     <div class="leftcolumn">
         <div class="card profile">
-            <h2>${titolo}</h2>
+            <h2>Aggiungi libro</h2>
         </div>
         <div class="card">
             <div class="contact-container">
-                <form enctype="multipart/form-data"  action="caricalibro" method="post" id="addlibro">
+                <form enctype="multipart/form-data"  action="aggiungilibro" method="post" id="addlibro">
                         <div class="row">
                             <div class="col-25">
                                 <label id="lisbn" for="isbn">ISBN*</label>
@@ -35,7 +35,6 @@
                                         id="isbn"
                                         name="isbn"
                                         placeholder="ISBN"
-                                        value="${libro.numberisbn}"
                                         required
                                         pattern="^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$"
                                         title="L'isbn deve essere lungo 13 caratteri e contenere solo numeri"
@@ -52,7 +51,6 @@
                                     id="titolo"
                                     name="titolo"
                                     placeholder="Titolo"
-                                    value="${libro.titolo}"
                                     pattern="^(?=.*[^\W_])[\w ]*$"
                                     required
                             />
@@ -61,7 +59,7 @@
                     </div>
                     <div class="row">
                         <div class="col-25">
-                            <label for="autore">Autori*</label>
+                            <label for="autore">Autori (Serparati con una virgola tra di loro)*</label>
                         </div>
                         <div class="col-75">
                             <input
@@ -69,8 +67,6 @@
                                     id="autore"
                                     name="autore"
                                     placeholder="Autore"
-                                    value="${autore.nome}"
-                                    pattern="^(?=.*[^\W_])[\w ]*$"
                                     required
                             />
                         </div>
@@ -97,12 +93,10 @@
                         </div>
                         <div class="col-75">
                             <input
-                                    type="number"
+                                    type="date"
                                     id="anno"
                                     name="anno"
                                     placeholder="Anno di pubblicazione"
-                                    pattern="^(([1-9]|0[1-9]|[12]\d|3[01])-([1-9]|0[1-9]|1[0-2])-[12]\d{3})$"
-                                    value="${libro.anno_pubblicazione}"
                                     required
                             />
                         </div>
@@ -163,10 +157,6 @@
                             <label id="categoria">Categoria(Puoi anche inserirne più di una)*</label>
                         </div>
                         <div class="col-75">
-                            <c:forEach items="${cecked}" var="cecked">
-                                <input type="checkbox" id="${cecked.id}" name="${cecked.id}" value="${cecked.id}" checked>
-                                <label for="${cecked.id}">${cecked.nome}</label><br>
-                            </c:forEach>
                             <c:forEach items="${categorie}" var="categoria">
                                 <input type="checkbox" id="${categoria.id}" name="${categoria.id}" value="${categoria.id}">
                                 <label for="${categoria.id}">${categoria.nome}</label><br>
@@ -182,81 +172,7 @@
         </div>
     </div>
 
-    <script> $(document).ready(function(){
-
-        $('#isbn').change(function () {
-            $.get({url: "ceckisbn?id=" + $("#isbn").val(), success: function(result){
-                    if(result == "no"){
-                        $("#isbn").css("border","2px solid red");
-                        $("#lisbn").css("color","red");
-                        alert("Un libro con questo isbn esiste giá");
-                    }else{
-                        $("#isbn").css("border","");
-                        $("#lisbn").css("color","black");
-                    }
-                }});
-
-        });
-
-        $('#anno').change(function () {
-            if (parseInt($("#anno").val()) > new Date().getFullYear()) {
-                $("#lanno").css("color", "red");
-                $("#anno").css("border","2px solid red");
-            }else{
-                $("#anno").css("border","2px solid green");
-                $("#lanno").css("color","black");
-            }
-        });
-
-
-        $('#addlibro').submit(function() {
-            var errore = "Sono stati trovati i seguenti errori:\n\n";
-
-            $.get({url: "ceckisbn?id=" + $("#isbn").val(), success: function(result){
-                    if(result == "no"){
-                        $("#isbn").css("border","2px solid red");
-                        $("#lisbn").css("color","red");
-                        errore = errore + "Un libro con questo isbn esiste giá\n";
-                    }else{
-                        $("#isbn").css("border","");
-                        $("#lisbn").css("color","black");
-                    }
-                }});
-
-            if(parseInt($("#anno").val()) > new Date().getFullYear()){
-                $("#lanno").css("color", "red");
-                $("#anno").css("border","2px solid red;");
-                errore = errore + "L'anno inserito da te non é valido, l'anno deve essere inferiore alla data attuale\n";
-            }
-
-            if ($("input[type=checkbox]").is(
-                ":checked")) {
-            } else {
-                errore = errore + "Devi selezionare almeno una categoria\n";
-                $("#categoria").css("color","red");
-            }
-
-            $.get({url: "ceckisbn?id=" + $("#isbn").val(), success: function(result){
-                    console.log(result);
-                    if(result == "no"){
-                        errore = errore + "Un libro con questo isbn esiste giá \n";
-                        $("#lisbn").css("color","red");
-                    }
-                }});
-
-            if(errore.length > 42){
-                alert(errore);
-                errore = "Sono stati trovati i seguenti errori:\n\n";
-                return false;
-            }else{
-                return true;
-            }
-        });
-
-
-    });
-
-
+    <script>
     function valida() {
         var fileInput =
             document.getElementById('img');

@@ -66,7 +66,7 @@ public class ManagerLibriTest {
         con = DriverManagerConnectionPool.getConnection();
         PreparedStatement prst3 = con.prepareStatement("delete from autore where nomecompleto = '" + autore.getnomecompleto() + "'");
         PreparedStatement prst6 = con.prepareStatement("delete from libroautore where isbn = '" + libro.getIsbn() + "'");
-        PreparedStatement prst4 = con.prepareStatement("delete from librocategoria where id = '" + categoria.getId() + "'");
+        PreparedStatement prst4 = con.prepareStatement("delete from librocategoria where nome = '" + categoria.getNome() + "'");
         PreparedStatement prst5 = con.prepareStatement("delete from categoria where nome = '" + categoria.getNome() + "'");
         PreparedStatement prst = con.prepareStatement("delete from libroautore where isbn = '" + libro.getIsbn() + "'");
         PreparedStatement prst2 = con.prepareStatement("delete from Libro where isbn = '" + libro.getIsbn() + "'");

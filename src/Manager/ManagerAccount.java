@@ -59,7 +59,6 @@ public class ManagerAccount {
      *Questo metodo permette di modificare i dati personali di un utente del sistema
      * @param username (String) username dell'utente che vuole modificare i dati personali.
      * @param email (String) email dell'utente che vuole modificare i dati personali.
-     * @param password (String) password dell'utente che vuole modificare i dati personali.
      * @param nome (String) nome dell'utente che vuole modificare i dati personali.
      * @param cognome (String) cognome dell'utente che vuole modificare i dati personali.
      * @return boolean true se la modifica è andata a buon fine, false altrimenti.
@@ -102,10 +101,9 @@ public class ManagerAccount {
      * @param noteCorriere (String) noteCorriere dell'utente che vuole modificare l'indirizzo.
      * @param cap (int) cap dell'utente che vuole modificare l'indirizzo.
      * @param username (String) username dell'utente che vuole modificare l'indirizzo.
-     * @param password (String) password dell'utente che vuole modificare l'indirizzo.
      * @return boolean true se la modifica è andata a buon fine, false altrimenti.
      */
-    public boolean modificaIndirizzo(String via, String comune,String provincia,String noteCorriere,int cap,String username,String password){
+    public boolean modificaIndirizzo(String via, String comune,String provincia,String noteCorriere,int cap,String username){
 
         Cliente cliente = clienteDAO.doRetrieveById(username);
         if(cliente == null){
@@ -135,6 +133,27 @@ public class ManagerAccount {
         }else{
             return cliente;
         }
+    }
+
+    //da inserire
+    public Account recuperaAccount(String username){
+        ClienteDAO clienteDAO = new ClienteDAO();
+        ManagerDAO managerDAO = new ManagerDAO();
+        ResponsabileCatalogoDAO responsabileCatalogoDAO = new ResponsabileCatalogoDAO();
+
+        Account  account  = clienteDAO.doRetrieveById(username);
+        if(account == null){
+            account = managerDAO.doRetrieveById(username);
+            if(account == null){
+                account = responsabileCatalogoDAO.doRetrieveById(username);
+            }
+        }
+        if(account == null){
+            return null;
+        }else{
+            return account;
+        }
+
     }
 
 }
