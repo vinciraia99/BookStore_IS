@@ -1,6 +1,6 @@
 package Control.Categorie;
 
-import Control.MyServletException;
+import Control.Eccezioni.MyServletException;
 import Entities.Categoria;
 import Manager.ManagerCategorie;
 

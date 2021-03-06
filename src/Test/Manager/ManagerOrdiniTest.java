@@ -40,7 +40,7 @@ public class ManagerOrdiniTest {
     public static void setUpClass() throws SQLException {
         managerOrdini = new ManagerOrdini();
         GregorianCalendar data_pubblicazione = new GregorianCalendar(2010,2,22);
-        libro = new Libro("124567282130", "test", 100d, "trama", 102F, "passt6", data_pubblicazione, true);
+        libro = new Libro("124567282130", "test", 100, "trama", 102F, "passt6", data_pubblicazione, true);
         autore = new Autore("Marco mengoni");
         List<Autore> autori = new ArrayList<>();
         autori.add(autore);
@@ -127,7 +127,11 @@ public class ManagerOrdiniTest {
     public void effettuaOrdine() {
         System.out.println("effettuaOrdine");
         carrello.aggiungiLibro(libro);
-        boolean result = managerOrdini.effettuaOrdine(cliente,carrello,"123","1234567891234567","2","2022");
+        int d = managerOrdini.effettuaOrdine(cliente,carrello);
+        boolean result = false;
+        if(d!=-1){
+            result = true;
+        }
         boolean expresult = true;
         assertEquals(expresult, result);
     }

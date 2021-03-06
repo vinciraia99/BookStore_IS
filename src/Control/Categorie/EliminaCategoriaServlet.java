@@ -1,7 +1,6 @@
 package Control.Categorie;
 
-import Control.ErroreSuiDati;
-import Control.MyServletException;
+import Control.Eccezioni.MyServletException;
 import Entities.Account;
 import Entities.Categoria;
 import Manager.ManagerCategorie;

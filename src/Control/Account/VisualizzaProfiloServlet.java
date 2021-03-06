@@ -1,6 +1,6 @@
 package Control.Account;
 
-import Control.MyServletException;
+import Control.Eccezioni.MyServletException;
 import Entities.Account;
 import Entities.Cliente;
 import Manager.ManagerAccount;

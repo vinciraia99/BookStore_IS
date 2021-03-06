@@ -36,7 +36,7 @@ public class CategoriaDAOTest {
 
     public CategoriaDAOTest(){
         categoria = new Categoria( 1, "Horror", "Libri horror");
-        libro = new Libro("1245672823", "test", 100d, "trama", 102F, "passt6", data_pubblicazione, true);
+        libro = new Libro("1245672823", "test", 100, "trama", 102F, "passt6", data_pubblicazione, true);
         List<Libro> libri = new ArrayList<>();
         libri.add(libro);
         categoria.setLibri(libri);

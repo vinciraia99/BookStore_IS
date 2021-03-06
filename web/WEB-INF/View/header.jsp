@@ -45,7 +45,7 @@
                 <div class="dropdown-content">
                     <a href="visualizzaprofilo"/>I miei dati</a>
                     <c:if test = "${utente.tipo == \"C\"}">
-                        <a href="ordini"/>I miei ordini</a>
+                        <a href="visualizzaordini"/>I miei ordini</a>
                     </c:if>
 
                     <c:if test = "${utente.tipo == \"M\" || utente.tipo == \"R\"}">

@@ -1,11 +1,10 @@
 package Control.Registrazione;
 
-import Control.ErroreSuiDati;
-import Control.MyServletException;
+import Control.Eccezioni.ErroreSuiDati;
+import Control.Eccezioni.MyServletException;
 import Entities.Account;
 import Entities.Indirizzo;
 import Manager.ManagerAccount;
-import Manager.ManagerAutenticazione;
 import Manager.ManagerRegistrazione;
 
 import javax.servlet.RequestDispatcher;
@@ -94,7 +93,7 @@ public class RegistrazioneClienteServlet extends HttpServlet {
                 errore = errore + "Valore note non ricevuto<br>";
             }
             String confermaPassword = request.getParameter("passwordconfirm");
-            if(confermaPassword== null || password==null || password.equals(confermaPassword)){
+            if(confermaPassword== null || password==null || password.equals(confermaPassword) == false){
                 errore = errore + "La password e la conferma password sono diverse <br>";
             }
             if(errore.length()>2){

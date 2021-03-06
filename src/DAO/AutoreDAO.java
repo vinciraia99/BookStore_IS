@@ -24,6 +24,7 @@ public class AutoreDAO {
     private final String doInsertQueryInAutore = "INSERT INTO Autore(nomecompleto) VALUES(?);";
     private final String doInsertQueryInLibroAutore = "INSERT INTO LibroAutore(id,isbn) VALUES(?,?);";
     private final String doUpdateQueryInAutore = "UPDATE Autore SET nomecompleto = ? where id= ? ";
+    private final String doRemoveRelationAutore = "Delete from libroautore where isbn =? ";
 
 
     protected List<Autore> doRetrieveByLibro(Libro libro) {
@@ -150,15 +151,11 @@ public class AutoreDAO {
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             try {
-                for (Autore a : autori) {
-                    if (a.getId() == -1) return -1;
-                    PreparedStatement prst = con.prepareStatement(doUpdateQueryInAutore);
-                    prst.setString(1, a.getnomecompleto());
-                    prst.setInt(2, a.getId());
+                    PreparedStatement prst = con.prepareStatement(doRemoveRelationAutore);
+                    prst.setString(1, libro.getIsbn());
                     try {
                         prst.execute();
                         con.commit();
-
                     } catch (SQLException e) {
                         con.rollback();
                         e.printStackTrace();
@@ -167,7 +164,7 @@ public class AutoreDAO {
                         prst.close();
                         DriverManagerConnectionPool.releaseConnection(con);
                     }
-                }
+                if(doInsertByLibro(libro) ==-1) return -1;
                 return 0;
             } catch (SQLException e) {
                 con.rollback();

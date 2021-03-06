@@ -31,7 +31,7 @@
 
                             <div class="col-75">
                                 <input
-                                        type="text"
+                                        type="number"
                                         id="isbn"
                                         name="isbn"
                                         placeholder="ISBN"
@@ -81,22 +81,22 @@
                           name="descrizione"
                           placeholder="Scrivi qui"
                           style="height: 200px;"
-                          pattern="^[A-Za-z0-9 !@#$%‘]+$"
                           required
-                  >${libro.descrizione}</textarea>
+                  ></textarea>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-25">
-                            <label id="lanno" for="anno">Anno di pubblicazione*</label>
+                            <label id="lanno" for="anno">Anno di pubblicazione (formato DD-MM-AAAA)*</label>
                         </div>
                         <div class="col-75">
                             <input
-                                    type="date"
+                                    type="text"
                                     id="anno"
                                     name="anno"
                                     placeholder="Anno di pubblicazione"
+                                    pattern="^(([1-9]|0[1-9]|[12]\d|3[01])-([1-9]|0[1-9]|1[0-2])-[12]\d{3})$"
                                     required
                             />
                         </div>
@@ -104,12 +104,10 @@
 
                     <div class="row">
                         <div class="col-25">
-                            <label for="img">Carica copertina <c:if test = "${libro.numberisbn != null}">(Se non vuoi modificare la copertina lascia il campo vuoto)</c:if></label>
+                            <label for="img">Carica copertina</label>
                         </div>
                         <div class="col-75">
-                            <input type="file"  onchange="valida()" name="img" id="img" accept="image/*" required <c:if test = "${libro.numberisbn == null}">
-                        </c:if>
-                            <p id="progressNumber"></p>
+                            <input type="file"  onchange="valida()" name="img" id="img" accept="image/*" required >
                         </div>
                     </div>
 
@@ -123,14 +121,12 @@
                                     id="prezzo"
                                     name="prezzo"
                                     placeholder="Prezzo"
-                                    value="${libro.prezzo}"
                                     step=0.01
                                     pattern="[0-9]"
                                     required
                             />
                         </div>
                     </div>
-                    <c:if test = "${libro== null}">
                         <div class="row">
 
                             <div class="col-25">
@@ -142,13 +138,12 @@
                                         id="ndisp"
                                         name="ndisp"
                                         placeholder="Numero libri disponibili"
-                                        value="${libro.numero_disponibili}"
                                         min="1"
                                         required
                                 />
                             </div>
                         </div>
-                    </c:if>
+
 
 
 

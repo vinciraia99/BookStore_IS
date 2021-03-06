@@ -14,7 +14,7 @@ import java.util.Objects;
 public class Libro {
     private String isbn;
     private String titolo;
-    private double quantita;
+    private int quantita;
     private String trama;
     private float prezzo;
     private String copertina; //path della copertina del libro
@@ -23,7 +23,7 @@ public class Libro {
     private List<Autore> autori;
     private List<Categoria> categorie;
 
-    public Libro(String isbn, String titolo, Double quantita, String trama, Float prezzo, String copertina, GregorianCalendar data_pubblicazione, boolean disabilitato, List<Autore> autori) {
+    public Libro(String isbn, String titolo, int quantita, String trama, Float prezzo, String copertina, GregorianCalendar data_pubblicazione, boolean disabilitato, List<Autore> autori) {
         this.isbn = isbn;
         this.titolo = titolo;
         this.quantita = quantita;
@@ -35,7 +35,7 @@ public class Libro {
         this.autori = autori;
     }
 
-    public Libro(String isbn, String titolo, Double quantita, String trama, Float prezzo, String copertina, GregorianCalendar data_pubblicazione, boolean disabilitato) {
+    public Libro(String isbn, String titolo, int quantita, String trama, Float prezzo, String copertina, GregorianCalendar data_pubblicazione, boolean disabilitato) {
         this.isbn = isbn;
         this.titolo = titolo;
         this.quantita = quantita;
@@ -47,7 +47,7 @@ public class Libro {
 
     }
 
-    public Libro(String isbn, String titolo, Double quantita, String trama, Float prezzo, String copertina, GregorianCalendar data_pubblicazione) {
+    public Libro(String isbn, String titolo, int quantita, String trama, Float prezzo, String copertina, GregorianCalendar data_pubblicazione) {
         this.isbn = isbn;
         this.titolo = titolo;
         this.quantita = quantita;
@@ -75,11 +75,11 @@ public class Libro {
         this.titolo = titolo;
     }
 
-    public Double getQuantita() {
+    public int getQuantita() {
         return quantita;
     }
 
-    public void setQuantita(Double quantita) {
+    public void setQuantita(int quantita) {
         this.quantita = quantita;
     }
 

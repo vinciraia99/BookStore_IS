@@ -38,7 +38,7 @@ public class OrdineDAO {
                 while (rs.next()) {
                     GregorianCalendar datadiacquisto = new GregorianCalendar();
                     datadiacquisto.setTimeInMillis(rs.getDate("datadiacquisto").getTime());
-                    Ordine ordine = new Ordine(rs.getDouble("quantita"), rs.getFloat("totale"), datadiacquisto, rs.getInt("id"), username);
+                    Ordine ordine = new Ordine(rs.getInt("quantita"), rs.getFloat("totale"), datadiacquisto, rs.getInt("id"), username);
                     ordine.setLibriOrdinati(libroOrdinatoDAO.doRetriveByOrderId(ordine));
                     ordini.add(ordine);
                 }
@@ -85,7 +85,7 @@ public class OrdineDAO {
                             }
                         }
                     }
-                    return 0;
+                    return ordine.getId();
                 } catch (SQLException e) {
                     con.rollback();
                     e.printStackTrace();
@@ -156,7 +156,7 @@ public class OrdineDAO {
                 while (rs.next()) {
                     GregorianCalendar datadiacquisto = new GregorianCalendar();
                     datadiacquisto.setTimeInMillis(rs.getDate("datadiacquisto").getTime());
-                    Ordine ordine = new Ordine(rs.getDouble("quantita"), rs.getFloat("totale"), datadiacquisto, rs.getInt("id"),rs.getString("username"));
+                    Ordine ordine = new Ordine(rs.getInt("quantita"), rs.getFloat("totale"), datadiacquisto, rs.getInt("id"),rs.getString("username"));
                     ordine.setLibriOrdinati(libroOrdinatoDAO.doRetriveByOrderId(ordine));
                     ordini.add(ordine);
                 }
@@ -189,7 +189,7 @@ public class OrdineDAO {
                 if (rs.next()) {
                     GregorianCalendar datadiacquisto = new GregorianCalendar();
                     datadiacquisto.setTimeInMillis(rs.getDate("datadiacquisto").getTime());
-                    Ordine ordine = new Ordine(rs.getDouble("quantita"), rs.getFloat("totale"), datadiacquisto, rs.getInt("id"),rs.getString("username"));
+                    Ordine ordine = new Ordine(rs.getInt("quantita"), rs.getFloat("totale"), datadiacquisto, rs.getInt("id"),rs.getString("username"));
                     ordine.setLibriOrdinati(libroOrdinatoDAO.doRetriveByOrderId(ordine));
                     return ordine;
                 }

@@ -28,7 +28,7 @@ public class CategoriaDAO extends DAO<Categoria> {
     private final String doUpdateQuery = "UPDATE Categoria SET nome = ?, descrizione = ? WHERE id = ?";
     private final String doDeleteQuery = "DELETE FROM Categoria WHERE id = ?";
     private final String doRetrieveByIdQuery = "SELECT * FROM Categoria WHERE id = ?";
-    private final String doRetrieveByIdRelation = "SELECT l.* FROM Categoria c, Libro l, librocategoria lc WHERE c.id = lc.id and l.isbn = lc.isbn and c.id = ?";
+    private final String doRetrieveByIdRelation = "SELECT l.* FROM Categoria c, Libro l, librocategoria lc WHERE c.id = lc.id and l.isbn = lc.isbn and c.id = ? and l.disabilitato =0";
 
     @Override
     public Categoria doRetrieveById(Object... ids) {
@@ -78,7 +78,7 @@ public class CategoriaDAO extends DAO<Categoria> {
                 while (rs.next()) {
                     GregorianCalendar dataPubblicazione = new GregorianCalendar();
                     dataPubblicazione.setTimeInMillis(rs.getDate("datapubblicazione").getTime());
-                    Libro libro = new Libro(rs.getString("isbn"), rs.getString("titolo"), rs.getDouble("quantita"), rs.getString("trama"), rs.getFloat("prezzo"), rs.getString("copertina"), dataPubblicazione, rs.getBoolean("disabilitato"));
+                    Libro libro = new Libro(rs.getString("isbn"), rs.getString("titolo"), rs.getInt("quantita"), rs.getString("trama"), rs.getFloat("prezzo"), rs.getString("copertina"), dataPubblicazione, rs.getBoolean("disabilitato"));
                     libri.add(libro);
                 }
 

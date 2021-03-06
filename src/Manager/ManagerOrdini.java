@@ -27,22 +27,14 @@ public class ManagerOrdini {
 
     /**
      * Questo metodo permette di effettuare un ordine e l’operazione di pagamento
-     * @param cvv (String) rappresenta il cvv
-     * @param pan (String) rappresenta il pan.
-     * @param meseScadenza (String) contiene le informazioni sul mese di scadenza della carta.
-     * @param annoScadenza (String) ccontiene le informazioni sull'anno di scadenza della carta.
      * @param libriOrdinati (Carrello) contiene le informazioni sul carrello.
      * @param cliente (Cliente) contiene le informazioni del cliente.
-     * @return boolean true se l'ordine è andato a buon fine, false altrimenti.
+     * @return id dell'ordine se l'ordine è andato a buon fine, -1 altrimenti.
      */
-    public boolean effettuaOrdine(Cliente cliente, Carrello libriOrdinati,String cvv, String pan, String meseScadenza, String annoScadenza){
+    public int effettuaOrdine(Cliente cliente, Carrello libriOrdinati){
 
         Calendar calendar = GregorianCalendar.getInstance();
-        if((cvv.length() != 3 &&  cvv.length() != 4) && (pan.length() != 16) && (Integer.parseInt(meseScadenza) <1 && Integer.parseInt(meseScadenza) >12) && (Integer.parseInt(annoScadenza) > calendar.get( Calendar.YEAR ) + 3)){
-            return false;
-        }
-        //I dati della carta non verranno usati perchè non è implementato un sistema di pagamento, abbiamo integrato i parametri per future implementazioni
-        double totalequantita = 0;
+        int totalequantita = 0;
         float totale = 0;
         for(Carrello.LibroCarrello l : libriOrdinati.getLibri()){
             totalequantita = totalequantita + l.getQuantita();
@@ -57,8 +49,9 @@ public class ManagerOrdini {
         }
         Ordine ordine = new Ordine(totalequantita,totale,oggi,cliente.getUsername());
         ordine.setLibriOrdinati(libri);
-        return ordineDAO.doInsert(ordine) == 0;
-
+        int r = ordineDAO.doInsert(ordine);
+        if(r!=-1){return r;}
+        else {return -1;}
     }
 
 

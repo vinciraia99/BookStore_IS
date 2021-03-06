@@ -12,14 +12,14 @@ import java.util.List;
 public class Ordine {
 
     private boolean spedito;
-    private double quantita;
+    private int quantita;
     private float totale;
     private GregorianCalendar dataDiAcquisto;
     private int id;
     private List<LibroOrdinato> libriOrdinati;
     private String username;
 
-    public Ordine(double quantita, float totale, GregorianCalendar dataDiAcquisto, int id, List<LibroOrdinato> libriOrdinati, String username) {
+    public Ordine(int quantita, float totale, GregorianCalendar dataDiAcquisto, int id, List<LibroOrdinato> libriOrdinati, String username) {
         this.spedito = false;
         this.quantita = quantita;
         this.totale = totale;
@@ -29,7 +29,7 @@ public class Ordine {
         this.username = username;
     }
 
-    public Ordine(double quantita, float totale, GregorianCalendar dataDiAcquisto, int id, String username) {
+    public Ordine(int quantita, float totale, GregorianCalendar dataDiAcquisto, int id, String username) {
         this.spedito = false;
         this.quantita = quantita;
         this.totale = totale;
@@ -38,7 +38,7 @@ public class Ordine {
         this.username = username;
     }
 
-    public Ordine(double quantita, float totale, GregorianCalendar dataDiAcquisto,String username) {
+    public Ordine(int quantita, float totale, GregorianCalendar dataDiAcquisto, String username) {
         this.spedito = false;
         this.quantita = quantita;
         this.totale = totale;
@@ -51,11 +51,11 @@ public class Ordine {
         return spedito;
     }
 
-    public double getQuantita() {
+    public int getQuantita() {
         return quantita;
     }
 
-    public void setQuantita(double quantita) {
+    public void setQuantita(int quantita) {
         this.quantita = quantita;
     }
 
@@ -97,6 +97,20 @@ public class Ordine {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public int getQuantitaByIsbn(String isbn){
+        for(LibroOrdinato l : libriOrdinati){
+            if(l.getIsbn().equals(isbn)){
+                return l.getQuantita();
+            }
+        }
+        return -1;
+    }
+
+    public String getDataString(){
+        String string = getDataDiAcquisto().get(GregorianCalendar.DATE) + "-" + ((int)getDataDiAcquisto().get(GregorianCalendar.MONTH)+1) + "-" + getDataDiAcquisto().get(GregorianCalendar.YEAR);
+        return string;
     }
 }
 

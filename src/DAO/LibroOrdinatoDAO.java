@@ -28,7 +28,7 @@ public class LibroOrdinatoDAO {
             try {
                 ResultSet rs = prst.executeQuery();
                 while (rs.next()) {
-                    LibroOrdinato libroOrdinato = new LibroOrdinato(rs.getInt("id"), rs.getDouble("quantita"), rs.getFloat("prezzo"), rs.getString("isbn"));
+                    LibroOrdinato libroOrdinato = new LibroOrdinato(rs.getInt("id"), rs.getInt("quantita"), rs.getFloat("prezzo"), rs.getString("isbn"));
                     libriOrdinati.add(libroOrdinato);
                 }
 

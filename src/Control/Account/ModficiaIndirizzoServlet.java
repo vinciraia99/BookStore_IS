@@ -1,7 +1,7 @@
 package Control.Account;
 
-import Control.ErroreSuiDati;
-import Control.MyServletException;
+import Control.Eccezioni.ErroreSuiDati;
+import Control.Eccezioni.MyServletException;
 import Entities.Cliente;
 import Manager.ManagerAccount;
 

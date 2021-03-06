@@ -1,9 +1,8 @@
 package Control.Registrazione;
 
-import Control.MyServletException;
+import Control.Eccezioni.MyServletException;
 import Entities.Account;
 import Manager.ManagerAccount;
-import Manager.ManagerAutenticazione;
 import Manager.ManagerRegistrazione;
 
 import javax.servlet.ServletException;

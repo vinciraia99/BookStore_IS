@@ -60,29 +60,22 @@ public class ManagerLibri {
 
     /**
      * Questo metodo permette la modifica di un libro all’interno del database di libri.
-     * @param isbn (String) isbn del libro
-     * @param titolo (String) titolo del libro
-     * @param trama (String) trama del libro
-     * @param dataPubblicazione (GregorianCalendar) data di pubblicazione del libro
-     * @param prezzo (Float) prezzo del libro
-     * @param quantita (Double) quantita di libri disponibili
-     * @param copertina (String) path della foto del libro
-     * @param disabilitato (boolean) booleano che indica se il libro è abilitato o meno
-     * @param autori (List<Autore>) lista degli autori del libro
+     * @param libro (Libro) oggetto contenente tutte le informazioni del libro
      * @return true se la modifica ha successo, false altrimenti
      */
-    public boolean modificaLibro(String isbn, String titolo, String trama, GregorianCalendar  dataPubblicazione, Float prezzo, double quantita, String copertina,boolean disabilitato, List<Autore> autori){
-        Libro libro = libroDAO.doRetrieveById(isbn);
-        if(libro != null){
-            libro.setTitolo(titolo);
-            libro.setTrama(trama);
-            libro.setData_pubblicazione(dataPubblicazione);
-            libro.setPrezzo(prezzo);
-            libro.setQuantita(quantita);
-            libro.setCopertina(copertina);
-            libro.setDisabilitato(disabilitato);
-            libro.setAutori(autori);
-            return libroDAO.doUpdate(libro) != -1;
+    public boolean modificaLibro(Libro libro){
+        Libro librodao = libroDAO.doRetrieveById(libro.getIsbn());
+        if(librodao != null){
+            librodao.setTitolo(libro.getTitolo());
+            librodao.setTrama(libro.getTrama());
+            librodao.setData_pubblicazione(libro.getData_pubblicazione());
+            librodao.setPrezzo(libro.getPrezzo());
+            librodao.setQuantita(libro.getQuantita());
+            librodao.setCopertina(libro.getCopertina());
+            librodao.setDisabilitato(libro.isDisabilitato());
+            librodao.setAutori(libro.getAutori());
+            librodao.setCategorie(libro.getCategorie());
+            return libroDAO.doUpdate(librodao) != -1;
         }else {
             return true;
         }
@@ -91,10 +84,10 @@ public class ManagerLibri {
     /**
      * Questo metodo permette la modifica del numero copie di un libro all’interno del database di libri
      * @param isbn (String) isbn del libro
-     * @param quantita (Double) quantita di libri disponibili
+     * @param quantita (Integer) quantita di libri disponibili
      * @return true se la modifica ha successo, false altrimenti
      */
-    public boolean modificaNumeroCopieLibro(String isbn,double quantita){
+    public boolean modificaNumeroCopieLibro(String isbn,int quantita){
         Libro libro = libroDAO.doRetrieveById(isbn);
         if(libro != null){
             libro.setQuantita(quantita);

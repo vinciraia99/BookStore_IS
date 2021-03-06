@@ -39,6 +39,7 @@ public class ManagerAutenticazione {
         }else if(account.getAbilitato() != true){
             return null;
         }
+        if(account==null){return null;}
 
         if(account.getPassword().equals(password)){
             return account;

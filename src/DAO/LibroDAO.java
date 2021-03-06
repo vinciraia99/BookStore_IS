@@ -7,6 +7,7 @@ import Utils.DriverManagerConnectionPool;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -18,14 +19,15 @@ import java.util.List;
 
 public class LibroDAO extends DAO<Libro> {
 
-    private final String doRetriveByIdQuery = "SELECT * FROM Libro WHERE isbn = ?";
-    private final String doRetriveAllQuery = "SELECT * FROM Libro";
+    private final String doRetriveByIdQuery = "SELECT * FROM Libro WHERE isbn = ? AND disabilitato = 0";
+    private final String doRetriveAllQuery = "SELECT * FROM Libro WHERE disabilitato = 0";
     private final String doInsertQuery = "INSERT INTO Libro(isbn,prezzo,quantita,trama,titolo,copertina,disabilitato,datapubblicazione) VALUES(?,?,?,?,?,?,?,?);";
     private final String doUpdateQuery = "UPDATE Libro SET prezzo = ?, quantita = ?, trama = ? , titolo =?, copertina=? , disabilitato = ? , datapubblicazione = ? WHERE isbn = ?";
-    private final String doDeleteQuery = "DELETE FROM Libro WHERE isbn = ?";
+    private final String doDeleteQuery = "Update Libro SET disabilitato = 1 WHERE isbn = ?";
     private final String doRetrieveByNomeOrDescrizioneQuery = "SELECT * FROM libro WHERE MATCH(titolo, trama) AGAINST(?)";
     private final String doInsertByRelation = "Insert into librocategoria(isbn,id) values (?,?)";
     private final String doRetrieveByIdRelation = "SELECT c.* FROM Categoria c, Libro l, librocategoria lc WHERE c.id = lc.id and l.isbn = lc.isbn and l.isbn = ?";
+    private final String doRemoveRelation = "Delete from librocategoria where isbn = ?";
 
     @Override
     public Libro doRetrieveById(Object... id) {
@@ -43,7 +45,7 @@ public class LibroDAO extends DAO<Libro> {
                 if (rs.next()) {
                     GregorianCalendar dataPubblicazione = new GregorianCalendar();
                     dataPubblicazione.setTimeInMillis(rs.getDate("datapubblicazione").getTime());
-                    libro = new Libro(rs.getString("isbn"), rs.getString("titolo"), rs.getDouble("quantita"), rs.getString("trama"), rs.getFloat("prezzo"), rs.getString("copertina"), dataPubblicazione, rs.getBoolean("disabilitato"));
+                    libro = new Libro(rs.getString("isbn"), rs.getString("titolo"), rs.getInt("quantita"), rs.getString("trama"), rs.getFloat("prezzo"), rs.getString("copertina"), dataPubblicazione, rs.getBoolean("disabilitato"));
                     libro.setAutori(autoreDAO.doRetrieveByLibro(libro));
                     libro.setCategorie(doRetriveByLibroRelation(libro));
                 }
@@ -80,7 +82,7 @@ public class LibroDAO extends DAO<Libro> {
                 while (rs.next()) {
                     GregorianCalendar dataPubblicazione = new GregorianCalendar();
                     dataPubblicazione.setTimeInMillis(rs.getDate("datapubblicazione").getTime());
-                    libro = new Libro(rs.getString("isbn"), rs.getString("titolo"), rs.getDouble("quantita"), rs.getString("trama"), rs.getFloat("prezzo"), rs.getString("copertina"), dataPubblicazione, rs.getBoolean("disabilitato"));
+                    libro = new Libro(rs.getString("isbn"), rs.getString("titolo"), rs.getInt("quantita"), rs.getString("trama"), rs.getFloat("prezzo"), rs.getString("copertina"), dataPubblicazione, rs.getBoolean("disabilitato"));
                     libro.setAutori(autoreDAO.doRetrieveByLibro(libro));
                     libro.setCategorie(doRetriveByLibroRelation(libro));
                     libri.add(libro);
@@ -252,13 +254,16 @@ public class LibroDAO extends DAO<Libro> {
                 con.commit();
                 prst.close();
                 AutoreDAO autoreDAO = new AutoreDAO();
-                if (autoreDAO.doUpdateByLibro(libro) == 0) {
-                    return 0;
-                } else {
+                if (autoreDAO.doUpdateByLibro(libro) == -1) {
                     return -1;
                 }
+                if(doUpdateRelationCategorieLibri(libro) == -1){
+                    return -1;
+                }
+                return 0;
 
             } catch (SQLException e) {
+                e.printStackTrace();
                 con.rollback();
                 return -1;
             } finally {
@@ -266,8 +271,56 @@ public class LibroDAO extends DAO<Libro> {
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
             return -1;
         }
+    }
+
+    private int doUpdateRelationCategorieLibri(Libro libro){
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            try {
+                PreparedStatement prst = con.prepareStatement(doRemoveRelation);
+                prst.setString(1,libro.getIsbn());
+                prst.execute();
+                con.commit();
+                prst.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                con.rollback();
+                return -1;
+            } finally {
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+
+            try {
+                for(Categoria c : libro.getCategorie()){
+                    PreparedStatement prst2 = con.prepareStatement(doInsertByRelation);
+                    prst2.setString(1,libro.getIsbn());
+                    prst2.setInt(2,c.getId());
+                    prst2.execute();
+                    con.commit();
+                    prst2.close();
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                con.rollback();
+                return -1;
+            } finally {
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+
+            return 0;
+
+
+        } catch (SQLException e) {
+            return -1;
+        }
+
+
+
+
     }
 
     /**
@@ -288,6 +341,7 @@ public class LibroDAO extends DAO<Libro> {
                 prst.execute();
                 con.commit();
                 prst.close();
+
                 return 0;
 
             } catch (SQLException e) {
@@ -313,7 +367,7 @@ public class LibroDAO extends DAO<Libro> {
             while (rs.next()) {
                 GregorianCalendar dataPubblicazione = new GregorianCalendar();
                 dataPubblicazione.setTimeInMillis(rs.getDate("datapubblicazione").getTime());
-                Libro libro = new Libro(rs.getString("isbn"), rs.getString("titolo"), rs.getDouble("quantita"), rs.getString("trama"), rs.getFloat("prezzo"), rs.getString("copertina"), dataPubblicazione, rs.getBoolean("disabilitato"));
+                Libro libro = new Libro(rs.getString("isbn"), rs.getString("titolo"), rs.getInt("quantita"), rs.getString("trama"), rs.getFloat("prezzo"), rs.getString("copertina"), dataPubblicazione, rs.getBoolean("disabilitato"));
                 libro.setAutori(autoreDAO.doRetrieveByLibro(libro));
                 libro.setCategorie(doRetriveByLibroRelation(libro));
                 libri.add(libro);

@@ -40,7 +40,7 @@ public class ManagerLibriTest {
     public static void setUpClass() throws SQLException {
         managerLibri = new ManagerLibri();
         GregorianCalendar data_pubblicazione = new GregorianCalendar();
-        libro = new Libro("1245672823", "test", 100d, "trama con parola chiave", 102F, "passt6", data_pubblicazione, true);
+        libro = new Libro("1245672823", "test", 100, "trama con parola chiave", 102F, "passt6", data_pubblicazione, true);
         autore = new Autore("Marco mengoni");
         autore.setId(1);
         List<Autore> autori = new ArrayList<>();
@@ -63,7 +63,7 @@ public class ManagerLibriTest {
 
     @AfterClass
     public static void tearDownClass() throws SQLException {
-        con = DriverManagerConnectionPool.getConnection();
+        /*con = DriverManagerConnectionPool.getConnection();
         PreparedStatement prst3 = con.prepareStatement("delete from autore where nomecompleto = '" + autore.getnomecompleto() + "'");
         PreparedStatement prst6 = con.prepareStatement("delete from libroautore where isbn = '" + libro.getIsbn() + "'");
         PreparedStatement prst4 = con.prepareStatement("delete from librocategoria where nome = '" + categoria.getNome() + "'");
@@ -80,7 +80,7 @@ public class ManagerLibriTest {
         con.commit();
         prst.close();
         prst2.close();
-        DriverManagerConnectionPool.releaseConnection(con);
+        DriverManagerConnectionPool.releaseConnection(con);*/
         System.out.println("Database cancellato");
     }
 
@@ -125,10 +125,12 @@ public class ManagerLibriTest {
      * Test of modificaLibro method, of class ManagerLibri.
      */
     @Test
-    public void modificaLibro() {
+    public void dmodificaLibro() {
         System.out.println("modificaLibro");
         libro.setTitolo("libromodificato");
-        boolean result = managerLibri.aggiuntaLibro(libro);
+        List<Categoria> l =  libro.getCategorie();
+        l.remove(0);
+        boolean result = managerLibri.modificaLibro(libro);
         boolean expresult = true;
         assertEquals(expresult,result);
     }
@@ -137,9 +139,9 @@ public class ManagerLibriTest {
      * Test of modificaNumeroCopieLibro method, of class ManagerLibri.
      */
     @Test
-    public void modificaNumeroCopieLibro() {
+    public void dmodificaNumeroCopieLibro() {
         System.out.println("modificaNumeroCopieLibro");
-        boolean result = managerLibri.modificaNumeroCopieLibro(libro.getIsbn(),1500D);
+        boolean result = managerLibri.modificaNumeroCopieLibro(libro.getIsbn(),1500);
         boolean expresult = true;
         assertEquals(expresult,result);
     }

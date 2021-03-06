@@ -9,19 +9,19 @@ package Entities;
 public class LibroOrdinato {
 
     private int id;
-    private double quantita;
+    private int quantita;
     private float prezzo;
     private String isbn;
     private int idordine;
 
-    public LibroOrdinato(int id, double quantita, float prezzo, String isbn) {
+    public LibroOrdinato(int id, int quantita, float prezzo, String isbn) {
         this.id = id;
         this.quantita = quantita;
         this.prezzo = prezzo;
         this.isbn = isbn;
     }
 
-    public LibroOrdinato(double quantita, float prezzo, String isbn) {
+    public LibroOrdinato(int quantita, float prezzo, String isbn) {
         this.id = id;
         this.quantita = quantita;
         this.prezzo = prezzo;
@@ -36,11 +36,11 @@ public class LibroOrdinato {
         this.id = id;
     }
 
-    public double getQuantita() {
+    public int getQuantita() {
         return quantita;
     }
 
-    public void setQuantita(double quantita) {
+    public void setQuantita(int quantita) {
         this.quantita = quantita;
     }
 

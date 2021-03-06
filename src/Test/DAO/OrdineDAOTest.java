@@ -43,7 +43,7 @@ public class OrdineDAOTest {
     public static void setUpClass() throws SQLException {
         con = DriverManagerConnectionPool.getConnection();
         GregorianCalendar data_pubblicazione = new GregorianCalendar(2010,2,22);
-        libro = new Libro("124567282130", "test", 100d, "trama", 102F, "passt6", data_pubblicazione, true);
+        libro = new Libro("124567282130", "test", 100, "trama", 102F, "passt6", data_pubblicazione, true);
         autore = new Autore("Marco mengoni");
         List<Autore> autori = new ArrayList<>();
         autori.add(autore);

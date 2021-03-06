@@ -1,6 +1,6 @@
 package Control.Carrello;
 
-import Control.MyServletException;
+import Control.Eccezioni.MyServletException;
 import Entities.Account;
 import Entities.Carrello;
 
@@ -26,7 +26,7 @@ public class VisualizzaCarrelloServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Carrello carrello = (Carrello) session.getAttribute("carrello");
         Account utente = (Account) session.getAttribute("utente");
-        if(utente!=null && utente.getTipo().equals("C")){
+        if(utente == null || (utente!=null && utente.getTipo().equals("C"))){
             if(carrello!=null){
                 float totale =0;
                 for(Carrello.LibroCarrello c : carrello.getLibri()){

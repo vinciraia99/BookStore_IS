@@ -5,11 +5,11 @@
     <location>/WEB-INF/View/genericerror.jsp</location>
   </error-page>
   <error-page>
-    <exception-type>Control.MyServletException</exception-type>
+    <exception-type>Control.Eccezioni.MyServletException</exception-type>
     <location>/WEB-INF/View/erroralert.jsp</location>
   </error-page>
   <error-page>
-    <exception-type>Control.ErroreSuiDati</exception-type>
+    <exception-type>Control.Eccezioni.ErroreSuiDati</exception-type>
     <location>/WEB-INF/View/erroralert.jsp</location>
   </error-page>
 

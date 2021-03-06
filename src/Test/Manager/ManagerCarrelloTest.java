@@ -31,7 +31,7 @@ public class ManagerCarrelloTest {
     public static void setUpClass() throws SQLException {
         managerCarrello = new ManagerCarrello();
         GregorianCalendar data_pubblicazione = new GregorianCalendar();
-        libro = new Libro("1245672823", "test", 100d, "trama con parola chiave", 102F, "passt6", data_pubblicazione, true);
+        libro = new Libro("1245672823", "test", 100, "trama con parola chiave", 102F, "passt6", data_pubblicazione, true);
         carrello = new Carrello();
     }
 

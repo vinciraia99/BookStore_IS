@@ -25,10 +25,10 @@
             <div class="book">
                 <c:if test = "${utente == null || (utente != null && utente.getTipo() == \"C\")}">
                     <a href="aggiungicarrello?id=${libro.isbn}" class="button">Aggiungi al carrello</a>
-                <c:if test = "${utente != null && utente.getTipo() != \"C\"}">
-                    <a href="editlibro?id=${libro.isbn}" class="button">Modifica libro</a>
-                    <a href="deletelibro?id=${libro.isbn}" class="button">Elimina libro</a>
                 </c:if>
+                <c:if test = "${utente != null && utente.getTipo() != \"C\"}">
+                    <a href="modificalibro?id=${libro.isbn}" class="button">Modifica libro</a>
+                    <a href="eliminalibro?id=${libro.isbn}" class="button">Elimina libro</a>
                 </c:if>
             </div>
         </div>

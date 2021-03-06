@@ -135,7 +135,11 @@ public class ManagerAccount {
         }
     }
 
-    //da inserire
+    /**
+     * Questo metodo permette di recuperare le info di un account
+     * @param username (String) id di un account
+     * @return l'account se esite, null altrimenti.
+     */
     public Account recuperaAccount(String username){
         ClienteDAO clienteDAO = new ClienteDAO();
         ManagerDAO managerDAO = new ManagerDAO();

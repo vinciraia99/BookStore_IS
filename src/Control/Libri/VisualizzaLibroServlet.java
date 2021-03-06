@@ -1,7 +1,7 @@
 package Control.Libri;
 
 
-import Control.MyServletException;
+import Control.Eccezioni.MyServletException;
 import Entities.Autore;
 import Entities.Categoria;
 import Entities.Libro;
@@ -27,10 +27,8 @@ import java.util.List;
 public class VisualizzaLibroServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String isbn;
-        try{
-            isbn = (String) request.getParameter("id");
-        }catch (NullPointerException e){
+        String isbn = request.getParameter("id");
+        if(isbn == null){
             throw new MyServletException("Libro non esistente");
         }
         if(isbn.length()<=0){

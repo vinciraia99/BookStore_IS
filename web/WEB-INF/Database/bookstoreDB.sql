@@ -48,7 +48,7 @@ CREATE TABLE `libro`
 CREATE TABLE `ordine`
 (
     `id`             int AUTO_INCREMENT,
-    `quantita`       double      NOT NULL,
+    `quantita`       int      NOT NULL,
     `totale`         float       NOT NULL,
     `datadiacquisto` date        NOT NULL,
     `username`       varchar(32) NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE `ordine`
 CREATE TABLE `libroordinato`
 (
     `id`       int    NOT NULL AUTO_INCREMENT,
-    `quantita` double NOT NULL,
+    `quantita` int NOT NULL,
     `prezzo`   float  NOT NULL,
     `ISBN`     varchar(14),
     `idordine` int    not null,

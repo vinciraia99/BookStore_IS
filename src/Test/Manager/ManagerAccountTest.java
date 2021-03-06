@@ -107,4 +107,13 @@ public class ManagerAccountTest {
         Indirizzo result = clienteget.getIndirizzo();
         assertEquals(expResult.getVia(),result.getVia());
     }
+
+    @Test
+    public void recuperaAccount(){
+        System.out.println("recuperAccount");
+        Account account = managerAccount.recuperaAccount(cliente.getUsername());
+        String expResult = cliente.getUsername();
+        String result = account.getUsername();
+        assertEquals(expResult,result);
+    }
 }

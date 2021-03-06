@@ -1,4 +1,4 @@
-package Control;
+package Control.Eccezioni;
 
 import javax.servlet.ServletException;
 
@@ -8,10 +8,10 @@ import javax.servlet.ServletException;
  * @since 01/03/2021
  */
 
-public class ErroreSuiDati extends ServletException {
+public class ErroreLibro extends ServletException {
     private static final long serialVersionUID = -8976023136478643816L;
 
-    public ErroreSuiDati(String message) {
+    public ErroreLibro(String message) {
         super(message);
     }
 

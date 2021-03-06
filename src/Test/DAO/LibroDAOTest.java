@@ -36,7 +36,7 @@ public class LibroDAOTest {
 
     public LibroDAOTest() {
         GregorianCalendar data_pubblicazione = new GregorianCalendar();
-        libro = new Libro("1245672823", "test", 100d, "trama con parola chiave", 102F, "passt6", data_pubblicazione, true);
+        libro = new Libro("1245672823", "test", 100, "trama con parola chiave", 102F, "passt6", data_pubblicazione, true);
         autore = new Autore("Marco mengoni");
         autore.setId(1);
         List<Autore> autori = new ArrayList<>();

@@ -1,7 +1,7 @@
 package Control.Autenticazione;
 
 
-import Control.ErroreSuiDati;
+import Control.Eccezioni.ErroreSuiDati;
 import Entities.Account;
 import Manager.ManagerAutenticazione;
 
