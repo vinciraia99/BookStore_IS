@@ -51,6 +51,10 @@ public class Ordine {
         return spedito;
     }
 
+    public void setSpedito(boolean spedito) {
+        this.spedito = spedito;
+    }
+
     public int getQuantita() {
         return quantita;
     }

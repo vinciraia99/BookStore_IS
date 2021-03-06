@@ -77,7 +77,7 @@ public class ManagerLibri {
             librodao.setCategorie(libro.getCategorie());
             return libroDAO.doUpdate(librodao) != -1;
         }else {
-            return true;
+            return false;
         }
     }
 

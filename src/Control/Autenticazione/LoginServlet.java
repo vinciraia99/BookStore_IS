@@ -26,7 +26,7 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession login = request.getSession();
         if(login.getAttribute("utente")!= null){
-            response.sendRedirect("profilo");
+            response.sendRedirect("visualizzaprofilo");
         }
         else{
             RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/View/login.jsp");

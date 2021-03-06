@@ -52,8 +52,8 @@
                         <a href="aggiungilibro"/>Aggiungi libro</a>
                         <a href="aggiungicategoria">Aggiungi categoria</a>
                         <c:if test = "${utente.tipo == \"M\"}">
-                            <a href="gestisciordini"/>Gestisci ordini utenti</a>
-                            <a href="gestisciutenti"/>Gestisci utenti</a>
+                            <a href="visualizzaordinidituttigliutenti"/>Gestisci ordini utenti</a>
+                            <a href="visualizzautenti"/>Gestisci utenti</a>
                         </c:if>
                     </c:if>
                     <a href="logout"/>Esci</a>

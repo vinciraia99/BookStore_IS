@@ -191,6 +191,7 @@ public class OrdineDAO {
                     datadiacquisto.setTimeInMillis(rs.getDate("datadiacquisto").getTime());
                     Ordine ordine = new Ordine(rs.getInt("quantita"), rs.getFloat("totale"), datadiacquisto, rs.getInt("id"),rs.getString("username"));
                     ordine.setLibriOrdinati(libroOrdinatoDAO.doRetriveByOrderId(ordine));
+                    ordine.setSpedito(rs.getBoolean("spedito"));
                     return ordine;
                 }
                 rs.close();

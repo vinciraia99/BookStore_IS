@@ -168,6 +168,26 @@
     </div>
 
     <script>
+        var errore = "";
+        $('#addlibro').submit(function() {
+            errore ="";
+            if ($("input[type=checkbox]").is(
+                ":checked")) {
+            } else {
+                errore = errore + "Devi selezionare almeno una categoria\n";
+                $("#categoria").css("color", "red");
+            }
+
+            if(errore.length > 2){
+                errore = "Sono stati trovati i seguenti errori:\n\n" + errore;
+                alert(errore);
+                return false;
+            }else{
+                return true;
+            }
+        });
+
+
     function valida() {
         var fileInput =
             document.getElementById('img');
