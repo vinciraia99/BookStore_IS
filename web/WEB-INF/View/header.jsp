@@ -43,9 +43,9 @@
                     <button class="dropbtn">Gestione utente</button>
                 </c:if>
                 <div class="dropdown-content">
-                    <a href="visualizzaprofilo"/>I miei dati</a>
+                    <a id="mieidati" href="visualizzaprofilo"/>I miei dati</a>
                     <c:if test = "${utente.tipo == \"C\"}">
-                        <a href="visualizzaordini"/>I miei ordini</a>
+                        <a id="mieiordini" href="visualizzaordini"/>I miei ordini</a>
                     </c:if>
 
                     <c:if test = "${utente.tipo == \"M\" || utente.tipo == \"R\"}">

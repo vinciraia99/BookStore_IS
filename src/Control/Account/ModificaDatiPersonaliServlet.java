@@ -34,13 +34,12 @@ public class ModificaDatiPersonaliServlet extends HttpServlet {
         String email = request.getParameter("email");
         if(user!= null){
             String error = "Sono stati trovati i seguenti errori:\n\n";
-            response.setContentType("application/text");
             if(nome.length() == 0){
                 error=error + "Il nome non può essere vuoto\n";
-            }else if(!nome.matches("[a-zA-Z]+")){
-                error=error + "Il nome deve contenere solo caratteri\n";
+            }else if(nome.length()<2 || !nome.matches("[a-zA-Z]+")){
+                error=error + "Il nome è troppo corto o deve contenere solo caratteri\n";
             }
-            if(cognome.length() ==0){
+            if(cognome.length()<2){
                 error=error + "Il cognome non può essere vuoto\n";
             }else if(!cognome.matches("[a-zA-Z]+")){
                 error=error + "Il cognome deve contenere solo caratteri\n";
@@ -52,7 +51,7 @@ public class ModificaDatiPersonaliServlet extends HttpServlet {
                 error=error + "L'email é mal formata, l'email deve contere una @ e un . ad esempio: \"example@email.com\"<br>";
             }
             if(error.length() > 44){
-                throw new ErroreSuiDati("Sono stati trovati i seguenti errori!" + error);
+                throw new ErroreSuiDati(error);
             }else{
                 user.setNome(nome);
                 user.setCognome(cognome);

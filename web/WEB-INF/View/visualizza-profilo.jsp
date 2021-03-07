@@ -110,6 +110,7 @@
                                     value="${utente.nome}"
                                     autocomplete="on"
                                     pattern="[A-Za-z]+" title="Questo campo puó contenere solo caratteri"
+                                    minlength="2"
                                     required
                             />
                         </div>
@@ -127,6 +128,7 @@
                                     placeholder="Cognome"
                                     autocomplete="on"
                                     pattern="[A-Za-z]+" title="Questo campo puó contenere solo caratteri"
+                                    minlength="2"
                                     required
                             />
                         </div>
@@ -143,22 +145,6 @@
                                     value="${utente.email}"
                                     placeholder="Email"
                                     autocomplete="on"
-                                    required
-                            />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-25">
-                            <label for="usernamesubmit">Nome utente</label>
-                        </div>
-                        <div class="col-75">
-                            <input
-                                    type="text"
-                                    id="usernamesubmit"
-                                    name="usernamesubmit"
-                                    placeholder="Nome utente"
-                                    autocomplete="on"
-                                    value="${utente.username}"
                                     required
                             />
                         </div>

@@ -45,14 +45,14 @@
                         </div>
                             <div class="row">
                             <div class="col-25">
-                                <label for="username">Nome utente</label>
+                                <label for="username">Username</label>
                             </div>
                             <div class="col-75">
                                 <input
                                         type="text"
                                         id="username"
                                         name="username"
-                                        placeholder="Nome utente"
+                                        placeholder="Username"
                                         autocomplete="on"
                                         required
                                 />
@@ -84,6 +84,7 @@
                                         name="password"
                                         placeholder="Password"
                                         pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,32}$" title="La password é mal formata! La password deve essere lunga 8 caratteri e al massimo 32. Deve contenere una lettere maiuscola e una minuscola. Deve contenere un numero"
+                                        minlength="8"
                                         required
                                 />
                             </div>
