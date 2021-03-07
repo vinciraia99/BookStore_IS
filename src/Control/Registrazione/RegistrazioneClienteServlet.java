@@ -96,10 +96,6 @@ public class RegistrazioneClienteServlet extends HttpServlet {
             if(note== null){
                 errore = errore + "Valore note non ricevuto<br>";
             }
-            String confermaPassword = request.getParameter("passwordconfirm");
-            if(confermaPassword== null || password==null || password.equals(confermaPassword) == false){
-                errore = errore + "La password e la conferma password sono diverse <br>";
-            }
             if(errore.length()>2){
                 throw new ErroreSuiDati("Sono stati trovati i seguenti errori!<br><br>" + errore);
             }

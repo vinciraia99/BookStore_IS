@@ -89,20 +89,6 @@
                                 />
                             </div>
                             </div>
-                            <div class="row">
-                            <div class="col-25">
-                                <label for="password">Conferma password</label>
-                            </div>
-                            <div class="col-75">
-                                <input
-                                        type="password"
-                                        id="passwordconfirm"
-                                        name="passwordconfirm"
-                                        placeholder="Conferma password"
-                                        required
-                                />
-                            </div>
-                            </div>
 
                 </div>
                 </div>
