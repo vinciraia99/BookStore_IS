@@ -2,6 +2,7 @@ package Control.Registrazione;
 
 import Control.Eccezioni.ErroreSuiDati;
 import Control.Eccezioni.MyServletException;
+import Control.Eccezioni.RegistrazioneFallita;
 import Entities.Account;
 import Entities.Indirizzo;
 import Manager.ManagerAccount;
@@ -59,8 +60,11 @@ public class RegistrazioneClienteServlet extends HttpServlet {
             }
             String username = request.getParameter("username");
             ManagerAccount managerAccount = new ManagerAccount();
-            if(username == null || username.length()<2 || username.length()>32 ||  managerAccount.recuperaAccount(username) != null){
+            if(username == null || username.length()<2 || username.length()>32){
                 errore = errore + "Username non valido o vuoto o già esistente";
+            }
+            if(managerAccount.recuperaAccount(username) != null){
+                throw new RegistrazioneFallita("username già esistente");
             }
             String password = request.getParameter("password");
             if(password == null || password.length()<2 || password.length()>128 || password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,32}$") == false){

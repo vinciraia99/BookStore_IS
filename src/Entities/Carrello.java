@@ -1,7 +1,9 @@
 package Entities;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author Vincenzo Raia
@@ -24,8 +26,10 @@ public class Carrello {
         for(LibroCarrello libroCarrello : libri){
             if(libroCarrello.equals(libro)){
                 int q = libroCarrello.getQuantita();
-                libroCarrello.setQuantita(++q);
-                totaleProdotti++;
+                if(q<libro.getQuantita()){
+                    libroCarrello.setQuantita(++q);
+                    totaleProdotti++;
+                }
                 return;
             }
         }
@@ -52,8 +56,10 @@ public class Carrello {
         for(LibroCarrello libroCarrello : libri){
             if(libroCarrello.equals(libro)){
                 int exquantita = libroCarrello.getQuantita();
-               libroCarrello.setQuantita(quantita);
-                totaleProdotti= (totaleProdotti - exquantita) + quantita;
+                if(quantita<l.getQuantita()){
+                   libroCarrello.setQuantita(quantita);
+                    totaleProdotti= (totaleProdotti - exquantita) + quantita;
+                }
                return true;
             }
         }
@@ -105,6 +111,11 @@ public class Carrello {
 
         public void setQuantita(int quantita) {
             this.quantita = quantita;
+        }
+
+        public String getPrezzoString(){
+            return  NumberFormat.getCurrencyInstance(new Locale("it", "It"))
+                    .format(quantita*getLibro().getPrezzo());
         }
 
         @Override

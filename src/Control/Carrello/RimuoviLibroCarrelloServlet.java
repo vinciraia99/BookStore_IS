@@ -1,10 +1,11 @@
 package Control.Carrello;
 
 import Control.Eccezioni.MyServletException;
-import Entities.Account;
 import Entities.Carrello;
+import Entities.Libro;
+import Manager.ManagerCarrello;
+import Manager.ManagerLibri;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,30 +17,35 @@ import java.io.IOException;
 /**
  * @author Vincenzo Raia
  * @version 0.1
- * @since 02/03/2021
+ * @since 07/03/2021
  */
 
-@WebServlet("/visualizzacarrello")
-public class VisualizzaCarrelloServlet extends HttpServlet {
+@WebServlet("/rimuovicarrello")
+public class RimuoviLibroCarrelloServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Carrello carrello = (Carrello) session.getAttribute("carrello");
-        Account utente = (Account) session.getAttribute("utente");
-        if(utente == null || (utente!=null && utente.getTipo().equals("C"))){
-            if(carrello!=null){
+        ManagerLibri managerLibri = new ManagerLibri();
+        String isbn = request.getParameter("id");
+        Libro libro = managerLibri.acquisisciLibro(isbn);
+        if(libro==null){throw new MyServletException("Libro non aggiunto!");}
+        ManagerCarrello managerCarrello = new ManagerCarrello();
+        if(carrello!=null){
+            if(managerCarrello.rimuoviLibroCarrello(carrello,libro) == true){
+                request.getSession().setAttribute("carrello", carrello);
+                response.setContentType("text/plain");
                 float totale =0;
                 for(Carrello.LibroCarrello c : carrello.getLibri()){
                     totale = totale + (c.getLibro().getPrezzo() * c.getQuantita());
                 }
-                request.setAttribute("totale",totale);
+                response.getWriter().write ("ok" + " " + totale);
             }
         }else{
-            throw new MyServletException("Non sei un cliente");
+            throw new MyServletException("Errore");
         }
-        request.setAttribute("flag","");
-        RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/View/visualizza-carrello.jsp");
-        dispatcher.forward(request, response);
+
+
 
     }
 

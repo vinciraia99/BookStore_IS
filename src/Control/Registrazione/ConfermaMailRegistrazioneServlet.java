@@ -1,5 +1,6 @@
 package Control.Registrazione;
 
+import Control.Eccezioni.MailNonConfermata;
 import Control.Eccezioni.MyServletException;
 import Entities.Account;
 import Manager.ManagerAccount;
@@ -26,7 +27,7 @@ public class ConfermaMailRegistrazioneServlet  extends HttpServlet {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         if(username == null || email == null){
-            throw new MyServletException("Errore parametri");
+            throw new MailNonConfermata("Errore parametri");
         }
         ManagerRegistrazione managerRegistrazione = new ManagerRegistrazione();
         if(managerRegistrazione.confermaRegistrazione(username,email)){
@@ -36,7 +37,7 @@ public class ConfermaMailRegistrazioneServlet  extends HttpServlet {
             session.setAttribute("utente",utente);
             response.sendRedirect("visualizzaprofilo");
         }else{
-            throw new MyServletException("Errore parametri");
+            throw new MailNonConfermata("Errore parametri");
         }
 
     }

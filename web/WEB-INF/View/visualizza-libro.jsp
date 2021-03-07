@@ -16,7 +16,7 @@
                 <h4>
                     Titolo: ${libro.titolo}<hr>
                     Autore/i: ${autori}<hr>
-                    Prezzo: ${libro.prezzo}<hr>
+                    Prezzo: ${libro.prezzo}€<hr>
                     Pezzi disponibili: ${libro.quantita}
                 </h4>
             </div>

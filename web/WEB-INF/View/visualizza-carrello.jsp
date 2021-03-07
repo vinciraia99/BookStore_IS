@@ -28,7 +28,7 @@
                             </div>
                         </div>
                         <div class="card cartbox cart">
-                            <p id="prezzoProdotto${libro.getLibro().getIsbn()}" class="price_view">${libro.getLibro().getPrezzo()*libro.getQuantita()} €</p>
+                            <p id="prezzoProdotto${libro.getLibro().getIsbn()}" class="price_view">${libro.getPrezzoString()}</p>
                             <div class="quantity">
                                 <input class="quantita" id="modificaQuantita${libro.getLibro().getIsbn()}" type="number" value="${libro.getQuantita()}">
                                 <a onclick='rimuovi("${libro.getLibro().getIsbn()}")'  class="remove_button">Rimuovi</a>
@@ -64,15 +64,7 @@
                     var totProdotti = prezzi[6];
                     if (conferma == "ok" && totProdotti != "0") {
                         var prezzoCarrelloNetto = prezzi[1];
-                        var prezzoTasse = prezzi[2];
-                        var prezzoTotale = prezzi[3];
-                        var prezzoSpedizione = prezzi[4];
-                        var prezzoCarrelloLordo = prezzi[5];
-                        var cod = "<b>Subtotale:</b> " + prezzoCarrelloNetto + " €" + "<br>\n" +
-                            "<b>Tasse (22%):</b> " + prezzoTasse + " €" + "<br>\n" +
-                            "<b>Totale netto:</b> " + prezzoTotale + " €" + "<br>\n" +
-                            "<b>Costo Spedizione:</b> " + prezzoSpedizione + " €" + "<br>\n" +
-                            "<b>Totale Lordo:</b> " + prezzoCarrelloLordo + " €";
+                        var cod = "<b>Totale:</b>" + prezzoCarrelloNetto + "€";
                         $("#tot").html(cod);
                     }else if(conferma == "ok" && totProdotti == "0"){
                         $("#totale").fadeOut("normal", function() {
@@ -83,7 +75,6 @@
                             '            </div>');
                         $("#carrellovuoto").fadeIn("slow");
                     }
-                    $("#carrellonavbar").text("Carrello (" + totProdotti + ")");
                 }
             }
             xmlHttpReq.open("GET", "rimuovicarrello?id=" + isbn , true);
@@ -102,7 +93,7 @@
             var id = (event.target.id).slice(16,event.target.id.lenght);
             var quantita = (event.target.value);
             $.ajax({
-                url : "ModificaCarrello",
+                url : "modificaquantitacarrello",
                 data : {
                     id,
                     quantita
@@ -110,22 +101,12 @@
                 error:()=> console.error("errore Ajax Carrello"),
                 success : (responseText)=>{
                     var prezzi = responseText.split(" ");
-                    var prezzoProdottoTot = prezzi[0];
-                    var prezzoCarrelloNetto = prezzi[1];
-                    var prezzoTasse = prezzi[2];
-                    var prezzoTotale = prezzi[3];
-                    var prezzoSpedizione = prezzi[4];
-                    var prezzoCarrelloLordo = prezzi[5];
-                    var totProdotti = prezzi[6];
-                    var disponibili = prezzi[7];
-                    var cod = "<b>Subtotale:</b> " + prezzoCarrelloNetto + " €" + "<br>\n" +
-                        "<b>Tasse (22%):</b> " + prezzoTasse + " €" + "<br>\n" +
-                        "<b>Totale netto:</b> " + prezzoTotale + " €" + "<br>\n" +
-                        "<b>Costo Spedizione:</b> " + prezzoSpedizione + " €" + "<br>\n" +
-                        "<b>Totale Lordo:</b> " + prezzoCarrelloLordo + " €";
+                    var totProdotti = prezzi[0];
+                    var prezzoProdottoTot = prezzi[1];
+                    var disponibili = prezzi[2];
+                    var cod = "<b>Totale:</b> " + totProdotti + " €" + "<br>";
                     $("#tot").html(cod);
                     $("#prezzoProdotto" + id).text(prezzoProdottoTot + " €");
-                    $("#carrellonavbar").text("Carrello (" + totProdotti + ")");
 
                     if(quantita.length > 8){
                         quantita =  quantita.substring(0,7);

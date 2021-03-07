@@ -36,19 +36,30 @@ public class VisualizzaLibroServlet extends HttpServlet {
         }
         ManagerLibri managerLibri = new ManagerLibri();
         Libro libro =managerLibri.acquisisciLibro(isbn);
+        boolean flag = true;
         if(libro!=null){
             List<Categoria> categoriaList = libro.getCategorie();
             String categoriastring = "";
             for(Categoria c : categoriaList){
-                categoriastring = categoriastring + c.getNome() + ",";
+                if(flag){
+                    categoriastring = c.getNome();
+                    flag = false;
+                }else{
+                    categoriastring = categoriastring + "," + c.getNome();
+                }
             }
-            List<Autore> autoriList = libro.getAutori();
-            String autoristring = "";
-            for(Autore a : autoriList){
-                autoristring = autoristring + a.getnomecompleto() + ",";
+            String autori = "";
+            flag = true;
+            for(Autore e : libro.getAutori()){
+                if(flag){
+                    autori = e.getnomecompleto();
+                    flag = false;
+                }else{
+                    autori = autori + "," + e.getnomecompleto();
+                }
             }
             String annopubblciazione = String.valueOf(libro.getData_pubblicazione().get(Calendar.YEAR));
-            request.setAttribute("autori",autoristring);
+            request.setAttribute("autori",autori);
             request.setAttribute("categorieassociate",categoriastring);
             request.setAttribute("libro", libro);
             request.setAttribute("annopubblicazione", annopubblciazione);

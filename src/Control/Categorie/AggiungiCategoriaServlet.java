@@ -1,5 +1,6 @@
 package Control.Categorie;
 
+import Control.Eccezioni.ErroreCategoria;
 import Control.Eccezioni.ErroreSuiDati;
 import Control.Eccezioni.MyServletException;
 import Entities.Account;
@@ -42,9 +43,15 @@ public class AggiungiCategoriaServlet extends HttpServlet {
             }
 
             ManagerCategorie managerCategorie = new ManagerCategorie();
+            List<Categoria> categoriaList = managerCategorie.acquisisciTutteLeCategorie();
+            for(Categoria c : categoriaList){
+                if(c.getNome().equals(titolo)){
+                    throw new ErroreCategoria("Categoria già esistente");
+                }
+            }
             if(managerCategorie.aggiungiCategoria(titolo,descrizione)){
                 boolean flag = true;
-                List<Categoria> categoriaList = managerCategorie.acquisisciTutteLeCategorie();
+
                 categoriaList = managerCategorie.acquisisciTutteLeCategorie();
                 for(Categoria c : categoriaList){
                     if(c.getNome().equals(titolo)){

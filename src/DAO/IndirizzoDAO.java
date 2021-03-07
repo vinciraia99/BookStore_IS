@@ -24,7 +24,7 @@ class IndirizzoDAO {
     private final String doRetriveByCliente = "SELECT * FROM Indirizzo WHERE username = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Indirizzo";
     private final String doInsertQuery = "INSERT INTO Indirizzo(via,comune,provincia,cap,note,username)"
-            + "VALUES(?,?,?,?,?,?);";
+            + "VALUES(?,?,?,?,?,?)";
     private final String doUpdateQuery = "UPDATE Indirizzo SET via = ?, comune = ?, provincia = ?, cap = ?, note = ? WHERE id= ? ";
 
     protected int doUpdateByCliente(Cliente cliente) {

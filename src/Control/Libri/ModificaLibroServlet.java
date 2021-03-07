@@ -53,9 +53,9 @@ public class ModificaLibroServlet extends HttpServlet {
                 if(flag){
                     autori = e.getnomecompleto();
                     flag = false;
+                }else {
+                    autori = autori + "," + e.getnomecompleto();
                 }
-                autori = autori + "," + e.getnomecompleto();
-
             }
             ArrayList<Categoria> categoriaList = new ArrayList<>();
             for(Categoria c : (List<Categoria>) getServletContext().getAttribute("categorie")){

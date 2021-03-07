@@ -65,7 +65,7 @@
             <a href="registrazionecliente">Registrati</a>
         </c:if>
         <c:if test = "${utente == null || (utente != null &&  utente.tipo == \"C\")}">
-            <a href="visualizzacarrello" id="carrellonavbar">Carrello (<c:if test = "${carrello == null}">0</c:if><c:if test = "${carrello != null}">${carrello.totaleProdotti}</c:if>)</a>
+            <a href="visualizzacarrello" id="carrellonavbar">Carrello <c:if test = "${flag == null}">(<c:if test = "${carrello == null}">0</c:if><c:if test = "${carrello != null}">${carrello.totaleProdotti}</c:if>)</c:if></a>
         </c:if>
 
     </div>

@@ -11,7 +11,7 @@
             <h2><%= exception.getMessage() %></h2>
         </div>
         <div class="card" id="homediv">
-            <a href="${pageContext.request.contextPath}" id="home">Torna alla home</a>
+            <a href="javascript:history.go(-1)" id="home">Torna alla pagina precedente</a>
         </div>
     </div>
     <jsp:include page="footererightcollum.jsp"/>

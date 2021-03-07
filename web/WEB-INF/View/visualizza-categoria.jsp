@@ -34,7 +34,7 @@
                             ${libro.titolo}
                     </h3>
                     <h4>
-                            ${libro.prezzo}
+                            ${libro.prezzo}€
                     </h4>
                     <p class="description">${libro.trama}</p>
                     <a href="visualizzalibro?id=${libro.isbn}">Vai alla scheda tecnica</a>

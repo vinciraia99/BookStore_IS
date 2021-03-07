@@ -1,6 +1,7 @@
 package Control.Autenticazione;
 
 
+import Control.Eccezioni.AutenticazioneFallita;
 import Control.Eccezioni.ErroreSuiDati;
 import Entities.Account;
 import Manager.ManagerAutenticazione;
@@ -48,7 +49,7 @@ public class LoginServlet extends HttpServlet {
 
             utente = managerAutenticazione.login(username,password);
             if(utente == null){
-                throw new ErroreSuiDati("Account non esistente o non abilitato"); //da migliorare
+                throw new AutenticazioneFallita("Account non esistente o non abilitato");
             }
 
 
