@@ -22,6 +22,7 @@
                                     name="username"
                                     placeholder="Nome utente"
                                     autocomplete="on"
+                                    minlength="1"
                                     required
                             />
                         </div>
@@ -36,6 +37,7 @@
                                     id="password"
                                     name="password"
                                     placeholder="Password"
+                                    minlength="1"
                                     required
                             />
                         </div>

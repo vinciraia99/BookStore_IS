@@ -1,8 +1,8 @@
-INSERT INTO Account(username,password,nome,cognome,email,tipo,abilitato) VALUES('cliente1','password','Mario','Rossi','email@email.com','C',1);
+INSERT INTO Account(username,password,nome,cognome,email,tipo,abilitato) VALUES('cliente','password','Mario','Rossi','email@email.com','C',1);
 INSERT INTO Account(username,password,nome,cognome,email,tipo,abilitato) VALUES('manager','password','Giovanni','Rossi','email@email.com','M',1);
 INSERT INTO Account(username,password,nome,cognome,email,tipo,abilitato) VALUES('responsabile','password','Fabio','Rossi','email@email.com','R',1);
 
-INSERT INTO Indirizzo(via,comune,provincia,cap,note,username) VALUES('via corsaro 21','Roccabascerana','Avellino',83016,'Da consegnare al piano 15','cliente1');
+INSERT INTO Indirizzo(via,comune,provincia,cap,note,username) VALUES('via corsaro 21','Roccabascerana','Avellino',83016,'Da consegnare al piano 15','cliente');
 
 INSERT INTO Libro(isbn,prezzo,quantita,trama,titolo,copertina,disabilitato,datapubblicazione) VALUES('1134567841',134.1,100,'La trama del libro1','Titolo1','img1.jpg',0,'2008-11-11');
 INSERT INTO Libro(isbn,prezzo,quantita,trama,titolo,copertina,disabilitato,datapubblicazione) VALUES('1234567841',12,20,'La trama del libro2','Titolo2','img2.jpg',0,'2008-11-11');
