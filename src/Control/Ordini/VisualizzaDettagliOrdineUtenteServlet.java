@@ -5,7 +5,6 @@ import Entities.Account;
 import Entities.Libro;
 import Entities.LibroOrdinato;
 import Entities.Ordine;
-import Manager.ManagerAccount;
 import Manager.ManagerLibri;
 import Manager.ManagerOrdini;
 

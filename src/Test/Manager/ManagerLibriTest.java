@@ -5,7 +5,6 @@ import Entities.Autore;
 import Entities.Categoria;
 import Entities.Libro;
 import Manager.ManagerLibri;
-import Utils.DriverManagerConnectionPool;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -13,7 +12,6 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;

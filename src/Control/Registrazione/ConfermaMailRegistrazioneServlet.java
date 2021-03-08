@@ -1,7 +1,6 @@
 package Control.Registrazione;
 
 import Control.Eccezioni.MailNonConfermata;
-import Control.Eccezioni.MyServletException;
 import Entities.Account;
 import Manager.ManagerAccount;
 import Manager.ManagerRegistrazione;

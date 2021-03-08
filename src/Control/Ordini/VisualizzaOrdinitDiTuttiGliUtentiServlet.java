@@ -3,7 +3,6 @@ package Control.Ordini;
 import Control.Eccezioni.MyServletException;
 import Entities.Account;
 import Entities.Ordine;
-import Manager.ManagerAccount;
 import Manager.ManagerOrdini;
 
 import javax.servlet.RequestDispatcher;

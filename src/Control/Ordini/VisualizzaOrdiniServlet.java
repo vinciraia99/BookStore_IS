@@ -2,11 +2,8 @@ package Control.Ordini;
 
 import Control.Eccezioni.MyServletException;
 import Entities.Account;
-import Entities.Libro;
-import Entities.LibroOrdinato;
 import Entities.Ordine;
 import Manager.ManagerAccount;
-import Manager.ManagerLibri;
 import Manager.ManagerOrdini;
 
 import javax.servlet.RequestDispatcher;
@@ -17,8 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**

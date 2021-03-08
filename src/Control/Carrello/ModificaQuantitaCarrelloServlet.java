@@ -4,7 +4,6 @@ import Control.Eccezioni.MyServletException;
 import Entities.Carrello;
 import Entities.Libro;
 import Manager.ManagerCarrello;
-import Manager.ManagerCategorie;
 import Manager.ManagerLibri;
 
 import javax.servlet.ServletException;

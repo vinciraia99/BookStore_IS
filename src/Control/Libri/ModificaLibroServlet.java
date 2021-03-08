@@ -1,6 +1,5 @@
 package Control.Libri;
 
-import Control.Eccezioni.ErroreLibro;
 import Control.Eccezioni.ErroreSuiDati;
 import Control.Eccezioni.MyServletException;
 import Entities.Account;

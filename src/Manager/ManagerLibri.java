@@ -1,10 +1,8 @@
 package Manager;
 
 import DAO.LibroDAO;
-import Entities.Autore;
 import Entities.Libro;
 
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
