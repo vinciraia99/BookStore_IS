@@ -54,6 +54,7 @@
                                         name="username"
                                         placeholder="Username"
                                         autocomplete="on"
+                                        maxlength="32"
                                         required
                                 />
                             </div>
@@ -107,6 +108,7 @@
                                 name="via"
                                 placeholder="Es . Via Roma 21"
                                 autocomplete="on"
+                                minlength="2"
                                 required
                         />
                     </div>
